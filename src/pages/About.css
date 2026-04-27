@@ -1,0 +1,23 @@
+.about-merchant {
+  width: 100%;
+  min-height: 100vh;
+  min-height: 100dvh;
+}
+
+.about-merchant__frame {
+  width: 100%;
+  min-height: 100vh;
+  min-height: 100dvh;
+  height: 100vh;
+  height: 100dvh;
+  border: 0;
+  display: block;
+  background: transparent;
+}
+
+@media (max-width: 900px) {
+  .about-merchant__frame {
+    height: 100vh;
+    height: 100dvh;
+  }
+}

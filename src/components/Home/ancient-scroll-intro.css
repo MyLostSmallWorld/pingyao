@@ -1,0 +1,804 @@
+/* 首页开场古卷轴 — 源自 模仿/frontend/src/components/scroll（非 Tailwind 主站补全变量与布局） */
+.ancient-scroll-intro-root {
+  position: fixed;
+  inset: 0;
+  z-index: 10000;
+  overflow: hidden;
+  pointer-events: none;
+  --font-family-brush: "STKaiti", "KaiTi", "FangSong", "SimSun", serif;
+  --font-size-body: 1.0625rem;
+  --font-size-label: 0.9375rem;
+  --font-size-small: 0.8125rem;
+  --font-weight-normal: 400;
+  --duration-normal: 0.25s;
+  --ease-default: cubic-bezier(0.25, 0.1, 0.25, 1);
+  --spacing-xs: 0.5rem;
+  --spacing-sm: 0.75rem;
+  --spacing-lg: 1.5rem;
+}
+
+.ancient-scroll-intro-stage {
+  position: relative;
+  z-index: 30;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  min-height: 100vh;
+}
+
+.ancient-scroll-intro-row {
+  position: relative;
+  display: flex;
+  align-items: flex-start;
+}
+
+.intro-ink-canvas {
+  position: fixed;
+  inset: 0;
+  z-index: 2;
+  pointer-events: none;
+  opacity: 0.45;
+}
+
+.intro-ink-canvas--layer {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  z-index: 2;
+}
+
+/* ================================================================
+   Ancient Chinese Scroll — Single-Rod Design with Tassel
+   Reference: left rod, dark border frame, right tassel
+   ================================================================ */
+
+/* === Single Scroll Rod (left side) === */
+.scroll-rod {
+  position: relative;
+  flex-shrink: 0;
+  height: min(68vh, 500px);
+  width: 48px;
+  z-index: 10;
+  filter: drop-shadow(3px 4px 6px oklch(0 0 0 / 0.3));
+}
+
+.rod-body {
+  position: relative;
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+/* --- Rod end caps (top & bottom black knobs) --- */
+.rod-end {
+  width: 38px;
+  height: 22px;
+  border-radius: 50%;
+  background: radial-gradient(
+    circle at 45% 40%,
+    oklch(0.38 0.015 228),
+    oklch(0.25 0.012 225) 60%,
+    oklch(0.18 0.01 222)
+  );
+  box-shadow:
+    0 3px 8px oklch(0 0 0 / 0.45),
+    inset 0 2px 3px oklch(1 0 0 / 0.12),
+    inset 0 -2px 4px oklch(0 0 0 / 0.3);
+  position: relative;
+  z-index: 3;
+}
+
+.rod-end::after {
+  content: '';
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  width: 12px;
+  height: 8px;
+  border-radius: 50%;
+  background: radial-gradient(
+    circle at 40% 35%,
+    oklch(0.35 0.015 228),
+    oklch(0.22 0.01 222)
+  );
+  box-shadow: inset 0 1px 2px oklch(1 0 0 / 0.15);
+}
+
+/* --- Main shaft (golden-brown wood cylinder) --- */
+.rod-shaft {
+  flex: 1;
+  width: 28px;
+  background: linear-gradient(
+    90deg,
+    oklch(0.42 0.025 225),
+    oklch(0.50 0.03 228) 20%,
+    oklch(0.55 0.032 230) 40%,
+    oklch(0.52 0.03 228) 55%,
+    oklch(0.46 0.027 226) 75%,
+    oklch(0.40 0.024 224)
+  );
+  border-radius: 4px;
+  position: relative;
+  overflow: hidden;
+  box-shadow:
+    inset -4px 0 8px oklch(0 0 0 / 0.3),
+    inset 3px 0 6px oklch(1 0 0 / 0.1),
+    3px 0 6px oklch(0 0 0 / 0.15);
+}
+
+/* Wood grain */
+.rod-grain {
+  position: absolute;
+  inset: 0;
+  background-image:
+    repeating-linear-gradient(
+      180deg,
+      transparent,
+      transparent 6px,
+      oklch(0 0 0 / 0.05) 6px,
+      oklch(0 0 0 / 0.05) 7px
+    ),
+    repeating-linear-gradient(
+      176deg,
+      transparent,
+      transparent 11px,
+      oklch(1 0 0 / 0.04) 11px,
+      oklch(1 0 0 / 0.04) 12px
+    );
+  pointer-events: none;
+}
+
+/* === Scroll Paper Wrapper === */
+.scroll-paper-wrap {
+  position: relative;
+  height: min(68vh, 500px);
+  overflow: visible;
+  margin-left: -4px;
+  margin-right: -4px;
+}
+
+/* === Outer Dark Border Frame === */
+.scroll-outer-border {
+  position: absolute;
+  inset: 8px 0;
+  background: oklch(0.28 0.02 228);
+  border-radius: 3px;
+  padding: 8px 10px;
+  box-shadow:
+    0 4px 20px oklch(0 0 0 / 0.2),
+    inset 0 0 8px oklch(0 0 0 / 0.15);
+}
+
+/* === Inner Paper Body === */
+.scroll-paper-body {
+  width: 100%;
+  height: 100%;
+  background: linear-gradient(
+    160deg,
+    oklch(0.91 0.01 228),
+    oklch(0.89 0.012 226) 30%,
+    oklch(0.87 0.012 224) 60%,
+    oklch(0.90 0.01 227)
+  );
+  border-radius: 1px;
+  position: relative;
+  overflow: hidden;
+}
+
+.scroll-paper-texture {
+  position: absolute;
+  inset: 0;
+  background-image:
+    repeating-linear-gradient(
+      0deg,
+      oklch(0 0 0 / 0.007) 0px,
+      transparent 1px,
+      transparent 3px
+    ),
+    repeating-linear-gradient(
+      90deg,
+      oklch(0 0 0 / 0.004) 0px,
+      transparent 1px,
+      transparent 4px
+    );
+  pointer-events: none;
+  mix-blend-mode: multiply;
+}
+
+/* === Inner Content Border (thin line) === */
+.scroll-inner-border {
+  position: absolute;
+  inset: 10px 14px;
+  border: 1px solid oklch(0.45 0.02 228 / 0.25);
+  display: flex;
+  align-items: stretch;
+  justify-content: center;
+  overflow: hidden;
+}
+
+/* === Content Area === */
+.scroll-content {
+  width: 100%;
+  height: 100%;
+  display: flex;
+  align-items: stretch;
+  justify-content: center;
+  padding: 0;
+  overflow: hidden;
+}
+
+.scroll-content-inner {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: var(--spacing-lg);
+  text-align: center;
+  color: oklch(0.25 0.02 228);
+  max-width: 100%;
+}
+
+/* === Map Scroll Content === */
+.map-scroll-content {
+  width: 100%;
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;
+}
+
+/* --- Title Bar --- */
+.map-title-bar {
+  flex-shrink: 0;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 8px 16px 6px;
+  background: oklch(0.32 0.025 228 / 0.85);
+  border-bottom: 1px solid oklch(0.45 0.02 228 / 0.3);
+}
+
+.map-title-left {
+  display: flex;
+  align-items: center;
+}
+
+.map-seal {
+  width: 32px;
+  height: 32px;
+  border: 1.5px solid oklch(0.75 0.12 65);
+  border-radius: 3px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: oklch(0.75 0.12 65);
+  font-size: 1.1rem;
+  transform: rotate(-5deg);
+  background: oklch(0.75 0.12 65 / 0.06);
+}
+
+.map-title-center {
+  text-align: center;
+}
+
+.map-title {
+  font-size: clamp(1.1rem, 2.5vw, 1.6rem);
+  letter-spacing: 0.35em;
+  font-weight: 400;
+  color: oklch(0.92 0.008 228);
+  line-height: 1.2;
+  margin: 0;
+}
+
+.map-subtitle {
+  font-size: clamp(0.6rem, 1.2vw, 0.75rem);
+  letter-spacing: 0.25em;
+  color: oklch(0.75 0.015 228);
+  margin: 2px 0 0;
+}
+
+.map-title-right {
+  display: flex;
+  align-items: center;
+}
+
+.map-corner-deco {
+  width: 24px;
+  height: 24px;
+  color: oklch(0.75 0.12 65);
+}
+
+/* --- Map Image --- */
+.map-image-container {
+  flex: 1;
+  position: relative;
+  overflow: hidden;
+  min-height: 0;
+}
+
+.map-image {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  object-position: center;
+  display: block;
+  user-select: none;
+}
+
+.map-aged-overlay {
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(
+    135deg,
+    oklch(0.6 0.02 225 / 0.08) 0%,
+    transparent 40%,
+    oklch(0.3 0.015 220 / 0.06) 100%
+  );
+  mix-blend-mode: multiply;
+  pointer-events: none;
+}
+
+.map-vignette {
+  position: absolute;
+  inset: 0;
+  background:
+    radial-gradient(ellipse at center, transparent 55%, oklch(0.2 0.015 225 / 0.18) 100%);
+  pointer-events: none;
+}
+
+/* --- Caption Bar --- */
+.map-caption-bar {
+  flex-shrink: 0;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding: 6px 16px 8px;
+  background: oklch(0.32 0.025 228 / 0.85);
+  border-top: 1px solid oklch(0.45 0.02 228 / 0.3);
+}
+
+.map-caption-line {
+  flex: 1;
+  height: 1px;
+  background: oklch(0.65 0.015 228 / 0.35);
+}
+
+.map-caption {
+  font-size: clamp(0.7rem, 1.5vw, 0.9rem);
+  letter-spacing: 0.25em;
+  color: oklch(0.8 0.012 228);
+  margin: 0;
+  white-space: nowrap;
+}
+
+
+/* === Chinese Knot Tassel (right side) === */
+.tassel-wrap {
+  position: absolute;
+  right: -6px;
+  top: 50%;
+  transform: translateY(-50%);
+  z-index: 5;
+}
+
+.tassel {
+  position: relative;
+  width: 36px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+/* Knot center */
+.tassel-knot {
+  width: 14px;
+  height: 14px;
+  border-radius: 50%;
+  background: radial-gradient(
+    circle at 40% 35%,
+    oklch(0.48 0.18 22),
+    oklch(0.35 0.16 18)
+  );
+  box-shadow:
+    0 1px 3px oklch(0 0 0 / 0.3),
+    inset 0 1px 2px oklch(1 0 0 / 0.15);
+  z-index: 2;
+}
+
+/* Loop (the curved part above the knot) */
+.tassel-loop {
+  position: absolute;
+  top: -10px;
+  width: 24px;
+  height: 16px;
+  border: 2.5px solid oklch(0.45 0.18 20);
+  border-bottom: none;
+  border-radius: 12px 12px 0 0;
+}
+
+/* Hanging strings */
+.tassel-string {
+  width: 2.5px;
+  height: 28px;
+  background: linear-gradient(
+    180deg,
+    oklch(0.45 0.18 20),
+    oklch(0.42 0.17 18),
+    oklch(0.38 0.16 16)
+  );
+  border-radius: 0 0 1px 1px;
+  position: absolute;
+}
+
+.tassel-string-1 {
+  left: 10px;
+  top: 14px;
+}
+
+.tassel-string-2 {
+  right: 10px;
+  top: 14px;
+}
+
+/* Tassel tips (fringe at the bottom) */
+.tassel-tip {
+  position: absolute;
+  width: 8px;
+  height: 16px;
+  border-radius: 0 0 4px 4px;
+  background: linear-gradient(
+    180deg,
+    oklch(0.42 0.17 20),
+    oklch(0.38 0.16 18),
+    oklch(0.35 0.15 16)
+  );
+  opacity: 0.9;
+}
+
+.tassel-tip-1 {
+  left: 7px;
+  top: 42px;
+}
+
+.tassel-tip-2 {
+  right: 7px;
+  top: 42px;
+}
+
+/* === Seal === */
+.seal-container {
+  display: flex;
+  justify-content: center;
+}
+
+.ink-seal {
+  width: 48px;
+  height: 48px;
+  border: 2px solid oklch(0.55 0.2 25);
+  border-radius: 4px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-family: var(--font-family-brush);
+  font-size: 1.5rem;
+  color: oklch(0.55 0.2 25);
+  transform: rotate(-5deg);
+  position: relative;
+  box-shadow: 0 0 0 1px oklch(0.55 0.2 25 / 0.3);
+}
+
+.ink-seal::before {
+  content: '';
+  position: absolute;
+  inset: 2px;
+  border: 1px solid oklch(0.55 0.2 25 / 0.4);
+  border-radius: 2px;
+}
+
+/* === Title === */
+.scroll-title {
+  font-size: clamp(2rem, 6vw, 3.5rem);
+  letter-spacing: 0.3em;
+  font-weight: var(--font-weight-normal);
+  color: oklch(0.25 0.02 228);
+  text-shadow: 0 1px 2px oklch(0 0 0 / 0.1);
+  line-height: 1.2;
+}
+
+/* === Ink Divider === */
+.ink-divider {
+  width: 160px;
+  opacity: 0.6;
+}
+
+.ink-divider-svg {
+  width: 100%;
+  height: auto;
+  color: oklch(0.25 0.02 228);
+}
+
+/* === Poem === */
+.poem-section {
+  display: flex;
+  flex-direction: column;
+  gap: var(--spacing-sm);
+}
+
+.poem-line {
+  font-family: var(--font-family-brush);
+  font-size: clamp(1.1rem, 2.5vw, 1.5rem);
+  letter-spacing: 0.2em;
+  color: oklch(0.35 0.018 228);
+  line-height: 2;
+}
+
+/* === Author === */
+.poem-author {
+  display: flex;
+  align-items: center;
+  gap: var(--spacing-xs);
+  color: oklch(0.5 0.015 228);
+  font-size: var(--font-size-label);
+}
+
+.author-dash {
+  width: 24px;
+  height: 1px;
+  background: oklch(0.5 0.015 228 / 0.5);
+  display: inline-block;
+}
+
+/* === Bottom Decoration === */
+.scroll-bottom-decoration {
+  width: 120px;
+  opacity: 0.6;
+}
+
+.mountain-svg {
+  width: 100%;
+  height: auto;
+  color: oklch(0.25 0.02 228);
+}
+
+/* === Fullscreen Map === */
+.fullscreen-map {
+  position: fixed;
+  inset: 0;
+  z-index: 50;
+  background: oklch(0.1 0.01 225);
+  overflow: hidden;
+}
+
+.fullscreen-map-inner {
+  width: 100%;
+  height: 100%;
+}
+
+.fullscreen-map-inner .map-scroll-content {
+  height: 100%;
+}
+
+.fullscreen-map-inner .map-image-container {
+  flex: 1;
+  height: 100%;
+}
+
+.fullscreen-map-inner .map-image {
+  object-fit: cover;
+  width: 100%;
+  height: 100%;
+}
+
+/* Seal close button — top right */
+.seal-close-btn {
+  position: absolute;
+  top: 28px;
+  right: 28px;
+  width: 56px;
+  height: 56px;
+  border-radius: 6px;
+  background: oklch(0.52 0.18 22 / 0.9);
+  border: 2px solid oklch(0.65 0.15 22);
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  box-shadow:
+    0 4px 16px oklch(0 0 0 / 0.35),
+    inset 0 1px 2px oklch(1 0 0 / 0.15);
+  transition: background var(--duration-normal) var(--ease-default);
+  z-index: 60;
+  position: fixed;
+}
+
+.seal-close-btn::before {
+  content: '';
+  position: absolute;
+  inset: 3px;
+  border: 1px solid oklch(1 0 0 / 0.2);
+  border-radius: 3px;
+  pointer-events: none;
+}
+
+.seal-close-btn:hover {
+  background: oklch(0.46 0.2 22 / 0.95);
+}
+
+.seal-close-text {
+  font-family: var(--font-family-brush);
+  font-size: 1.5rem;
+  color: oklch(0.96 0.005 70);
+  line-height: 1;
+  letter-spacing: 0;
+  text-shadow: 0 1px 2px oklch(0 0 0 / 0.3);
+  position: relative;
+  z-index: 1;
+}
+
+/* === Reopen button === */
+.reopen-btn {
+  padding: 14px 48px;
+  background: transparent;
+  border: 1px solid oklch(0.45 0.02 228 / 0.5);
+  color: oklch(0.45 0.02 228);
+  font-size: var(--font-size-body);
+  cursor: pointer;
+  transition: all var(--duration-normal) var(--ease-default);
+  position: relative;
+}
+
+.reopen-btn::before {
+  content: '';
+  position: absolute;
+  inset: 4px;
+  border: 1px solid oklch(0.45 0.02 228 / 0.25);
+  pointer-events: none;
+}
+
+.reopen-btn:hover {
+  background: oklch(0.45 0.02 228 / 0.08);
+  border-color: oklch(0.45 0.02 228 / 0.7);
+}
+
+/* === Background Scene === */
+.ancient-bg {
+  position: fixed;
+  inset: 0;
+  overflow: hidden;
+  background: linear-gradient(
+    180deg,
+    oklch(0.92 0.008 230) 0%,
+    oklch(0.89 0.012 228) 30%,
+    oklch(0.86 0.015 226) 60%,
+    oklch(0.83 0.018 224) 100%
+  );
+}
+
+.ancient-bg::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background:
+    radial-gradient(ellipse at 20% 80%, oklch(0 0 0 / 0.03) 0%, transparent 50%),
+    radial-gradient(ellipse at 80% 20%, oklch(0 0 0 / 0.02) 0%, transparent 40%),
+    radial-gradient(ellipse at 50% 50%, oklch(0 0 0 / 0.01) 0%, transparent 60%);
+  pointer-events: none;
+}
+
+/* 首屏 sticky 舞台内：随容器定位，不占用 fixed 全视口 */
+.ancient-bg--layer {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  z-index: 0;
+}
+
+/* === Mountain Silhouette (background) === */
+.mountain-bg {
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  height: 40vh;
+  pointer-events: none;
+}
+
+.mountain-bg svg {
+  position: absolute;
+  bottom: 0;
+  width: 100%;
+  height: 100%;
+}
+
+/* === Floating clouds === */
+@keyframes float-cloud {
+  0%, 100% { transform: translateX(0) translateY(0); }
+  25% { transform: translateX(15px) translateY(-5px); }
+  50% { transform: translateX(5px) translateY(-10px); }
+  75% { transform: translateX(-10px) translateY(-3px); }
+}
+
+.cloud {
+  position: absolute;
+  border-radius: 50%;
+  background: radial-gradient(ellipse, oklch(0 0 0 / 0.025), transparent 70%);
+  animation: float-cloud 20s ease-in-out infinite;
+}
+
+.cloud-1 {
+  width: 300px;
+  height: 80px;
+  top: 10%;
+  left: 5%;
+  animation-delay: 0s;
+}
+
+.cloud-2 {
+  width: 250px;
+  height: 60px;
+  top: 20%;
+  right: 10%;
+  animation-delay: -7s;
+}
+
+.cloud-3 {
+  width: 350px;
+  height: 70px;
+  top: 5%;
+  left: 40%;
+  animation-delay: -14s;
+}
+
+/* === Responsive === */
+@media (max-width: 768px) {
+  .scroll-rod {
+    height: min(48vh, 350px);
+    width: 40px;
+  }
+
+  .rod-end {
+    width: 30px;
+    height: 18px;
+  }
+
+  .rod-shaft {
+    width: 22px;
+  }
+
+  .scroll-paper-wrap {
+    height: min(48vh, 350px);
+  }
+
+  .scroll-outer-border {
+    padding: 6px 8px;
+  }
+
+  .scroll-inner-border {
+    inset: 8px 10px;
+  }
+
+  .seal-close-btn {
+    top: 16px;
+    right: 16px;
+    width: 46px;
+    height: 46px;
+  }
+
+  .seal-close-text {
+    font-size: 1.2rem;
+  }
+
+  .reopen-btn {
+    padding: 12px 36px;
+  }
+}
+
+/* === Reduced Motion === */
+@media (prefers-reduced-motion: reduce) {
+  .cloud {
+    animation: none;
+  }
+}

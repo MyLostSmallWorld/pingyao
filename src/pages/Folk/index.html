@@ -1,0 +1,529 @@
+<html>
+  <head>
+    <meta charset="UTF-8" />
+    <title>平遥非遗</title>
+
+    <style>
+      body {
+        margin: 0;
+        overflow: hidden;
+        background-color: #f4f6f0;
+      }
+
+      #scene {
+        width: 100%;
+        height: 100vh;
+        position: relative;
+        transition: all 0.8s ease;
+        will-change: transform, opacity; /* 告诉浏览器提前优化 */
+      }
+
+      /* 点击后隐藏元素 */
+      #scene.hide-elements .bg,
+      #scene.hide-elements .scene-text,
+      #scene.hide-elements .buttons .btn:not(.active-btn),
+      #scene.hide-elements .btn-images .btn-img:not(.active-img) {
+        opacity: 0;
+        pointer-events: none;
+        transition: opacity 0.6s ease-out; /* 改用ease-out更丝滑 */
+      }
+
+      /* 激活图片（核心优化：用transform替代top/left/width） */
+      #scene .active-img {
+        position: fixed;
+        z-index: 998;
+        opacity: 1;
+        border-radius: 0;
+        /* 1. 开启硬件加速 + 优化动画曲线 */
+        transform: translateZ(0); /* 强制硬件加速 */
+        will-change: transform, opacity; /* 提前声明动画属性 */
+        transition:
+          transform 0.8s cubic-bezier(0.17, 0.67, 0.05, 0.99),
+          opacity 0.4s ease-out; /* 更贴合惯性的曲线 */
+        /* 禁用图片拖拽，避免干扰 */
+        user-select: none;
+        -webkit-user-drag: none;
+      }
+
+      /* 所有层容器 */
+      .layer {
+        position: absolute;
+        width: 100%;
+        height: 100%;
+      }
+
+      /* 背景层（最底层） */
+      .bg-back {
+        position: absolute;
+        width: 110%;
+        height: 110%;
+        top: -5%;
+        left: -5%;
+        background: url("../../assets/images/folk/back.png") no-repeat center;
+        background-size: cover;
+        opacity: 0.25;
+        z-index: 1;
+        pointer-events: none;
+        will-change: transform; /* 视差优化 */
+      }
+
+      /* 按钮容器层 */
+      .buttons {
+        top: 0;
+        left: 0;
+        z-index: 10;
+      }
+
+      .btn {
+        position: absolute;
+        writing-mode: vertical-rl;
+        text-orientation: upright;
+        background: rgba(255, 255, 255, 0.8);
+        padding: 10px;
+        border-radius: 10px;
+        font-size: 18px;
+        cursor: pointer;
+        transition: all 0.3s cubic-bezier(0.25, 0.46, 0.45, 0.94); /* 按钮悬浮更丝滑 */
+        z-index: 10;
+        /* 避免按钮点击时的卡顿 */
+        user-select: none;
+      }
+
+      /* 1. 平遥彩塑（左，大尺寸对应按钮） */
+      .btn:nth-child(4) {
+        top: 20%;
+        left: 38%;
+      }
+      /* 2. 纱阁戏人（右，对应按钮） */
+      .btn:nth-child(2) {
+        top: 30%;
+        left: 88%;
+      }
+      /* 3. 镖局（中间，对应按钮） */
+      .btn:nth-child(3) {
+        top: 10%;
+        left: 55%;
+      }
+      /* 5. 推光漆器（中下，对应按钮） */
+      .btn:nth-child(1) {
+        top: 55%;
+        left: 20%;
+      }
+
+      .btn:hover {
+        background: #fff;
+        transform: scale(1.2) translateZ(0); /* 硬件加速悬浮 */
+      }
+
+      /* 预览图片容器 */
+      .btn-images {
+        pointer-events: none;
+        z-index: 5;
+      }
+
+      .btn-img {
+        position: absolute;
+        height: auto;
+        border-radius: 8px;
+        opacity: 0.9;
+        /* 预览图动画优化 */
+        transition: all 0.3s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+        transform: translateX(-50%) translateZ(0); /* 硬件加速 */
+        z-index: 5;
+        will-change: transform, opacity;
+      }
+
+      /* 悬浮放大 */
+      .btn:hover + .btn-img {
+        opacity: 1;
+        transform: translateX(-50%) scale(1.1) translateZ(0);
+        box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
+      }
+
+      /* 1. 平遥彩塑（左，大尺寸） */
+      .btn-img:nth-child(4) {
+        top: 25%;
+        left: 33%;
+        width: 400px; /* 大尺寸匹配左侧彩塑 */
+      }
+      /* 2. 纱阁戏人（右，中等尺寸） */
+      .btn-img:nth-child(2) {
+        top: 0%;
+        left: 75%;
+        width: 980px;
+      }
+      /* 3. 镖局（中间，中等尺寸） */
+      .btn-img:nth-child(3) {
+        top: 1%;
+        left: 50%;
+        width: 580px;
+      }
+      /* 5. 推光漆器（中下，小尺寸） */
+      .btn-img:nth-child(1) {
+        top: 69%;
+        left: 15%;
+        width: 260px;
+      }
+
+      /* 详情页*/
+      #detail-view {
+        position: fixed;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        display: flex;
+        z-index: 9999;
+        opacity: 0;
+        pointer-events: none;
+        transition: opacity 0.5s ease-out 0.1s;
+        will-change: opacity;
+      }
+
+      #detail-view.active {
+        opacity: 1;
+        pointer-events: auto;
+      }
+
+      .detail-left {
+        width: 33.33%;
+        height: 100%;
+        overflow: hidden;
+        position: relative;
+        background: transparent;
+      }
+
+      .detail-left img {
+        position: absolute;
+        width: auto;
+        height: auto;
+        max-width: 100%;
+        max-height: 100%;
+        object-fit: cover;
+        top: 50%;
+        left: 50%;
+        transform: translate(-50%, -50%) translateZ(0);
+        transition: transform 0.8s cubic-bezier(0.17, 0.67, 0.05, 0.99);
+        will-change: transform;
+      }
+
+      .detail-right {
+        width: 66.67%;
+        background: white;
+        padding: 20px;
+        height: 100%;
+        transform: translateX(100%) translateZ(0);
+        transition: transform 0.6s cubic-bezier(0.17, 0.67, 0.05, 0.99) 0.2s;
+        box-sizing: border-box;
+        overflow: hidden;
+        will-change: transform;
+      }
+
+      #detail-view.active .detail-right {
+        transform: translateX(0) translateZ(0);
+      }
+
+      #backBtn {
+        margin-top: 50px;
+        padding: 10px 20px;
+        cursor: pointer;
+        background: #f5f5f5;
+        border: 1px solid #ddd;
+        border-radius: 6px;
+        transition: all 0.3s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+      }
+
+      #backBtn:hover {
+        background: #eee;
+        transform: scale(1.05) translateZ(0);
+      }
+
+      /* 关闭按钮 */
+      #closeBtn {
+        position: fixed;
+        top: 96px;
+        right: 36px;
+        width: 52px;
+        height: 52px;
+        border-radius: 999px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        cursor: pointer;
+        z-index: 3000;
+        color: #5e7380;
+        background: rgba(231, 239, 241, 0.94);
+        border: 1px solid rgba(136, 154, 163, 0.5);
+        box-shadow:
+          0 8px 18px rgba(0, 0, 0, 0.14),
+          inset 0 0 0 1px rgba(255, 255, 255, 0.55);
+        transition: all 0.22s ease;
+        user-select: none;
+        pointer-events: auto;
+        font-family: "STKaiti", "KaiTi", "SimKai", serif;
+        letter-spacing: 1px;
+      }
+
+      #closeBtn:hover {
+        color: #475d6a;
+        transform: translateY(-1px) scale(1.04) translateZ(0);
+        background: #dfeaed;
+        border-color: rgba(136, 154, 163, 0.72);
+      }
+
+      #closeBtn .close-btn-text {
+        font-size: 17px;
+        line-height: 1;
+        transform: translateY(1px);
+      }
+
+      ::-webkit-scrollbar {
+        display: none;
+      }
+
+      #detail-frame {
+        width: 100%;
+        height: 100%;
+        border: none;
+        display: block;
+        pointer-events: auto;
+      }
+    </style>
+  </head>
+  <body>
+    <div id="scene">
+      <div class="layer bg-back" data-depth="0.2"></div>
+      <div class="layer buttons" data-depth="0.8">
+        <div class="btn" data-title="推光漆器" data-img="../../assets/images/folk/tui3.png">推光漆器</div>
+        <div class="btn" data-title="纱阁戏人" data-img="../../assets/images/folk/sha2.png">纱阁戏人</div>
+        <div class="btn" data-title="镖局" data-img="../../assets/images/folk/biao.png">镖局</div>
+        <div class="btn" data-title="平遥彩塑" data-img="../../assets/images/folk/cai2.png">平遥彩塑</div>
+      </div>
+      <div class="layer btn-images" data-depth="0.6"></div>
+    </div>
+
+    <div id="detail-view">
+      <div id="closeBtn" aria-label="返回上一层"><span class="close-btn-text">归</span></div>
+      <div class="detail-left">
+        <img src="../../assets/images/folk/back.png" id="detail-img" />
+      </div>
+      <div class="detail-right">
+        <iframe id="detail-frame"></iframe>
+      </div>
+    </div>
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/parallax/3.1.0/parallax.min.js"></script>
+    <script>
+      const scene = document.getElementById("scene");
+      const detailView = document.getElementById("detail-view");
+      const detailImg = document.getElementById("detail-img");
+      const detailFrame = document.getElementById("detail-frame");
+      const closeBtn = document.getElementById("closeBtn");
+      const allBtns = document.querySelectorAll(".btn");
+      const btnImagesContainer = document.querySelector(".btn-images");
+      const allBtnImgs = [];
+
+      const postNavScroll = (direction) => {
+        if (window.parent && window.parent !== window) {
+          window.parent.postMessage(
+            { type: "pinyao-nav-scroll", direction },
+            "*",
+          );
+        }
+      };
+
+      window.addEventListener(
+        "wheel",
+        (event) => {
+          if (Math.abs(event.deltaY) < 4) return;
+          postNavScroll(event.deltaY > 0 ? "down" : "up");
+        },
+        { passive: true },
+      );
+
+      // 初始化图片时预加载
+      function preloadImage(src) {
+        return new Promise((resolve) => {
+          const img = new Image();
+          img.src = src;
+          img.onload = resolve;
+          img.onerror = resolve;
+        });
+      }
+
+      async function initBtnImages() {
+        // 先预加载所有图片
+        const preloadPromises = [];
+        allBtns.forEach((btn) => {
+          preloadPromises.push(preloadImage(btn.dataset.img));
+        });
+        await Promise.all(preloadPromises);
+
+        // 再创建图片元素
+        allBtns.forEach((btn, index) => {
+          const img = document.createElement("img");
+          img.className = "btn-img";
+          img.src = btn.dataset.img;
+          img.alt = btn.textContent + "预览图";
+          img.dataset.index = index;
+          img.onerror = () => {
+            img.src = "../../assets/images/folk/back1.jpg";
+          };
+          btnImagesContainer.appendChild(img);
+          allBtnImgs.push(img);
+        });
+      }
+      window.addEventListener("load", initBtnImages);
+
+      // 视差优化：降低摩擦系数，更丝滑
+      const parallaxInstance = new Parallax(scene, {
+        relativeInput: true,
+        hoverOnly: false,
+        frictionX: 0.05,
+        frictionY: 0.05,
+      });
+
+      allBtns.forEach((btn, btnIndex) => {
+        btn.addEventListener("click", async function () {
+          const activeImg = allBtnImgs[btnIndex];
+
+          // 1. 快速隐藏其他元素
+          allBtns.forEach((b) => (b.style.opacity = "0"));
+          allBtnImgs.forEach((img, i) => {
+            if (i !== btnIndex) {
+              img.style.opacity = "0";
+              img.classList.remove("active-img");
+            }
+          });
+
+          // 2. 激活当前图片（提前准备动画）
+          activeImg.classList.add("active-img");
+          activeImg.style.opacity = "1";
+
+          // 3. 获取位置（优化：用getBoundingClientRect的缓存值）
+          const imgRect = activeImg.getBoundingClientRect();
+          const detailLeft = document.querySelector(".detail-left");
+          const targetRect = detailLeft.getBoundingClientRect();
+
+          // 计算缩放比例和位移（用transform替代top/left/width）
+          const scaleX = (targetRect.width * 0.9) / imgRect.width;
+          const scaleY = (targetRect.height * 0.9) / imgRect.height;
+          const scale = Math.min(scaleX, scaleY);
+
+          const offsetX =
+            targetRect.left +
+            targetRect.width / 2 -
+            imgRect.left -
+            imgRect.width / 2;
+          const offsetY =
+            targetRect.top +
+            targetRect.height / 2 -
+            imgRect.top -
+            imgRect.height / 2;
+
+          // 初始状态：重置transform
+          activeImg.style.transform = `translate(0, 0) scale(1) translateZ(0)`;
+          activeImg.style.left = `${imgRect.left}px`;
+          activeImg.style.top = `${imgRect.top}px`;
+          activeImg.style.width = `${imgRect.width}px`;
+          activeImg.style.height = `${imgRect.height}px`;
+
+          // 强制浏览器重绘（避免动画延迟）
+          void activeImg.offsetWidth;
+
+          // 4. 丝滑动画：只用transform（无重排）
+          setTimeout(() => {
+            activeImg.style.transform = `translate(${offsetX}px, ${offsetY}px) scale(${scale}) translateZ(0)`;
+          }, 30); // 极短延迟，避免卡顿
+
+          // 5. 更新详情页内容（预加载iframe，减少卡顿）
+          detailImg.src = this.dataset.img;
+          const pageMap = {
+            推光漆器: "../../components/Folk/page1.html",
+            纱阁戏人: "../../components/Folk/page2.html",
+            镖局: "../../components/Folk/page3.html",
+            平遥彩塑: "../../components/Folk/page5.html",
+          };
+          // 预加载iframe内容
+          const iframeSrc = pageMap[this.textContent];
+          detailFrame.src = iframeSrc;
+
+          // 6. 延迟显示详情页（动画衔接更丝滑）
+          setTimeout(() => {
+            detailView.classList.add("active");
+            activeImg.style.opacity = "0";
+            parallaxInstance.disable();
+            // 通知父页面隐藏导航栏
+            if (window.parent && window.parent !== window) {
+              window.parent.postMessage({ type: "hide-nav", hidden: true }, "*");
+            }
+          }, 500);
+
+          scene.classList.add("hide-elements");
+        });
+      });
+
+      closeBtn.addEventListener("click", () => {
+        // 退出时动画也优化
+        detailView.classList.remove("active");
+        scene.classList.remove("hide-elements");
+
+        // 恢复元素时用过渡动画，避免瞬间闪现
+        allBtns.forEach((b) => {
+          b.style.opacity = "0";
+          setTimeout(() => {
+            b.style.opacity = "1";
+          }, 100);
+        });
+
+        allBtnImgs.forEach((img) => {
+          img.classList.remove("active-img");
+          img.style.transform = "";
+          img.style.left = "";
+          img.style.top = "";
+          img.style.width = "";
+          img.style.height = "";
+          img.style.opacity = "0";
+          setTimeout(() => {
+            img.style.opacity = "0.9";
+          }, 100);
+        });
+
+        detailImg.style.transform = "translate(-50%, -50%) translateZ(0)";
+        setTimeout(() => parallaxInstance.enable(), 500);
+        // 通知父页面显示导航栏
+        if (window.parent && window.parent !== window) {
+          window.parent.postMessage({ type: "hide-nav", hidden: false }, "*");
+        }
+      });
+
+      allBtns.forEach((btn) => (btn.style.pointerEvents = "auto"));
+
+      detailView.addEventListener(
+        "wheel",
+        function (e) {
+          const iframe = detailFrame;
+
+          if (Math.abs(e.deltaY) >= 4) {
+            postNavScroll(e.deltaY > 0 ? "down" : "up");
+          }
+
+          // 如果详情页打开
+          if (detailView.classList.contains("active")) {
+            try {
+              const iframeWindow = iframe.contentWindow;
+              iframeWindow.scrollBy({
+                top: e.deltaY,
+                behavior: "auto",
+              });
+              e.preventDefault(); // 阻止父页面滚动
+            } catch (err) {
+              // 跨域或未加载时忽略
+            }
+          }
+        },
+        { passive: false },
+      );
+    </script>
+  </body>
+</html>

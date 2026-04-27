@@ -1,0 +1,304 @@
+﻿<!doctype html>
+<html lang="zh-CN">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>平遥晋商文化时间轴</title>
+    <style>
+      /* 🔴 核心修复：强制全局透明，穿透所有层级 */
+      html,
+      body {
+        background: transparent !important;
+        background-color: transparent !important;
+        margin: 0;
+        padding: 0;
+      }
+
+      * {
+        margin: 0;
+        padding: 0;
+        box-sizing: border-box;
+      }
+
+      body {
+        font-family:
+          "PingFang SC", "Microsoft YaHei", "Source Han Serif SC", serif;
+        /* 🔴 确保body无背景 */
+        background: transparent !important;
+      }
+
+      .main {
+        width: 100vw;
+        height: 100vh;
+        display: flex;
+        position: relative;
+        /* 🔴 核心修复：删除白色背景，改为完全透明 */
+        background-color: transparent !important;
+        overflow: hidden;
+      }
+
+      .iconfont {
+        width: 60px;
+        height: 60px;
+        position: absolute;
+        left: 22%;
+        z-index: 999;
+        font: 700 60px sans-serif;
+        color: #8699ad;
+        cursor: pointer;
+      }
+
+      #up-btn {
+        top: 4%;
+      }
+      #down-btn {
+        bottom: 8%;
+      }
+
+      #content {
+        width: 38%;
+        height: 100%;
+        position: absolute;
+        left: 12%;
+        overflow: hidden;
+        /* 🔴 确保内容区透明 */
+        background: transparent !important;
+      }
+
+      .card {
+        width: 100%;
+        height: 100%;
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        color: #8699ad;
+        transition: transform 0.8s ease-in-out;
+        overflow: hidden;
+        padding-right: 20px;
+        /* 🔴 卡片背景透明 */
+        background: transparent !important;
+      }
+
+      .card-time {
+        font-size: 36px;
+        font-weight: 600;
+        margin-bottom: 12px;
+      }
+
+      .card-title {
+        font-size: 40px;
+        font-weight: 500;
+        padding-bottom: 14px;
+        border-bottom: 1px solid #b7c8d0;
+        margin-bottom: 20px;
+        color: #a2b9c4;
+      }
+
+      .card-passage {
+        font-size: 20px;
+        font-weight: 300;
+        line-height: 1.8;
+        color: #9badb9;
+      }
+
+      #clock {
+        height: 130%;
+        aspect-ratio: 1 / 1;
+        position: absolute;
+        right: -28%;
+        top: -15%;
+        border-radius: 50%;
+        /* 🔴 时钟背景透明，只保留边框 */
+        background-color: transparent !important;
+        border: #b7c8d0 30px solid;
+      }
+
+      #clock-table {
+        width: 96%;
+        height: 96%;
+        border-radius: 50%;
+        position: absolute;
+        top: 2%;
+        left: 2%;
+        transition: transform 0.8s ease-in-out;
+        /* 🔴 表盘背景透明 */
+        background: transparent !important;
+      }
+
+      .invisible-table {
+        width: 100%;
+        height: 100%;
+        border-radius: 50%;
+        transform-origin: 50% 50%;
+        position: absolute;
+        /* 🔴 刻度层透明 */
+        background: transparent !important;
+      }
+
+      .clock-thick {
+        width: 6%;
+        height: 6px;
+        background-color: #8699ad;
+        position: absolute;
+        top: calc(50% - 3px);
+        left: 0;
+      }
+
+      .clock-thick span {
+        font-size: 42px;
+        position: absolute;
+        left: 140%;
+        top: calc(50% - 25px);
+        color: #8699ad;
+        font-weight: 500;
+      }
+
+      .clock-scale {
+        width: 4%;
+        height: 2px;
+        background-color: #b7c8d0;
+        position: absolute;
+        top: calc(50% - 1px);
+        left: 0;
+      }
+    </style>
+  </head>
+
+  <body>
+    <div class="main">
+      <i class="iconfont" id="up-btn" onclick="slideToPrev()">〈</i>
+      <i class="iconfont" id="down-btn" onclick="slideToNext()">〉</i>
+
+      <div id="content">
+        <!-- 1 -->
+        <div class="card">
+          <div class="card-time">14世纪中叶（明初）</div>
+          <div class="card-title">晋商兴起·开中法奠基</div>
+          <div class="card-passage">
+            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;明初为巩固边防推行“开中法”，商人输粮换盐引获利。
+            <br /><br />
+            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;平遥商人凭地理优势入局，积累资本，开启晋商传奇。
+          </div>
+        </div>
+
+        <!-- 2 -->
+        <div class="card">
+          <div class="card-time">17世纪（明末清初）</div>
+          <div class="card-title">商贸扩张·势力崛起</div>
+          <div class="card-passage">
+            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;明末清初，晋商扩大经营版图，垄断盐、茶、布等领域。
+            <br /><br />
+            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;平遥商号走出山西，建立全国商业网络，奠定鼎盛基础。
+          </div>
+        </div>
+
+        <!-- 3 -->
+        <div class="card">
+          <div class="card-time">18世纪（清前期）</div>
+          <div class="card-title">商贸鼎盛·茶路贯通</div>
+          <div class="card-passage">
+            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;康雍乾盛世，晋商开辟万里中俄茶路，茶叶远销海外。
+            <br /><br />
+            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;平遥商号遍布全国，成为全国商贸核心力量。
+          </div>
+        </div>
+
+        <!-- 4 -->
+        <div class="card">
+          <div class="card-time">1823年（清道光）</div>
+          <div class="card-title">票号诞生·金融开创</div>
+          <div class="card-passage">
+            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;西裕成颜料庄改组为日昇昌票号，中国首家私人汇兑机构诞生。
+            <br /><br />
+            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;平遥蔚字五联号相继成立，晋商迈入“汇通天下”黄金时代。
+          </div>
+        </div>
+
+        <!-- 5 -->
+        <div class="card">
+          <div class="card-time">19世纪中后期（同光年间）</div>
+          <div class="card-title">票号鼎盛·汇通天下</div>
+          <div class="card-passage">
+            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;平遥票号全盛，分号遍布全国及海外，承揽官府大宗金融业务。
+            <br /><br />
+            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;以严密制度与极致信誉，掌控全国资金流通，成为晚清经济支柱。
+          </div>
+        </div>
+
+        <!-- 6 -->
+        <div class="card">
+          <div class="card-time">20世纪初（清末—民国）</div>
+          <div class="card-title">时代转型·票号落幕</div>
+          <div class="card-passage">
+            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;战乱、现代银行兴起，传统票号失去市场，业务萎缩。
+            <br /><br />
+            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;平遥票号陆续倒闭，晋商金融时代落幕，留下不朽商业智慧。
+          </div>
+        </div>
+      </div>
+
+      <div id="clock">
+        <div id="clock-table"></div>
+      </div>
+    </div>
+
+    <script>
+      let offset = 0;
+      const maxOffset = 0;
+      const minOffset = -5;
+      const slides = Array.from(document.querySelectorAll(".card"));
+      const clock = document.querySelector("#clock-table");
+
+      // 完整保留所有小刻度
+      for (let i = -60; i <= 300; i += 6) {
+        const el = document.createElement("div");
+        el.className = "invisible-table";
+        el.style.transform = `rotate(${i}deg)`;
+        const scale = document.createElement("div");
+        scale.className = "clock-scale";
+        el.appendChild(scale);
+        clock.appendChild(el);
+      }
+
+      // 刻度顺序：1900 → 1350 → 1600 → 1700 → 1800 → 1850
+      // 1350 在时钟正右侧
+      const marks = [
+        { deg: 60, text: "1900" },
+        { deg: 0, text: "1350" },
+        { deg: 300, text: "1600" },
+        { deg: 240, text: "1700" },
+        { deg: 180, text: "1800" },
+        { deg: 120, text: "1850" },
+      ];
+
+      marks.forEach((item) => {
+        const el = document.createElement("div");
+        el.className = "invisible-table";
+        el.style.transform = `rotate(${item.deg}deg)`;
+        const thick = document.createElement("div");
+        thick.className = "clock-thick";
+        const txt = document.createElement("span");
+        txt.textContent = item.text;
+        thick.appendChild(txt);
+        el.appendChild(thick);
+        clock.appendChild(el);
+      });
+
+      function slideToPrev() {
+        offset = Math.min(maxOffset, offset + 1);
+        slides.forEach(
+          (s) => (s.style.transform = `translateY(${offset * 100}%)`),
+        );
+        clock.style.transform = `rotate(${-offset * 60}deg)`;
+      }
+
+      function slideToNext() {
+        offset = Math.max(minOffset, offset - 1);
+        slides.forEach(
+          (s) => (s.style.transform = `translateY(${offset * 100}%)`),
+        );
+        clock.style.transform = `rotate(${-offset * 60}deg)`;
+      }
+    </script>
+  </body>
+</html>

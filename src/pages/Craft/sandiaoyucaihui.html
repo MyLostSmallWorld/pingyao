@@ -1,0 +1,2447 @@
+<!doctype html>
+<html lang="zh-CN">
+  <head>
+    <meta charset="UTF-8" />
+    <meta
+      name="viewport"
+      content="width=device-width, initial-scale=1.0, user-scalable=yes"
+    />
+    <title>三雕艺术·彩塑</title>
+    <style>
+      @font-face {
+        font-family: "YuWeiShuFa";
+        src: url("../../assets/fonts/YuWeiShuFaYunMoFanTi-2.ttf")
+          format("truetype");
+        font-weight: normal;
+        font-style: normal;
+        font-display: swap;
+      }
+      * {
+        margin: 0;
+        padding: 0;
+        box-sizing: border-box;
+      }
+      body {
+        background: url("../../assets/images/craft/background.jpg") center
+          center / cover no-repeat fixed;
+        background-color: #bfc3c6;
+        font-family: "SimKai", "KaiTi", "Segoe UI", system-ui, sans-serif;
+        color: #2e3a3a;
+        position: relative;
+        min-height: 100vh;
+        padding-bottom: 100px;
+      }
+
+      .hero {
+        height: 36vh;
+        background:
+          linear-gradient(
+            135deg,
+            rgba(0, 0, 0, 0.4),
+            rgba(0, 0, 0, 0.6),
+            rgba(0, 0, 0, 0.7)
+          ),
+          url("../../assets/images/craft/header.jpg") center/cover no-repeat;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        color: #fff;
+        text-shadow: 0 2px 8px rgba(0, 0, 0, 0.3);
+      }
+      .hero h1 {
+        font-size: clamp(2.2rem, 9vw, 4rem);
+        font-weight: 350;
+        letter-spacing: 6px;
+        border-bottom: 2px solid #9caeb9;
+        padding-bottom: 12px;
+      }
+      .section {
+        padding: 70px 8%;
+        max-width: 1400px;
+        margin: 0 auto;
+        margin-top: -60px;
+        position: relative;
+        z-index: 10;
+      }
+      .section:last-of-type {
+        padding-bottom: 0 !important;
+        margin-bottom: 0 !important;
+      }
+
+      .vertical-title {
+        display: flex;
+        flex-direction: row;
+        align-items: center;
+        gap: 10px;
+        font-family: "SimKai", "KaiTi", serif;
+      }
+      .vertical-title::before {
+        display: none;
+      }
+      .vertical-title .cn {
+        writing-mode: vertical-rl;
+        text-orientation: mixed;
+        font-size: 1.6rem;
+        color: #4b5a60;
+        letter-spacing: 6px;
+        position: relative;
+        display: inline-block;
+      }
+      .vertical-title .cn::before,
+      .vertical-title .cn::after {
+        content: "";
+        position: absolute;
+        left: 50%;
+        transform: translateX(-50%);
+        width: 1.5px;
+        height: 45px;
+        background: #9caeb9;
+        opacity: 0.7;
+      }
+      .vertical-title .cn::before {
+        top: -50px;
+      }
+      .vertical-title .cn::after {
+        bottom: -50px;
+      }
+      .vertical-title .en {
+        writing-mode: vertical-rl;
+        text-orientation: mixed;
+        font-size: 0.85rem;
+        color: #6f7d84;
+        opacity: 0.7;
+        letter-spacing: 2px;
+        text-transform: uppercase;
+        margin-left: 4px;
+      }
+      .hide-title-container .left-title-wrap,
+      .hide-title-container .right-title-wrap {
+        opacity: 0;
+        visibility: hidden;
+        width: 0;
+        margin: 0;
+        overflow: hidden;
+      }
+
+      .bubble-horizontal-title {
+        text-align: center;
+        margin-bottom: 50px;
+      }
+      .bubble-title-cn {
+        font-family: "SimKai", "KaiTi", serif;
+        font-size: 1.6rem;
+        color: #4b5a60;
+        letter-spacing: 4px;
+        margin-bottom: 8px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        gap: 16px;
+      }
+      .bubble-title-cn::before,
+      .bubble-title-cn::after {
+        content: "";
+        flex: 1;
+        height: 1px;
+        background: #9caeb9;
+        opacity: 0.6;
+      }
+
+      .left-title-module,
+      .right-title-module {
+        display: flex;
+        justify-content: space-between;
+        margin: 80px 0;
+        gap: 40px;
+        align-items: center;
+      }
+      .right-title-module:last-of-type {
+        margin-bottom: 0 !important;
+      }
+      .right-title-module {
+        flex-direction: row-reverse;
+      }
+      .left-title-wrap,
+      .right-title-wrap {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        min-width: 100px;
+        flex-shrink: 0;
+      }
+      .content-center {
+        flex: 1;
+        width: 100%;
+        display: flex;
+        justify-content: flex-start;
+      }
+      .three-images {
+        display: flex;
+        align-items: flex-end;
+        justify-content: flex-start;
+        gap: 24px;
+        min-height: 420px;
+        position: relative;
+        margin-left: 80px;
+      }
+
+      .intro {
+        display: flex;
+        gap: 120px;
+        align-items: center;
+        margin-bottom: 70px;
+        flex-wrap: wrap;
+        justify-content: center;
+      }
+      .calligraphy {
+        font-size: clamp(8rem, 20vw, 14rem);
+        line-height: 0.8;
+        font-weight: 400;
+        writing-mode: vertical-rl;
+        color: #6f7d84;
+        opacity: 1;
+        text-shadow: 4px 4px 8px rgba(0, 0, 0, 0.5);
+        text-orientation: upright;
+        letter-spacing: -20px;
+        font-family: "YuWeiShuFa", serif;
+        margin-top: -80px;
+        margin-left: -20px;
+      }
+      .intro-text {
+        font-size: 1.25rem;
+        max-width: 680px;
+        line-height: 1.8;
+        color: #2e3a3a;
+      }
+
+      .card-item {
+        position: relative;
+        width: 25%;
+        min-width: 200px;
+        border-radius: 4px;
+        overflow: hidden;
+        cursor: pointer;
+        transition: all 0.3s ease;
+        box-shadow: 0 8px 24px rgba(0, 0, 0, 0.12);
+      }
+      .card-item:nth-child(1) {
+        height: 420px;
+      }
+      .card-item:nth-child(2) {
+        height: 380px;
+        margin-top: 40px;
+      }
+      .card-item:nth-child(3) {
+        height: 400px;
+        margin-top: 20px;
+      }
+      .card-item img {
+        width: 100%;
+        height: 100%;
+        object-fit: cover;
+        transition: transform 0.4s ease;
+      }
+      .card-item:nth-child(1)::after {
+        content: "";
+        position: absolute;
+        inset: 0;
+        background: rgba(80, 60, 20, 0.45);
+        z-index: 1;
+      }
+      .card-item:nth-child(2)::after {
+        content: "";
+        position: absolute;
+        inset: 0;
+        background: rgba(50, 50, 50, 0.45);
+        z-index: 1;
+      }
+      .card-item:nth-child(3)::after {
+        content: "";
+        position: absolute;
+        inset: 0;
+        background: rgba(20, 60, 70, 0.45);
+        z-index: 1;
+      }
+      .card-content {
+        position: absolute;
+        top: 20px;
+        left: 20px;
+        z-index: 2;
+        color: #fff;
+        width: calc(100% - 40px);
+      }
+      .card-title {
+        font-size: 1.4rem;
+        font-weight: 500;
+        margin-bottom: 8px;
+        letter-spacing: 2px;
+      }
+      .card-item:nth-child(1) .card-title {
+        color: #f5e0a8;
+      }
+      .card-item:nth-child(2) .card-title {
+        color: #e0e0e0;
+      }
+      .card-item:nth-child(3) .card-title {
+        color: #a8d0d8;
+      }
+      .card-more {
+        font-size: 0.95rem;
+        opacity: 0.85;
+        display: flex;
+        align-items: center;
+        gap: 6px;
+      }
+      .card-tag {
+        position: absolute;
+        bottom: 20px;
+        left: 20px;
+        z-index: 2;
+        color: #fff;
+        font-size: 1.2rem;
+        font-weight: 300;
+        opacity: 0.9;
+      }
+      .card-item:hover {
+        transform: translateY(-8px);
+        box-shadow: 0 12px 32px rgba(0, 0, 0, 0.18);
+      }
+      .card-item:hover img {
+        transform: scale(1.05);
+      }
+      .card-item:hover .card-more {
+        opacity: 1;
+      }
+
+      .active-layout {
+        display: flex;
+        gap: 4%;
+        align-items: stretch;
+        margin: 40px 0 20px;
+        width: 100%;
+      }
+      .left-module {
+        width: 30%;
+        display: flex;
+        flex-direction: column;
+        gap: 40px;
+      }
+      .active-img {
+        width: 100%;
+        aspect-ratio: 4/3;
+        object-fit: cover;
+        border-radius: 0;
+        border: none;
+        box-shadow: none;
+      }
+      .process-text {
+        font-size: 1.02rem;
+        color: #4b5a60;
+        line-height: 1.7;
+        font-family: "SimKai", "KaiTi", serif;
+      }
+      .right-module {
+        width: 66%;
+        display: flex;
+        flex-direction: column;
+        position: relative;
+      }
+      .interaction-box {
+        width: 100%;
+        aspect-ratio: 4/3;
+        background: #b2b9bc;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        color: #4d5a5c;
+        font-size: 1.8rem;
+        border: 2px dashed #7f8f96;
+        font-family: "SimKai", "KaiTi", serif;
+      }
+      .back-fixed {
+        align-self: flex-end;
+        margin-top: 12px;
+        margin-right: 8px;
+      }
+      .back-tip {
+        font-size: 0.92rem;
+        color: #66757a;
+        border-bottom: 1px dashed #8d9ba0;
+        padding-bottom: 2px;
+        cursor: pointer;
+      }
+      .back-tip:hover {
+        color: #3e4c51;
+        border-bottom-color: #3e4c51;
+      }
+      .hidden {
+        display: none !important;
+      }
+
+      /* 气泡样式 */
+      .bubbles-section {
+        position: relative;
+        height: 500px;
+        width: 100%;
+      }
+      .bubble-wrap {
+        position: absolute;
+      }
+      .bubble {
+        border-radius: 50%;
+        overflow: hidden;
+        transition: 0.3s;
+      }
+      .bubble img {
+        width: 100%;
+        height: 100%;
+        object-fit: cover;
+      }
+      .bubble-wrap:hover .bubble {
+        transform: scale(1.15);
+      }
+      .bubble-text {
+        position: fixed;
+        top: 0;
+        font-size: 16px;
+        color: #2e3a3a;
+        white-space: nowrap;
+        opacity: 0;
+        transition: 0.2s;
+        z-index: 9999;
+        pointer-events: none;
+        font-family: "SimKai", "KaiTi", serif;
+      }
+      .text-line-container {
+        position: absolute;
+        top: 50%;
+        transform: translateY(-50%);
+        height: 1.5px;
+        background: #2e3a3a;
+        transition: width 0.3s ease;
+        width: 0;
+        z-index: -1;
+      }
+      .text-left {
+        left: 300px;
+      }
+      .text-left .text-line-container {
+        left: 100%;
+        top: 50%;
+      }
+      .text-right {
+        right: 300px;
+      }
+      .text-right .text-line-container {
+        right: 100%;
+        top: 50%;
+      }
+      .b1-wrap {
+        top: 80px;
+        left: 20.5%;
+      }
+      .b1 {
+        width: 220px;
+        height: 220px;
+      }
+      .b2-wrap {
+        top: 70px;
+        left: 50.8%;
+      }
+      .b2 {
+        width: 140px;
+        height: 140px;
+      }
+      .b3-wrap {
+        top: 120px;
+        left: 69%;
+      }
+      .b3 {
+        width: 100px;
+        height: 100px;
+      }
+      .b4-wrap {
+        top: 315px;
+        left: 30.5%;
+      }
+      .b4 {
+        width: 190px;
+        height: 190px;
+      }
+      .b5-wrap {
+        top: 195.5px;
+        left: 42.1%;
+      }
+      .b5 {
+        width: 125px;
+        height: 125px;
+      }
+      .b6-wrap {
+        top: 240px;
+        left: 53.6%;
+      }
+      .b6 {
+        width: 270px;
+        height: 270px;
+      }
+
+      /* ========== 彩塑视频模块样式 ========== */
+      .video-wrapper {
+        position: relative;
+        width: 100%;
+        max-width: 800px;
+        height: 300px;
+        margin: 0 auto;
+        border-radius: 10px;
+        overflow: hidden;
+        box-shadow: 0 8px 24px rgba(0, 0, 0, 0.15);
+      }
+      .video-wrapper video {
+        width: 100%;
+        height: auto;
+        display: block;
+        margin-top: -10px;
+      }
+      /* 圆形小按钮样式 */
+      .step-btn-circle {
+        position: absolute;
+        width: 40px;
+        height: 40px;
+        border-radius: 50%;
+        background: rgba(100, 100, 100, 0.75);
+        border: none;
+        cursor: pointer;
+        font-size: 12px;
+        font-weight: bold;
+        color: white;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        font-family: "SimKai", "KaiTi", serif;
+        transition: all 0.2s ease;
+        backdrop-filter: blur(2px);
+        box-shadow: 0 1px 3px rgba(0, 0, 0, 0.3);
+        z-index: 10;
+      }
+      .step-btn-circle:hover {
+        background: rgba(80, 80, 80, 0.9);
+        transform: scale(1.05);
+      }
+      /* 3D展示区域（与原有彩塑3D模块保持一致） */
+      .sculpture-3d-module {
+        background: rgba(255, 255, 255, 0.95);
+        border-radius: 8px;
+        box-shadow: 0 8px 32px rgba(0, 0, 0, 0.15);
+        padding: 40px;
+        box-sizing: border-box;
+        width: 100%;
+        min-height: 450px;
+      }
+      .sculpture-3d-view {
+        width: 100%;
+        height: 70%;
+        background: #f0f0f0;
+        border: 2px dashed #9caeb9;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        margin-bottom: 20px;
+        font-size: 1.8rem;
+        color: #4b5a60;
+        border-radius: 4px;
+      }
+      .step-description {
+        font-size: 1.1rem;
+        line-height: 1.8;
+        color: #2e3a3a;
+        margin-bottom: 20px;
+        font-family: "SimKai", "KaiTi", serif;
+      }
+      .step-nav {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        margin-top: 20px;
+      }
+      .nav-link {
+        font-size: 0.92rem;
+        color: #66757a;
+        border-bottom: 1px dashed #8d9ba0;
+        padding-bottom: 2px;
+        cursor: pointer;
+        transition: all 0.2s ease;
+      }
+      .nav-link:hover {
+        color: #3e4c51;
+        border-bottom-color: #3e4c51;
+      }
+      .hide-next {
+        visibility: hidden;
+        pointer-events: none;
+        opacity: 0;
+      }
+
+      /* ========== 三雕步骤滚动组件样式 ========== */
+      .carving-steps-container {
+        width: 100%;
+        background: transparent !important;
+        border: none !important;
+        box-shadow: none !important;
+        position: relative;
+        overflow: hidden;
+        height: 100%;
+        min-height: 380px;
+      }
+      .step-wrapper {
+        position: relative;
+        width: 100%;
+        height: 100%;
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        align-items: center;
+      }
+      .step-card {
+        position: absolute;
+        top: 50%;
+        left: 50%;
+        transform: translate(-50%, -50%) scale(0.92) translateY(20px);
+        width: 90%;
+        max-width: 450px;
+        text-align: center;
+        opacity: 0;
+        transition:
+          opacity 0.5s cubic-bezier(0.2, 0.9, 0.3, 1.1),
+          transform 0.5s cubic-bezier(0.2, 0.9, 0.3, 1.1);
+        background: transparent !important;
+        backdrop-filter: none !important;
+        box-shadow: none !important;
+        border: none !important;
+        padding: 1.2rem 1rem 1.6rem;
+        box-sizing: border-box;
+        pointer-events: none;
+        color: #2e3a3a;
+      }
+      .step-card.active-step {
+        opacity: 1;
+        transform: translate(-50%, -50%) scale(1) translateY(0);
+        z-index: 2;
+      }
+      .step-card img {
+        max-width: 85%;
+        max-height: 200px;
+        object-fit: contain;
+        border-radius: 28px;
+        background: transparent !important;
+        box-shadow: none !important;
+        margin-bottom: 1rem;
+      }
+      .step-card h4 {
+        font-size: 1.5rem;
+        margin: 0.3rem 0 0.6rem;
+        color: #5a3e2b;
+        font-weight: 500;
+        text-shadow: 0 1px 2px rgba(255, 255, 255, 0.5);
+      }
+      .step-card .tool-desc {
+        font-size: 0.95rem;
+        line-height: 1.6;
+        padding: 0 1rem;
+        color: #4a5a5a;
+        font-family: "SimKai", "KaiTi", serif;
+        text-shadow: 0 1px 1px rgba(255, 255, 255, 0.5);
+      }
+      .step-indicator {
+        text-align: center;
+        margin-top: 20px;
+        font-size: 0.8rem;
+        color: #8b6b44;
+        letter-spacing: 1px;
+        background: transparent !important;
+        backdrop-filter: none !important;
+        display: inline-block;
+        padding: 4px 12px;
+        border-radius: 30px;
+      }
+      /* ========== 底栏样式 ========== */
+      .footer {
+        position: absolute;
+        bottom: 0;
+        left: 0;
+        width: 100%;
+        height: 100px;
+        background: rgba(255, 255, 255, 0.95);
+        border-top: 2px solid #9caeb9;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        flex-direction: column;
+        z-index: 999;
+        font-family: "SimKai", "KaiTi", serif;
+        padding: 0;
+        margin: 0;
+      }
+      .footer-top {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        gap: 60px;
+        margin-bottom: 15px;
+      }
+      .footer-link {
+        font-size: 1.2rem;
+        color: #4b5a60;
+        text-decoration: none;
+        border-bottom: 1px dashed #9caeb9;
+        padding-bottom: 2px;
+        transition: all 0.3s ease;
+      }
+      .footer-link:hover {
+        color: #2e3a3a;
+        border-bottom-color: #2e3a3a;
+      }
+      .footer-divider {
+        width: 1.5px;
+        height: 20px;
+        background: #9caeb9;
+        opacity: 0.7;
+      }
+      .footer-bottom {
+        font-size: 0.9rem;
+        color: #6f7d84;
+        letter-spacing: 2px;
+      }
+      .footer-pattern {
+        position: absolute;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        background: url("data:image/svg+xml,%3Csvg width='100' height='20' viewBox='0 0 100 20' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath d='M0 10 Q 25 0, 50 10 T 100 10' fill='none' stroke='%239caeb9' stroke-width='1' opacity='0.3'/%3E%3C/svg%3E")
+          repeat-x;
+        opacity: 0.5;
+        pointer-events: none;
+      }
+      /* 左右模块更靠近 */
+      .active-layout {
+        gap: 20px !important; /* 缩小间距 */
+      }
+      /* 左侧模块宽度微调（可选） */
+      .left-module {
+        width: 35% !important;
+      }
+      /* 右侧模块宽度相应增大 */
+      .right-module {
+        width: 63% !important;
+      }
+      /* 右侧步骤图片变大 */
+      .step-card img {
+        max-width: 95% !important;
+        max-height: 280px !important;
+      }
+      /* 彩塑3D模块透明无边框样式 */
+      .sculpture-3d-module {
+        background: transparent !important;
+        border: none !important;
+        box-shadow: none !important;
+        padding: 0 !important;
+        display: flex;
+        flex-direction: row;
+        gap: 2rem;
+        align-items: flex-start;
+        justify-content: center;
+        width: 100%;
+        min-height: 450px;
+      }
+      .model-viewer {
+        flex: 1.2;
+        height: 450px;
+        background: transparent;
+        border-radius: 12px;
+        overflow: hidden;
+        position: relative;
+      }
+      .right-description {
+        flex: 0.8;
+        display: flex;
+        flex-direction: column;
+        justify-content: space-between;
+        height: 450px;
+        background: transparent;
+        padding: 0.5rem 0;
+      }
+      .vertical-text {
+        writing-mode: vertical-lr; /* 竖排，列从左向右 */
+        text-orientation: upright; /* 文字直立 */
+        font-family: "SimKai", "KaiTi", serif;
+        font-size: 1rem;
+        line-height: 2;
+        color: #2e3a3a;
+        background: transparent !important; /* 完全透明背景 */
+        padding: 1rem 0.5rem;
+        margin: 0 auto;
+        height: auto;
+        max-height: 380px;
+        overflow-y: auto;
+        white-space: pre-wrap;
+        word-break: break-all;
+      }
+      .back-button-wrapper {
+        display: flex;
+        justify-content: flex-end;
+        margin-top: 1rem;
+        padding-right: 0.5rem;
+      }
+      .back-tip {
+        font-size: 0.92rem;
+        color: #66757a;
+        border-bottom: 1px dashed #8d9ba0;
+        padding-bottom: 2px;
+        cursor: pointer;
+        transition: all 0.2s ease;
+      }
+      .back-tip:hover {
+        color: #3e4c51;
+        border-bottom-color: #3e4c51;
+      }
+      /* 关键：允许 flex 子项正常收缩计算，避免异常挤压 */
+      /* 让3D块更宽、两块更靠近（放在CSS最后覆盖） */
+      .sculpture-3d-module {
+        gap: 1rem !important; /* 原来2rem，改小=更靠近 */
+      }
+
+      .model-viewer {
+        flex: 1.7 !important; /* 原来1.2，变大=3D更宽 */
+        min-width: 450px; /* 防止被挤没，可按需改 */
+        min-height: 480px;
+      }
+
+      .right-description {
+        flex: 0.9 !important; /* 原来0.8，变小=文字块更窄 */
+        width: auto;
+      }
+      /* 让该模块成为定位参照 */
+      #colorSculptureModule2 {
+        position: relative;
+      }
+
+      /* 给内容区留出空间并作为iframe参照 */
+      #colorSculptureModule2 .content-center {
+        position: relative;
+        min-height: 520px; /* 你可以按实际需要调大/调小 */
+      }
+
+      /* iframe容器：贴底、可溢出一点点 */
+      #colorSculptureModule2 .wheel-frame {
+        position: absolute;
+        left: -30px;
+        right: 0;
+        bottom: -10%; /* 关键：底部对齐 */
+        height: 520px; /* 与 min-height 对应，按需调整 */
+        overflow: visible;
+        z-index: 2;
+      }
+
+      /* iframe 本体：你想要的放大/缩放方式放这里 */
+      #colorSculptureModule2 .wheel-frame iframe {
+        width: 120%;
+        height: 120%;
+        border: none;
+        background: transparent !important;
+
+        position: absolute;
+        left: -10%;
+        bottom: -10%; /* 关键：让"最下部"更贴底（按需微调） */
+
+        transform: scale(0.83);
+        transform-origin: center bottom; /* 更符合"贴底" */
+      }
+      /* 仅缩小：彩塑流程模块 与 彩塑成品模块 的上下间距 */
+      #colorSculptureModule1 {
+        margin-bottom: 20px !important; /* 原来 80px */
+      }
+      #colorSculptureModule2 {
+        margin-top: 20px !important; /* 原来 80px */
+      }
+      /* ===== 1) 气泡整体变黑一点（压暗图片） ===== */
+      .bubble img {
+        filter: brightness(0.82) contrast(1.08); /* 数值越小越黑 */
+      }
+
+      /* 可选：再加一层暗色蒙版，让黑得更"稳" */
+      .bubble {
+        position: relative;
+      }
+      .bubble::after {
+        content: "";
+        position: absolute;
+        inset: 0;
+        background: rgba(0, 0, 0, 0.22); /* 0.15~0.35 自己调 */
+        pointer-events: none;
+      }
+
+      /* 彩塑按钮：更小 + 发光白色圆环 */
+      .step-btn-circle {
+        width: 30px !important;
+        height: 30px !important;
+        font-size: 11px !important;
+
+        background: rgba(255, 255, 255, 0.06) !important; /* 轻微透光 */
+        border: 2px solid rgba(255, 255, 255, 0.95) !important;
+        color: #fff !important;
+
+        /* 发光：内发光 + 外发光 */
+        box-shadow:
+          0 0 0 1px rgba(255, 255, 255, 0.25) inset,
+          0 0 10px rgba(255, 255, 255, 0.55),
+          0 0 22px rgba(255, 255, 255, 0.25) !important;
+
+        backdrop-filter: blur(2px);
+      }
+
+      .step-btn-circle:hover {
+        transform: scale(1.08);
+        box-shadow:
+          0 0 0 1px rgba(255, 255, 255, 0.35) inset,
+          0 0 14px rgba(255, 255, 255, 0.75),
+          0 0 30px rgba(255, 255, 255, 0.35) !important;
+      }
+
+      /* ===================== 瓦当曲线时间轴样式 ===================== */
+      .wadang-timeline {
+        position: relative;
+        width: 100%;
+        min-height: 700px;
+        padding: 20px 60px;
+      }
+
+      /* 曲线SVG */
+      .timeline-curve {
+        position: absolute;
+        top: 0;
+        left: 50%;
+        transform: translateX(-50%);
+        width: 400px;
+        height: 100%;
+        z-index: 1;
+        opacity: 0.6;
+      }
+
+      /* 时间节点 */
+      .timeline-node {
+        position: absolute;
+        z-index: 2;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+      }
+
+      /* 节点位置 - 左右交替 */
+      .node-1 {
+        left: 15%;
+        top: -60px;
+      }
+      .node-2 {
+        right: 15%;
+        top: 180px;
+      }
+      .node-3 {
+        left: 15%;
+        top: 380px;
+      }
+      .node-4 {
+        right: 15%;
+        top: 580px;
+      }
+
+      /* 年代标签 */
+      .node-year {
+        font-family: "YuWeiShuFa", "SimKai", "KaiTi", serif;
+        font-size: 1.4rem;
+        color: #8b6914;
+        letter-spacing: 4px;
+        margin-bottom: 8px;
+      }
+
+      /* 连接线 */
+      .node-line {
+        width: 1px;
+        height: 30px;
+        background: linear-gradient(180deg, #9caeb9 0%, transparent 100%);
+        margin-bottom: 12px;
+      }
+
+      /* 瓦当展示 */
+      .wadang-showcase {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        background: transparent;
+        padding: 0;
+        transition: transform 0.3s ease;
+      }
+      .wadang-showcase:hover {
+        transform: translateY(-5px);
+      }
+
+      /* 瓦当圆形 */
+      .wadang-round {
+        width: 140px;
+        height: 140px;
+        border-radius: 50%;
+        overflow: hidden;
+        background: linear-gradient(145deg, #d4c4b0, #e8ddd0);
+        box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+        margin-bottom: 12px;
+      }
+      .wadang-round img {
+        width: 100%;
+        height: 100%;
+        object-fit: cover;
+      }
+
+      /* 瓦当介绍 */
+      .wadang-intro {
+        text-align: center;
+      }
+      .wadang-intro h4 {
+        font-size: 1rem;
+        color: #4b5a60;
+        font-family: "SimKai", "KaiTi", serif;
+        font-weight: 500;
+        letter-spacing: 2px;
+        margin-bottom: 4px;
+      }
+      .wadang-intro p {
+        font-size: 0.8rem;
+        color: #8b9ba0;
+        font-family: "SimKai", "KaiTi", serif;
+        letter-spacing: 1px;
+      }
+
+      /* 响应式调整 */
+      @media (max-width: 980px) {
+        .wadang-timeline {
+          min-height: 800px;
+          padding: 20px 30px;
+        }
+        .timeline-curve {
+          width: 200px;
+        }
+        .node-1 {
+          left: 5%;
+          top: 0px;
+        }
+        .node-2 {
+          right: 5%;
+          top: 220px;
+        }
+        .node-3 {
+          left: 5%;
+          top: 450px;
+        }
+        .node-4 {
+          right: 5%;
+          top: 680px;
+        }
+      }
+
+      /* 右侧整体：维持既定高度，用 flex 把按钮"顶到底" */
+      .right-description {
+        height: 450px;
+        display: flex;
+        flex-direction: column;
+        background: transparent;
+        padding: 0.5rem 0;
+      }
+
+      /* 文字：占满剩余空间，自己滚动 */
+      .vertical-text {
+        flex: 1 1 auto;
+        overflow-y: auto;
+
+        /* 不要用 max-height 限死，否则会影响布局计算 */
+        max-height: none;
+      }
+
+      /* 返回：不脱离文档流，用 margin-top:auto 固定在底部 */
+      .back-button-wrapper {
+        margin-top: auto;
+        display: flex;
+        justify-content: flex-end;
+        padding-right: 0.5rem;
+      }
+      /* 1) 右侧说明区：给稳定宽度，禁止被竖排文字挤窄 */
+      .right-description {
+        flex: 0 0 320px !important; /* 固定占 320px（你可改 280/300/360） */
+        width: 320px !important;
+        min-width: 320px !important;
+        height: 450px;
+
+        position: relative;
+        display: flex;
+        flex-direction: column;
+      }
+
+      /* 2) 文字区：占满剩余高度，自己滚动 */
+      .vertical-text {
+        flex: 1 1 auto;
+        overflow-y: auto;
+        max-height: none;
+        padding-bottom: 48px; /* 给按钮留空间 */
+      }
+
+      /* 3) 返回按钮：固定在"右侧容器"的右下角 */
+      .back-button-wrapper {
+        position: absolute;
+        right: 8px;
+        bottom: 8px;
+        margin: 0;
+        padding: 0;
+        width: auto;
+      }
+
+      /* 可选：避免按钮文字换行 */
+      .back-tip {
+        white-space: nowrap;
+      }
+
+      /* ===================== 三雕步骤展示：外露图片卡片 + 横向胶片（仅此模块新增） ===================== */
+      .carving-film-module {
+        width: 100%;
+      }
+
+      /* 外侧边框（透明底），作为"外框" */
+      .carving-film-card {
+        position: relative;
+        width: 100%;
+        width: 900px; /* 外框更宽一点 */
+        margin: 40px 0 0; /* 左侧位置不变：不再居中 */
+        border: 1px solid rgba(156, 174, 185, 0.75);
+
+        /* 边框内填充：接近示意图的浅灰纸面（右侧与底部一体） */
+        background: rgba(212, 211, 211, 0.82);
+
+        overflow: visible; /* 允许左图外露 */
+
+        display: flex;
+        gap: 26px;
+        align-items: stretch; /* 让外框完整包住右侧内容高度 */
+
+        padding: 30px 30px 56px; /* 底部留给返回按钮 */
+        height: 500px;
+        box-shadow: 0 10px 26px rgba(0, 0, 0, 0.08);
+      }
+
+      /* 左侧大图：占外框约 2/3，并向外露出约 1/3 */
+      .carving-film-hero {
+        flex: 0 0 50%; /* 左图再小一点 */
+        margin-left: -15%;
+        margin-top: 40px; /* 外露稍收一点 */
+        height: 360px;
+        z-index: 2;
+        align-self: flex-start;
+      }
+
+      .carving-film-hero img {
+        width: 100%;
+        height: 100%;
+        object-fit: cover;
+        display: block;
+        border-radius: 2px;
+        box-shadow: 0 14px 34px rgba(0, 0, 0, 0.18);
+      }
+
+      /* 右侧信息区：在边框内，背景像示意图那样一块浅灰"纸" */
+      .carving-film-info {
+        flex: 1 1 auto;
+        z-index: 1;
+
+        min-width: 420px;
+        max-width: 520px;
+
+        min-height: 440px;
+        padding: 22px 24px;
+
+        /* 关键：右侧不再是"独立卡片"，和外框背景一体 */
+        background: transparent;
+        border: none;
+        box-shadow: none;
+      }
+
+      .carving-film-info h4 {
+        margin: 0 0 10px;
+        font-size: 1.5rem;
+        color: #2e3a3a;
+        font-weight: 500;
+        font-family: "SimKai", "KaiTi", serif;
+      }
+
+      .carving-film-meta {
+        color: #6f7d84;
+        letter-spacing: 1px;
+        margin-bottom: 10px;
+        font-weight: 700;
+      }
+
+      .carving-film-desc {
+        font-size: 0.98rem;
+        line-height: 1.85;
+        color: #2e3a3a;
+        font-family: "SimKai", "KaiTi", serif;
+        white-space: normal;
+        overflow-wrap: anywhere;
+        word-break: break-word;
+      }
+
+      /* 返回按钮：固定在外框右下角 */
+      .carving-film-back {
+        position: absolute;
+        right: 22px;
+        bottom: 18px;
+        z-index: 3;
+      }
+
+      /* 下方横向胶片条（有底色），其余透明 */
+      .carving-filmstrip-wrap {
+        margin-top: 14px;
+        position: relative;
+      }
+
+      .carving-filmstrip {
+        display: flex;
+        gap: 14px;
+        align-items: center;
+        overflow-x: auto;
+        overflow-y: hidden;
+        padding: 14px 42px;
+        border: 1px solid rgba(156, 174, 185, 0.65);
+        background: rgba(30, 30, 30, 0.55);
+        box-shadow: 0 10px 26px rgba(0, 0, 0, 0.12);
+        scroll-snap-type: x mandatory;
+        scrollbar-width: none;
+      }
+      .carving-filmstrip::-webkit-scrollbar {
+        height: 0;
+      }
+
+      /* 胶片齿孔 */
+      .carving-filmstrip::before,
+      .carving-filmstrip::after {
+        content: "";
+        position: absolute;
+        left: 0;
+        right: 0;
+        height: 10px;
+        pointer-events: none;
+        background: repeating-linear-gradient(
+          to right,
+          rgba(255, 255, 255, 0.8) 0 10px,
+          transparent 10px 26px
+        );
+        opacity: 0.35;
+      }
+      .carving-filmstrip::before {
+        top: 4px;
+      }
+      .carving-filmstrip::after {
+        bottom: 4px;
+      }
+
+      .carving-thumb {
+        width: 160px;
+        height: 100px;
+        flex: 0 0 auto;
+        border: 1px solid rgba(255, 255, 255, 0.22);
+        background: rgba(255, 255, 255, 0.08);
+        box-shadow: 0 6px 16px rgba(0, 0, 0, 0.22);
+        overflow: hidden;
+        cursor: pointer;
+        position: relative;
+        scroll-snap-align: center;
+        transition:
+          transform 180ms ease,
+          box-shadow 180ms ease,
+          border-color 180ms ease;
+      }
+      .carving-thumb img {
+        width: 100%;
+        height: 100%;
+        object-fit: contain;
+        display: block;
+        filter: brightness(0.88) contrast(1.03);
+      } /* 缩略图小一点看全貌 */
+      .carving-thumb .idx {
+        position: absolute;
+        left: 8px;
+        top: 8px;
+        font-size: 0.82rem;
+        color: rgba(255, 255, 255, 0.92);
+        background: rgba(0, 0, 0, 0.38);
+        padding: 2px 8px;
+        border-radius: 999px;
+        letter-spacing: 1px;
+      }
+      .carving-thumb.active {
+        transform: scale(1.08);
+        border-color: rgba(255, 255, 255, 0.6);
+        box-shadow:
+          0 0 0 2px rgba(120, 170, 210, 0.65),
+          0 18px 40px rgba(0, 0, 0, 0.26);
+      }
+      .carving-thumb.active img {
+        filter: brightness(1) contrast(1.04);
+      }
+
+      .carving-film-arrow {
+        position: absolute;
+        top: 50%;
+        transform: translateY(-50%);
+        width: 34px;
+        height: 34px;
+        border-radius: 999px;
+        border: 1px solid rgba(156, 174, 185, 0.65);
+        background: rgba(255, 255, 255, 0.82);
+        color: #2e3a3a;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        cursor: pointer;
+        box-shadow: 0 8px 20px rgba(0, 0, 0, 0.16);
+        z-index: 3;
+        user-select: none;
+      }
+      .carving-film-arrow:hover {
+        background: rgba(255, 255, 255, 0.95);
+      }
+      .carving-film-arrow.left {
+        left: 6px;
+      }
+      .carving-film-arrow.right {
+        right: 6px;
+      }
+
+      @media (max-width: 980px) {
+        .carving-film-card {
+          flex-direction: column;
+          padding: 18px 18px 54px;
+          min-height: unset;
+          align-items: stretch;
+        }
+        .carving-film-hero {
+          flex: 0 0 auto;
+          width: 100%;
+          margin-left: 0;
+          height: 260px;
+        }
+        .carving-film-info {
+          min-width: 0;
+          max-width: none;
+          min-height: unset;
+        }
+      }
+
+      /* ===== 三雕外露卡片：无胶片，保留原滚轮步骤 ===== */
+      .carving-film-card.no-film {
+        padding: 28px; /* no-film 和主卡片一致 */
+      }
+
+      .carving-film-info.steps-host {
+        padding: 16px 28px 14px 18px; /* 右侧留更舒展的内边距 */
+      }
+
+      /* 右侧滚轮容器：固定高度，避免"空一大块/错位" */
+      .carving-film-info .carving-steps-container {
+        min-height: 420px;
+        height: 420px;
+      }
+
+      .carving-film-info .step-card {
+        max-width: none;
+        width: 100%;
+
+        /* 关键：去掉"独立卡片感" */
+        background: transparent !important;
+        border: none !important;
+        box-shadow: none !important;
+        padding: 0 !important;
+      }
+
+      /* 步骤图：更像示意图那样"展品图居中" */
+      .carving-film-info .step-card img {
+        max-height: 220px !important;
+        object-fit: contain;
+        margin: 18px auto 10px;
+        display: block;
+      }
+
+      /* 标题/正文排版更像示意图（居中、留白） */
+      .carving-film-info .step-card h4 {
+        text-align: center;
+        margin: 8px 0 10px;
+        letter-spacing: 4px;
+      }
+
+      .carving-film-info .tool-desc {
+        font-size: 0.98rem;
+        line-height: 1.85;
+        text-align: center;
+        padding: 0 12px;
+        color: rgba(46, 58, 58, 0.92);
+      }
+      .carving-film-meta {
+        font-size: x-large;
+      }
+
+      .wadang-embed {
+        width: 100%;
+        display: flex;
+        justify-content: center;
+      }
+
+      .wadang-embed iframe {
+        width: 980px;
+        height: 600px;
+        border: none;
+        background: transparent;
+        overflow: hidden;
+      }
+    </style>
+    <link
+      href="https://cdn.bootcdn.net/ajax/libs/font-awesome/6.4.0/css/all.min.css"
+      rel="stylesheet"
+    />
+  </head>
+  <body>
+    <div class="hero"><h1>晋韵遗作</h1></div>
+    <div class="section">
+      <div class="intro">
+        <div class="calligraphy">三雕</div>
+        <div class="intro-text">
+          木雕 · 砖雕 · 石雕 —— 镌刻在岁月里的晋商之魂<br />一凿一錾，皆为匠心；一砖一石，尽是岁月。<br />三雕记录了财富的积累，也承载了对伦理、美学与生活智慧的深沉思考。通过这些层层堆叠的雕琢，我们可以窥见几百年前手艺人的匠心，以及那份流淌在青砖瓦砾间的古朴温情。<br />指尖轻触，便可窥见三晋大地的烟火与风骨。
+        </div>
+      </div>
+
+      <div class="left-title-module" id="carvingModule">
+        <div class="left-title-wrap">
+          <div class="vertical-title">
+            <span class="cn">技艺流程</span
+            ><span class="en">Craftsmanship</span>
+          </div>
+        </div>
+        <div class="content-center">
+          <div class="three-images" id="threeImages">
+            <div
+              class="card-item"
+              onclick="selectType('wood', this.querySelector('img'))"
+            >
+              <img src="../../assets/images/craft/mudiao.png" alt="木雕" />
+              <div class="card-content">
+                <div class="card-title">木雕</div>
+                <div class="card-more">
+                  了解更多 <i class="fa-solid fa-arrow-right"></i>
+                </div>
+              </div>
+              <div class="card-tag">蟠龙盘柱鎏彩</div>
+            </div>
+            <div
+              class="card-item"
+              onclick="selectType('stone', this.querySelector('img'))"
+            >
+              <img src="../../assets/images/craft/shidiao.png" alt="石雕" />
+              <div class="card-content">
+                <div class="card-title">石雕</div>
+                <div class="card-more">
+                  了解更多 <i class="fa-solid fa-arrow-right"></i>
+                </div>
+              </div>
+              <div class="card-tag">岁月石兽遗痕</div>
+            </div>
+            <div
+              class="card-item"
+              onclick="selectType('brick', this.querySelector('img'))"
+            >
+              <img src="../../assets/images/craft/zhuandiao.png" alt="砖雕" />
+              <div class="card-content">
+                <div class="card-title">砖雕</div>
+                <div class="card-more">
+                  了解更多 <i class="fa-solid fa-arrow-right"></i>
+                </div>
+              </div>
+              <div class="card-tag">飞檐灰瓦遗韵</div>
+            </div>
+          </div>
+          <div id="activeArea"></div>
+        </div>
+      </div>
+
+      <div class="bubble-horizontal-title">
+        <div class="bubble-title-cn">雕饰珍品</div>
+        <div class="bubble-title-en">Selected Artworks of Carving</div>
+      </div>
+      <div class="bubbles-section">
+        <div class="bubble-wrap b1-wrap">
+          <div class="bubble b1">
+            <img src="../../assets/images/craft/p1.png" alt="雕饰1" />
+          </div>
+          <div class="bubble-text text-left">
+            木雕·斗拱｜梁间雕华 古构生韵
+            <div class="text-line-container"></div>
+          </div>
+        </div>
+        <div class="bubble-wrap b2-wrap">
+          <div class="bubble b2">
+            <img src="../../assets/images/craft/p2.png" alt="雕饰2" />
+          </div>
+          <div class="bubble-text text-left">
+            砖雕·蟠龙｜云纹环绕 瑞气腾空
+            <div class="text-line-container"></div>
+          </div>
+        </div>
+        <div class="bubble-wrap b3-wrap">
+          <div class="bubble b3">
+            <img src="../../assets/images/craft/p3.png" alt="雕饰3" />
+          </div>
+          <div class="bubble-text text-right">
+            石雕·门墩｜方石浮刻 竹影藏幽
+            <div class="text-line-container"></div>
+          </div>
+        </div>
+        <div class="bubble-wrap b4-wrap">
+          <div class="bubble b4">
+            <img src="../../assets/images/craft/p4.png" alt="雕饰4" />
+          </div>
+          <div class="bubble-text text-left">
+            石雕·抱鼓｜鼓形稳立 守门含威
+            <div class="text-line-container"></div>
+          </div>
+        </div>
+        <div class="bubble-wrap b5-wrap">
+          <div class="bubble b5">
+            <img src="../../assets/images/craft/p5.png" alt="雕饰5" />
+          </div>
+          <div class="bubble-text text-right">
+            木雕·花窗｜纹样婉转 古意流芳
+            <div class="text-line-container"></div>
+          </div>
+        </div>
+        <div class="bubble-wrap b6-wrap">
+          <div class="bubble b6">
+            <img src="../../assets/images/craft/p6.png" alt="雕饰6" />
+          </div>
+          <div class="bubble-text text-right">
+            砖雕·竹景｜圆窗刻景 清影含幽
+            <div class="text-line-container"></div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="section" style="padding-top: 40px; margin-top: 60px">
+      <div
+        class="intro"
+        style="flex-direction: row-reverse; gap: 120px; justify-content: center"
+      >
+        <div class="calligraphy" style="margin-right: -20px; margin-top: -40px">
+          彩塑
+        </div>
+        <div class="intro-text">
+          平遥建筑彩塑 ·
+          东方彩塑艺术的巅峰。双林寺、镇国寺的千年彩塑，以泥土为媒，以色彩为魂，是古建装饰中"塑"与"画"的完美融合。<br />一抔黄土，经匠人之手塑形、上色，便成传神造像；千年岁月，仍保色泽鲜活，尽显三晋匠艺的精湛与厚重。
+        </div>
+      </div>
+
+      <div class="right-title-module" id="colorSculptureModule1">
+        <div class="content-center">
+          <div id="sculptureMainConta9iner">
+            <!-- 视频容器（默认显示） -->
+            <div id="videoContainer" class="video-wrapper">
+              <video id="craftVideo" autoplay loop muted playsinline>
+                <source src="../../assets/video/caisu.mp4" type="video/mp4" />
+                您的浏览器不支持视频播放。
+              </video>
+              <!-- 圆形小按钮，位置可通过修改 top/left 百分比调整 -->
+              <button
+                class="step-btn-circle"
+                data-step="1"
+                style="top: 12%; left: 32%"
+              >
+                1
+              </button>
+              <button
+                class="step-btn-circle"
+                data-step="2"
+                style="top: 20%; left: 54%"
+              >
+                2
+              </button>
+              <button
+                class="step-btn-circle"
+                data-step="3"
+                style="top: 62%; left: 76%"
+              >
+                3
+              </button>
+              <button
+                class="step-btn-circle"
+                data-step="4"
+                style="top: 78%; left: 88%"
+              >
+                4
+              </button>
+            </div>
+            <!-- 3D交互区域（初始隐藏） -->
+            <div id="sculpture3dArea" style="display: none"></div>
+          </div>
+        </div>
+        <div class="right-title-wrap">
+          <div class="vertical-title">
+            <span class="cn">技艺流程</span
+            ><span class="en">Craftsmanship</span>
+          </div>
+        </div>
+      </div>
+
+      <div class="right-title-module" id="colorSculptureModule2">
+        <div class="content-center">
+          <div class="wheel-frame">
+            <iframe
+              frameborder="0"
+              src="https://s.u.h5mc.com/c/9qmz/td3c/index.html"
+              scrolling="no"
+              allowtransparency="true"
+            ></iframe>
+          </div>
+        </div>
+
+        <div class="right-title-wrap">
+          <div class="vertical-title">
+            <span class="cn">精品佳作</span>
+            <span class="en">Excellent Works</span>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- ===================== 瓦当模块 ===================== -->
+    <div class="section" style="padding-top: 60px; margin-top: 100px">
+      <div class="intro">
+        <div class="calligraphy">瓦当</div>
+        <div class="intro-text">
+          平遥瓦当 ·
+          檐角间的古韵遗痕。瓦当是古建筑屋檐前端的重要构件，兼具遮护与装饰功能，也寄托着人们祈福纳吉的美好愿望。<br />方寸之间，凝练匠心巧思；纹饰之中，沉淀岁月风华。它不仅守护着檐下建筑，也承载着传统审美与历史记忆。
+        </div>
+      </div>
+
+      <!-- 技艺流程模块 -->
+      <div
+        class="left-title-module"
+        id="wadangModule1"
+        style="margin-top: 100px"
+      >
+        <div class="left-title-wrap">
+          <div class="vertical-title">
+            <span class="cn">技艺流程</span
+            ><span class="en">Craftsmanship</span>
+          </div>
+        </div>
+        <div class="content-center">
+          <div class="wadang-embed">
+            <iframe
+              src="demo.html"
+              title="瓦当制作小游戏"
+              loading="lazy"
+              frameborder="0"
+              scrolling="no"
+            ></iframe>
+          </div>
+        </div>
+      </div>
+
+      <!-- 精品佳作模块 - 曲线时间轴 -->
+      <div
+        class="right-title-module"
+        id="wadangModule2"
+        style="margin-top: 160px"
+      >
+        <div class="content-center">
+          <div class="wadang-timeline">
+            <!-- 曲线SVG - 纵向S形 -->
+            <svg
+              class="timeline-curve"
+              viewBox="0 0 400 700"
+              preserveAspectRatio="none"
+            >
+              <path
+                d="M 80 30 Q 80 180, 320 200 T 80 400 T 320 650"
+                stroke="#9caeb9"
+                stroke-width="2"
+                fill="none"
+                stroke-dasharray="8,6"
+              />
+              <!-- 时间节点 -->
+              <circle cx="83" cy="60" r="6" fill="#9caeb9" />
+              <circle cx="390" cy="215" r="6" fill="#9caeb9" />
+              <circle cx="20" cy="425" r="6" fill="#9caeb9" />
+              <circle cx="320" cy="650" r="6" fill="#9caeb9" />
+            </svg>
+
+            <!-- 瓦当节点1 - 汉代 -->
+            <div class="timeline-node node-1">
+              <div class="node-year">汉代</div>
+              <div class="node-line"></div>
+              <div class="wadang-showcase">
+                <div class="wadang-round">
+                  <img
+                    src="../../assets/images/craft/handai.png"
+                    alt="云纹瓦当"
+                  />
+                </div>
+                <div class="wadang-intro">
+                  <h4>云纹瓦当</h4>
+                  <p>卷云流转，祥瑞升腾</p>
+                </div>
+              </div>
+            </div>
+
+            <!-- 瓦当节点2 - 北魏 -->
+            <div class="timeline-node node-2">
+              <div class="node-year">北魏</div>
+              <div class="node-line"></div>
+              <div class="wadang-showcase">
+                <div class="wadang-round">
+                  <img
+                    src="../../assets/images/craft/beiwei.png"
+                    alt="莲花瓦当"
+                  />
+                </div>
+                <div class="wadang-intro">
+                  <h4>莲花瓦当</h4>
+                  <p>佛韵莲心，清净庄严</p>
+                </div>
+              </div>
+            </div>
+
+            <!-- 瓦当节点3 - 唐代 -->
+            <div class="timeline-node node-3">
+              <div class="node-year">唐代</div>
+              <div class="node-line"></div>
+              <div class="wadang-showcase">
+                <div class="wadang-round">
+                  <img
+                    src="../../assets/images/craft/tangchao.png"
+                    alt="青龙瓦当"
+                  />
+                </div>
+                <div class="wadang-intro">
+                  <h4>青龙瓦当</h4>
+                  <p>四神镇守，威震八方</p>
+                </div>
+              </div>
+            </div>
+
+            <!-- 瓦当节点4 - 明清 -->
+            <div class="timeline-node node-4">
+              <div class="node-year">明清</div>
+              <div class="node-line"></div>
+              <div class="wadang-showcase">
+                <div class="wadang-round">
+                  <img
+                    src="../../assets/images/craft/mingqing.jpg"
+                    alt="兽面瓦当"
+                  />
+                </div>
+                <div class="wadang-intro">
+                  <h4>兽面瓦当</h4>
+                  <p>瑞兽昂首，辟邪纳福</p>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="right-title-wrap">
+          <div class="vertical-title">
+            <span class="cn">精品佳作</span
+            ><span class="en">Excellent Works</span>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <script>
+      // ===================== 木雕步骤数据 =====================
+      const woodCarvingSteps = [
+        {
+          img: "../../assets/images/craft/step1.png",
+          title: "择木 · 选料",
+          toolDesc:
+            "工具：斧、锯、墨斗｜选用榆木或核桃木，观察木纹顺直，无疤结。墨斗划线，锯开大料，为后续雕刻留出余量。",
+        },
+        {
+          img: "../../assets/images/craft/step4.png",
+          title: "绘意 · 起草稿",
+          toolDesc:
+            "工具：铅笔、毛笔、凿刀｜在木料表面勾勒轮廓，以浅线刻定位。传统匠人常以毛笔蘸墨直接绘制，线条疏密有致。",
+        },
+        {
+          img: "../../assets/images/craft/step2.png",
+          title: "劈形 · 粗雕轮廓",
+          toolDesc:
+            "工具：大平凿、木槌、锯｜去除多余木料，推出大体块面。用大号凿子配合木槌，凿出高低层次，呈现雏形。",
+        },
+        {
+          img: "../../assets/images/craft/step3.png",
+          title: "入微 · 精雕细琢",
+          toolDesc:
+            "工具：圆凿、三角凿、雕刻刀｜逐层深入，刻画细节。从五官、衣纹到花饰，运用不同刃口雕出细腻纹理。",
+        },
+        {
+          img: "../../assets/images/craft/step5.png",
+          title: "润泽 · 打磨抛光",
+          toolDesc:
+            "工具：砂纸、木贼草、蜡｜由粗到细打磨表面，先用木贼草或细砂纸反复打磨，最后上蜡封护，显出木纹温润光泽。",
+        },
+      ];
+
+      const brickCarvingSteps = [
+        {
+          img: "../../assets/images/craft/zstep1.png",
+          title: "拓样",
+          toolDesc:
+            "工具：复写纸、毛笔、墨斗｜将设计画稿精准转印到打磨平整的青砖表面，线条清晰位置准确，为雕刻定准方位。",
+        },
+        {
+          img: "../../assets/images/craft/zstep2.png",
+          title: "打胚",
+          toolDesc:
+            "工具：大铲、木槌、平凿｜凿去多余部分，推出画面大体块面层次，区分远近距离，形成浮雕基本轮廓。",
+        },
+        {
+          img: "../../assets/images/craft/zstep3.png",
+          title: "粗雕",
+          toolDesc:
+            "工具：中小号凿刀、雕刻刀｜细化景物结构，调整比例与动态，使主次分明，粗坯阶段反复审视修改。",
+        },
+        {
+          img: "../../assets/images/craft/zstep4.png",
+          title: "细雕",
+          toolDesc:
+            "工具：细齿凿、三角刀、修光刀｜深入刻画人物表情、衣纹皱褶、花鸟须羽，线条流畅生动，层次分明。",
+        },
+        {
+          img: "../../assets/images/craft/zstep5.png",
+          title: "打磨修补",
+          toolDesc:
+            "工具：砖灰、砂石、毛笔｜用细砂石打磨光滑，砖灰拌胶修补微小砂眼，最后清水洗去浮尘，显砖雕本色。",
+        },
+      ];
+
+      const stoneCarvingSteps = [
+        {
+          img: "../../assets/images/craft/sstep1.png",
+          title: "拓样",
+          toolDesc:
+            "工具：墨汁、纸、毛笔｜将画稿拓印于石料表面，重要结构线重点标注，确保造型精准不走样。",
+        },
+        {
+          img: "../../assets/images/craft/sstep2.png",
+          title: "打胚",
+          toolDesc:
+            "工具：大锤、钢钎、大錾子｜凿去大块余料，推出石料大体块面，使整体造型初现，留有余量待后续精雕。",
+        },
+        {
+          img: "../../assets/images/craft/sstep3.png",
+          title: "粗雕",
+          toolDesc:
+            "工具：齿凿、平凿、手锤｜进一步细化形体的起伏转折，区分主次结构与层次，比例动态趋向准确。",
+        },
+        {
+          img: "../../assets/images/craft/sstep4.png",
+          title: "细雕",
+          toolDesc:
+            "工具：细齿凿、尖錾、磨头｜精雕五官、鳞甲、纹饰，表现质感与神韵，每一处细节都反复推敲。",
+        },
+        {
+          img: "../../assets/images/craft/sstep5.png",
+          title: "打磨",
+          toolDesc:
+            "工具：砂石、油石、羊毛毡｜由粗到细打磨表面，直至触感细腻，最后以石蜡或桐油保养，显出石材光泽。",
+        },
+      ];
+
+      // 滚动控制函数
+      let woodScrollHandler = null,
+        currentWoodStep = 0;
+      function updateWoodStepDisplay(stepIndex) {
+        const cards = document.querySelectorAll(
+          "#woodStepsContainer .step-card",
+        );
+        const indicator = document.getElementById("stepIndicator");
+        if (!cards.length || !indicator) return;
+        cards.forEach((card, idx) =>
+          idx === stepIndex
+            ? card.classList.add("active-step")
+            : card.classList.remove("active-step"),
+        );
+        indicator.textContent = `${stepIndex + 1} / ${woodCarvingSteps.length}`;
+      }
+      function initWoodCarvingScroll() {
+        const container = document.getElementById("woodStepsContainer");
+        if (!container) return;
+        currentWoodStep = 0;
+        updateWoodStepDisplay(currentWoodStep);
+        if (woodScrollHandler)
+          container.removeEventListener("wheel", woodScrollHandler);
+        woodScrollHandler = function (e) {
+          e.preventDefault();
+          if (e.deltaY > 0 && currentWoodStep < woodCarvingSteps.length - 1) {
+            currentWoodStep++;
+            updateWoodStepDisplay(currentWoodStep);
+          } else if (e.deltaY < 0 && currentWoodStep > 0) {
+            currentWoodStep--;
+            updateWoodStepDisplay(currentWoodStep);
+          }
+        };
+        container.addEventListener("wheel", woodScrollHandler, {
+          passive: false,
+        });
+      }
+      function destroyWoodCarvingScroll() {
+        const c = document.getElementById("woodStepsContainer");
+        if (c && woodScrollHandler) {
+          c.removeEventListener("wheel", woodScrollHandler);
+          woodScrollHandler = null;
+        }
+      }
+
+      let brickScrollHandler = null,
+        currentBrickStep = 0;
+      function updateBrickStepDisplay(stepIndex) {
+        const cards = document.querySelectorAll(
+          "#brickStepsContainer .step-card",
+        );
+        const indicator = document.getElementById("brickStepIndicator");
+        if (!cards.length || !indicator) return;
+        cards.forEach((card, idx) =>
+          idx === stepIndex
+            ? card.classList.add("active-step")
+            : card.classList.remove("active-step"),
+        );
+        indicator.textContent = `${stepIndex + 1} / ${brickCarvingSteps.length}`;
+      }
+      function initBrickCarvingScroll() {
+        const container = document.getElementById("brickStepsContainer");
+        if (!container) return;
+        currentBrickStep = 0;
+        updateBrickStepDisplay(currentBrickStep);
+        if (brickScrollHandler)
+          container.removeEventListener("wheel", brickScrollHandler);
+        brickScrollHandler = function (e) {
+          e.preventDefault();
+          if (e.deltaY > 0 && currentBrickStep < brickCarvingSteps.length - 1) {
+            currentBrickStep++;
+            updateBrickStepDisplay(currentBrickStep);
+          } else if (e.deltaY < 0 && currentBrickStep > 0) {
+            currentBrickStep--;
+            updateBrickStepDisplay(currentBrickStep);
+          }
+        };
+        container.addEventListener("wheel", brickScrollHandler, {
+          passive: false,
+        });
+      }
+      function destroyBrickCarvingScroll() {
+        const c = document.getElementById("brickStepsContainer");
+        if (c && brickScrollHandler) {
+          c.removeEventListener("wheel", brickScrollHandler);
+          brickScrollHandler = null;
+        }
+      }
+
+      let stoneScrollHandler = null,
+        currentStoneStep = 0;
+      function updateStoneStepDisplay(stepIndex) {
+        const cards = document.querySelectorAll(
+          "#stoneStepsContainer .step-card",
+        );
+        const indicator = document.getElementById("stoneStepIndicator");
+        if (!cards.length || !indicator) return;
+        cards.forEach((card, idx) =>
+          idx === stepIndex
+            ? card.classList.add("active-step")
+            : card.classList.remove("active-step"),
+        );
+        indicator.textContent = `${stepIndex + 1} / ${stoneCarvingSteps.length}`;
+      }
+      function initStoneCarvingScroll() {
+        const container = document.getElementById("stoneStepsContainer");
+        if (!container) return;
+        currentStoneStep = 0;
+        updateStoneStepDisplay(currentStoneStep);
+        if (stoneScrollHandler)
+          container.removeEventListener("wheel", stoneScrollHandler);
+        stoneScrollHandler = function (e) {
+          e.preventDefault();
+          if (e.deltaY > 0 && currentStoneStep < stoneCarvingSteps.length - 1) {
+            currentStoneStep++;
+            updateStoneStepDisplay(currentStoneStep);
+          } else if (e.deltaY < 0 && currentStoneStep > 0) {
+            currentStoneStep--;
+            updateStoneStepDisplay(currentStoneStep);
+          }
+        };
+        container.addEventListener("wheel", stoneScrollHandler, {
+          passive: false,
+        });
+      }
+      function destroyStoneCarvingScroll() {
+        const c = document.getElementById("stoneStepsContainer");
+        if (c && stoneScrollHandler) {
+          c.removeEventListener("wheel", stoneScrollHandler);
+          stoneScrollHandler = null;
+        }
+      }
+
+      function cleanupAllCarvingScrolls() {
+        destroyWoodCarvingScroll();
+        destroyBrickCarvingScroll();
+        destroyStoneCarvingScroll();
+      }
+
+      // HTML转义（避免标题/描述里出现特殊字符导致模板崩）
+      function escapeHtml(s) {
+        return String(s ?? "").replace(
+          /[&<>"']/g,
+          (c) =>
+            ({
+              "&": "&amp;",
+              "<": "&lt;",
+              ">": "&gt;",
+              '"': "&quot;",
+              "'": "&#39;",
+            })[c],
+        );
+      }
+
+      // 三雕主逻辑
+      function selectType(type, img) {
+        // 需求：不要胶片缩略图，保留原来"滚轮切换步骤"的功能
+        cleanupAllCarvingScrolls();
+        const container = document.getElementById("threeImages");
+        const active = document.getElementById("activeArea");
+        const module = document.getElementById("carvingModule");
+
+        container.classList.add("hidden");
+        if (module) module.classList.add("hide-title-container");
+
+        // 选择不同类型的步骤数据
+        let steps = [];
+        let typeName = "";
+        let containerId = "";
+        let indicatorId = "";
+        if (type === "wood") {
+          steps = woodCarvingSteps;
+          typeName = "木雕";
+          containerId = "woodStepsContainer";
+          indicatorId = "stepIndicator";
+        } else if (type === "brick") {
+          steps = brickCarvingSteps;
+          typeName = "砖雕";
+          containerId = "brickStepsContainer";
+          indicatorId = "brickStepIndicator";
+        } else if (type === "stone") {
+          steps = stoneCarvingSteps;
+          typeName = "石雕";
+          containerId = "stoneStepsContainer";
+          indicatorId = "stoneStepIndicator";
+        }
+
+        // 左侧大图：用你点击的那张大类图片（不显示简介文字）
+        const heroSrc = img && img.src ? img.src : steps[0] ? steps[0].img : "";
+
+        // 右侧：沿用原来的 step-card + wheel 切换逻辑（initWood/Brick/StoneCarvingScroll）
+        const stepsCards = steps
+          .map(
+            (s, idx) => `
+    <div class="step-card ${idx === 0 ? "active-step" : ""}" data-step-index="${idx}">
+      <img src="${s.img}" alt="${escapeHtml(s.title)}" onerror="this.src='https://picsum.photos/400/300?random=${type}${idx}'">
+      <h4>${escapeHtml(s.title)}</h4>
+      <div class="tool-desc">${escapeHtml(s.toolDesc)}</div>
+    </div>
+  `,
+          )
+          .join("");
+
+        active.innerHTML = `
+    <div class="carving-film-module" id="${type}-carvingNoFilm">
+      <div class="carving-film-card no-film" id="${type}-carvingCard">
+        <div class="carving-film-hero">
+          <img src="${heroSrc}" alt="${typeName}" />
+        </div>
+
+        <div class="carving-film-info steps-host">
+          <div class="carving-film-meta">${typeName} · 技艺流程</div>
+          <div class="carving-steps-container" id="${containerId}">
+            <div class="step-wrapper">${stepsCards}</div>
+            <div class="step-indicator" id="${indicatorId}">1 / ${steps.length}</div>
+          </div>
+        </div>
+
+        <div class="carving-film-back">
+          <span class="back-tip" onclick="goBack()">← 返回三雕浏览</span>
+        </div>
+      </div>
+    </div>
+  `;
+
+        // 初始化原来的滚轮切换
+        if (type === "wood") initWoodCarvingScroll();
+        else if (type === "brick") initBrickCarvingScroll();
+        else if (type === "stone") initStoneCarvingScroll();
+      }
+
+      function goBack() {
+        cleanupAllCarvingScrolls();
+        const container = document.getElementById("threeImages");
+        const active = document.getElementById("activeArea");
+        const module = document.getElementById("carvingModule");
+        container.classList.remove("hidden");
+        active.innerHTML = "";
+        if (module) module.classList.remove("hide-title-container");
+      }
+
+      // ===================== 彩塑视频按钮交互 + Three.js 3D模型展示 =====================
+      // 步骤数据（共4步，第1步合并了和泥与扎骨架）
+      const sculptSteps = {
+        1: {
+          title: "选土和泥 · 扎骨架",
+          desc: "选土和泥：选用本地黏土，掺入麦秸、棉絮增加韧性。选取黏性好、杂质少的黄土，经过晾晒、过筛后，按比例掺入麦秸、棉絮等纤维，加水反复揉和，使泥料更具韧性和可塑性，为塑像打好基础。\n扎骨架：木架为骨，草绳缠绕固定大型。根据塑像尺寸，用木材搭建主体骨架，关键部位用铁丝加固，外层缠绕草绳形成基本轮廓，为后续敷泥做准备。",
+          modelFile: "../../assets/models/ligu.glb",
+        },
+        2: {
+          title: "塑形",
+          desc: "塑形：先粗泥打底，再细泥塑形，层层加泥阴干。先敷一层粗泥塑造整体形态，待半干后再敷细泥精雕细节，每一层都需自然阴干，避免开裂。",
+          modelFile: "../../assets/models/tierou.glb",
+        },
+        3: {
+          title: "细雕打磨",
+          desc: "细雕打磨：精雕衣纹、五官，表面磨光。用专用工具雕刻五官、衣纹等细节，完成后用砂纸或磨石打磨表面，使其光滑细腻。",
+          modelFile: "../../assets/models/dadi.glb",
+        },
+        4: {
+          title: "施彩贴金",
+          desc: "施彩贴金：矿物颜料平涂底色，晕染明暗，贴金箔庄严华贵。先刷底漆，再用矿物颜料平涂底色，通过晕染表现明暗层次，最后根据需要贴金箔装饰，提升视觉效果。",
+          modelFile: "../../assets/models/zhuangluan.glb",
+        },
+      };
+
+      let currentSculptStep = 1;
+      const totalSculptSteps = Object.keys(sculptSteps).length; // 总步骤数 = 4
+
+      // Three.js 全局变量
+      let THREE;
+      let scene, camera, renderer, controls, currentModel;
+      const modelContainerId = "sculptureModelContainer";
+      let animationId = null;
+      let threeInitialized = false;
+
+      // 动态导入 Three.js 并初始化
+      async function initThree(containerId) {
+        const container = document.getElementById(containerId);
+        if (!container) return false;
+        if (renderer) {
+          // 如果已存在，调整尺寸
+          const width = container.clientWidth;
+          const height = container.clientHeight;
+          renderer.setSize(width, height);
+          camera.aspect = width / height;
+          camera.updateProjectionMatrix();
+          return true;
+        }
+        try {
+          THREE =
+            await import("https://cdn.jsdelivr.net/npm/three@0.128.0/+esm");
+          const { OrbitControls } =
+            await import("https://cdn.jsdelivr.net/npm/three@0.128.0/examples/jsm/controls/OrbitControls.js/+esm");
+
+          scene = new THREE.Scene();
+          scene.background = null; // 透明背景
+
+          camera = new THREE.PerspectiveCamera(
+            45,
+            container.clientWidth / container.clientHeight,
+            0.1,
+            1000,
+          );
+          camera.position.set(2, 1.5, 3);
+          camera.lookAt(0, 0.5, 0);
+
+          renderer = new THREE.WebGLRenderer({ antialias: true, alpha: true });
+          renderer.setSize(container.clientWidth, container.clientHeight);
+          renderer.setClearColor(0x000000, 0); // 完全透明
+          container.appendChild(renderer.domElement);
+
+          // 灯光
+          const ambientLight = new THREE.AmbientLight(0xffffff, 0.6);
+          scene.add(ambientLight);
+          const dirLight = new THREE.DirectionalLight(0xffffff, 1);
+          dirLight.position.set(2, 5, 3);
+          scene.add(dirLight);
+          const backLight = new THREE.DirectionalLight(0xccaa88, 0.5);
+          backLight.position.set(-1, 2, -2);
+          scene.add(backLight);
+
+          controls = new OrbitControls(camera, renderer.domElement);
+          controls.enableDamping = true;
+          controls.dampingFactor = 0.05;
+          controls.autoRotate = false;
+          controls.enableZoom = true;
+          controls.enablePan = true;
+          controls.target.set(0, 0.5, 0);
+
+          function animate() {
+            animationId = requestAnimationFrame(animate);
+            if (controls) controls.update();
+            if (currentModel) currentModel.rotation.y += 0.01;
+            if (renderer && scene && camera) {
+              renderer.render(scene, camera);
+            }
+          }
+          animate();
+
+          window.addEventListener("resize", onWindowResize);
+          threeInitialized = true;
+          return true;
+        } catch (err) {
+          console.error("Three.js 初始化失败:", err);
+          return false;
+        }
+      }
+
+      function onWindowResize() {
+        const container = document.getElementById(modelContainerId);
+        if (!container || !renderer) return;
+        const width = container.clientWidth;
+        const height = container.clientHeight;
+        renderer.setSize(width, height);
+        camera.aspect = width / height;
+        camera.updateProjectionMatrix();
+      }
+
+      async function loadModelForStep(step) {
+        if (!scene) return;
+        // 移除旧模型
+        if (currentModel) {
+          scene.remove(currentModel);
+          if (currentModel.traverse) {
+            currentModel.traverse((obj) => {
+              if (obj.isMesh) {
+                obj.geometry.dispose();
+                if (obj.material) {
+                  if (Array.isArray(obj.material))
+                    obj.material.forEach((m) => m.dispose());
+                  else obj.material.dispose();
+                }
+              }
+            });
+          }
+          currentModel = null;
+        }
+
+        const modelFile = sculptSteps[step].modelFile;
+        if (!modelFile) return;
+
+        try {
+          const { GLTFLoader } =
+            await import("https://cdn.jsdelivr.net/npm/three@0.128.0/examples/jsm/loaders/GLTFLoader.js/+esm");
+          const loader = new GLTFLoader();
+          loader.load(
+            modelFile,
+            (gltf) => {
+              currentModel = gltf.scene;
+              // 调整模型位置和缩放
+              // 位置：x 往右、y 往上、z 可不动（或微调靠近相机）
+              currentModel.position.set(0.4, 0.0, 0); // 右/上幅度可继续调：0.3~1.0
+
+              const box = new THREE.Box3().setFromObject(currentModel);
+              const size = box.getSize(new THREE.Vector3());
+              const maxDim = Math.max(size.x, size.y, size.z) || 1;
+
+              // 自适应到目标尺寸（原来是 1.8），再额外放大 2.5 倍
+              const base = 1.8 / maxDim;
+              const scale = base * 1.0;
+              currentModel.scale.setScalar(scale);
+
+              scene.add(currentModel);
+            },
+            undefined,
+            (error) => {
+              console.error("模型加载失败:", error);
+            },
+          );
+        } catch (err) {
+          console.error("加载 GLTFLoader 失败:", err);
+        }
+      }
+
+      function disposeThree() {
+        if (animationId) {
+          cancelAnimationFrame(animationId);
+          animationId = null;
+        }
+        if (renderer) {
+          renderer.dispose();
+          if (renderer.domElement && renderer.domElement.parentNode) {
+            renderer.domElement.parentNode.removeChild(renderer.domElement);
+          }
+          renderer = null;
+        }
+        if (controls) {
+          controls.dispose();
+          controls = null;
+        }
+        scene = null;
+        camera = null;
+        currentModel = null;
+        window.removeEventListener("resize", onWindowResize);
+        threeInitialized = false;
+      }
+
+      async function showSculptStep(step) {
+        if (step < 1 || step > totalSculptSteps) return;
+        const stepData = sculptSteps[step];
+        const videoContainer = document.getElementById("videoContainer");
+        const sculptArea = document.getElementById("sculpture3dArea");
+        const module1 = document.getElementById("colorSculptureModule1");
+
+        if (!videoContainer || !sculptArea || !module1) return;
+
+        videoContainer.style.display = "none";
+        //module1.classList.add('hide-title-container');
+
+        // 构建新布局：左侧模型容器，右侧竖排文字 + 返回按钮（无下一步）
+        const html = `
+        <div class="sculpture-3d-module">
+            <div id="${modelContainerId}" class="model-viewer"></div>
+            <div class="right-description">
+                <div class="vertical-text">${stepData.desc.replace(/\n/g, "<br>")}</div>
+                <div class="back-button-wrapper">
+                    <span class="back-tip" onclick="backToSculptList()">← 返回彩塑浏览</span>
+                </div>
+            </div>
+        </div>
+    `;
+        sculptArea.innerHTML = html;
+        sculptArea.style.display = "block";
+
+        // 初始化或重置 Three 场景
+        const containerExists = document.getElementById(modelContainerId);
+        if (containerExists) {
+          if (renderer) {
+            disposeThree();
+          }
+          await initThree(modelContainerId);
+          if (threeInitialized) {
+            loadModelForStep(step);
+          }
+        }
+
+        currentSculptStep = step;
+      }
+
+      function backToSculptList() {
+        const videoContainer = document.getElementById("videoContainer");
+        const sculptArea = document.getElementById("sculpture3dArea");
+        const module1 = document.getElementById("colorSculptureModule1");
+
+        if (videoContainer && sculptArea && module1) {
+          videoContainer.style.display = "block";
+          sculptArea.style.display = "none";
+          sculptArea.innerHTML = "";
+          module1.classList.remove("hide-title-container");
+          // 销毁 Three 场景
+          disposeThree();
+          // 确保移除可能残留的 canvas
+          const canvasContainer = document.getElementById(modelContainerId);
+          if (canvasContainer && canvasContainer.firstChild) {
+            canvasContainer.innerHTML = "";
+          }
+        }
+      }
+
+      // 重新绑定圆形按钮：按顺序分配步骤1~4
+      function bindVideoButtons() {
+        const btns = document.querySelectorAll(".step-btn-circle");
+        btns.forEach((btn, idx) => {
+          const newStep = idx + 1;
+          if (newStep <= totalSculptSteps) {
+            btn.setAttribute("data-step", newStep);
+          }
+          // 移除原有监听器，添加新监听器
+          const handler = (e) => {
+            const step = parseInt(
+              e.currentTarget.getAttribute("data-step"),
+              10,
+            );
+            if (!isNaN(step) && step >= 1 && step <= totalSculptSteps) {
+              showSculptStep(step);
+            }
+          };
+          btn.removeEventListener("click", btn._sculptHandler);
+          btn._sculptHandler = handler;
+          btn.addEventListener("click", btn._sculptHandler);
+        });
+      }
+
+      // 气泡逻辑
+      function initBubbles() {
+        document.querySelectorAll(".bubble-wrap").forEach((wrap) => {
+          const bubble = wrap.querySelector(".bubble");
+          const text = wrap.querySelector(".bubble-text");
+          const lineContainer = text.querySelector(".text-line-container");
+          wrap.addEventListener("mouseenter", () => {
+            const rect = bubble.getBoundingClientRect();
+            const textRect = text.getBoundingClientRect();
+            const y = rect.top + rect.height / 2;
+            text.style.top = y + "px";
+            text.style.transform = "translateY(-50%)";
+            text.style.opacity = 1;
+            let lineLength = text.classList.contains("text-left")
+              ? rect.left - textRect.right
+              : textRect.left - rect.right;
+            if (lineLength > 0) lineContainer.style.width = lineLength + "px";
+          });
+          wrap.addEventListener("mouseleave", () => {
+            text.style.opacity = 0;
+            lineContainer.style.width = "0px";
+          });
+        });
+      }
+
+      // 瓦当卷轴翻页功能
+      function scrollWadang(direction) {
+        const container = document.querySelector(".scroll-content");
+        if (!container) return;
+        const scrollAmount = 150;
+        container.scrollBy({
+          left: direction * scrollAmount,
+          behavior: "smooth",
+        });
+      }
+
+      // 页面初始化
+      document.addEventListener("DOMContentLoaded", function () {
+        initBubbles();
+        bindVideoButtons();
+        window.selectType = selectType;
+        window.goBack = goBack;
+        window.showSculptStep = showSculptStep;
+        window.backToSculptList = backToSculptList;
+        window.scrollWadang = scrollWadang;
+        // 确保 Three 相关函数全局可用（供按钮调用）
+        window.showSculptStep = showSculptStep;
+        window.backToSculptList = backToSculptList;
+      });
+    </script>
+  </body>
+</html>

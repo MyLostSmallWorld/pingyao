@@ -1,0 +1,269 @@
+<!doctype html>
+<html lang="zh-CN">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>平遥推光漆器</title>
+
+    <style>
+      html,
+      body {
+        margin: 0;
+        padding: 0;
+        font-family: "Microsoft YaHei", sans-serif;
+        background: #ffffff;
+        color: #2b2b2b;
+        scroll-behavior: smooth;
+      }
+
+      /* 每一屏 */
+      .section {
+        height: 100vh;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+      }
+
+      /* 布局 */
+      .content {
+        width: 80%;
+        max-width: 1100px;
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        gap: 50px;
+      }
+
+      /* 文字 */
+      .text {
+        width: 48%;
+        opacity: 0;
+        transform: translateY(60px);
+        transition: all 0.8s ease;
+      }
+
+      .text h2 {
+        font-size: 28px;
+        margin-bottom: 16px;
+        font-weight: 500;
+      }
+
+      .text p {
+        font-size: 15px;
+        line-height: 1.8;
+        color: #555;
+        margin-bottom: 10px;
+      }
+
+      /* 图片容器 —— 修复高度 + 定位 */
+      .image {
+        width: 48%;
+        opacity: 0;
+        transform: translateY(80px);
+        transition: all 0.9s ease;
+        position: relative;
+        height: 400px; /* 必须固定高度 */
+        overflow: hidden;
+        border-radius: 10px;
+        cursor: pointer; /* 鼠标移上去显示手型 */
+      }
+
+      .image img {
+        width: 100%;
+        height: 100%;
+        object-fit: contain;
+        position: absolute;
+        top: 0;
+        left: 0;
+        opacity: 0;
+        transition: opacity 0.5s ease;
+        border-radius: 10px;
+      }
+
+      .image img.active {
+        opacity: 1;
+      }
+
+      /* 动画 */
+      .section.active .text {
+        opacity: 1;
+        transform: translateY(0);
+      }
+
+      .section.active .image {
+        opacity: 1;
+        transform: translateY(0);
+      }
+
+      /* 首屏 */
+      .hero {
+        flex-direction: column;
+        text-align: center;
+      }
+
+      .hero h1 {
+        font-size: 40px;
+        margin-bottom: 10px;
+        font-weight: 500;
+      }
+
+      .hero p {
+        color: #777;
+      }
+    </style>
+  </head>
+
+  <body>
+    <!-- 首屏 -->
+    <div class="section hero active">
+      <h1>平遥推光漆器</h1>
+      <p>一种延续至今的传统漆艺</p>
+    </div>
+
+    <!-- 发展 -->
+    <div class="section">
+      <div class="content">
+        <div class="text">
+          <h2>发展沿革</h2>
+          <p>平遥漆器起源较早，春秋时期已有雏形，汉代逐渐成熟。</p>
+          <p>到唐代形成较稳定的风格，描金彩绘开始普及。</p>
+          <p>明清时期达到高峰，作坊众多，并远销海外。</p>
+        </div>
+        <div class="image">
+          <img src="../../assets/images/folk/tui1.png" class="active" />
+        </div>
+      </div>
+    </div>
+
+    <!-- 品类 → 点击图片循环切换 4张图 -->
+    <div class="section">
+      <div class="content">
+        <div class="image" id="categoryBox">
+          <img src="../../assets/images/folk/p1.png" class="active" />
+          <img src="../../assets/images/folk/p2.png" />
+          <img src="../../assets/images/folk/p3.png" />
+          <img src="../../assets/images/folk/p4.png" />
+        </div>
+        <div class="text">
+          <h2>主要品类</h2>
+          <p>常见器物包括箱柜、桌几、屏风和盘盒等。</p>
+          <p>既有实用功能，也具观赏价值。</p>
+          <p>在日常生活与陈设中都能看到它的身影。</p>
+        </div>
+      </div>
+    </div>
+
+    <!-- 工序 -->
+    <div class="section">
+      <div class="content">
+        <!-- 图片 -->
+        <div class="image" id="processBox">
+          <img src="../../assets/images/folk/g1.png" class="active" />
+          <img src="../../assets/images/folk/g2.png" />
+          <img src="../../assets/images/folk/g3.png" />
+          <img src="../../assets/images/folk/g4.png" />
+          <img src="../../assets/images/folk/g5.png" />
+        </div>
+
+        <!-- 文字 -->
+        <div class="text" id="processText">
+          <h2 id="processTitle">制灰挂灰</h2>
+          <p id="processDesc">
+            木胎披麻挂灰，采用生漆土籽灰等三种灰浆，分底灰、浆灰，挂灰四道以上，夯实基底。
+          </p>
+        </div>
+      </div>
+    </div>
+
+    <!-- 推光 -->
+    <div class="section">
+      <div class="content">
+        <div class="image">
+          <img src="../../assets/images/folk/p5.png" class="active" />
+        </div>
+        <div class="text">
+          <h2>推光工艺</h2>
+          <p>推光是最后的关键步骤，通过手工反复打磨，使漆面变得光滑明亮。</p>
+          <p>这种光泽并不刺眼，而是温润柔和。</p>
+          <p>也是这种工艺，使其区别于其他漆器。</p>
+        </div>
+      </div>
+    </div>
+
+    <script>
+      // 页面滚动动画
+      const sections = document.querySelectorAll(".section");
+      function handleScroll() {
+        const trigger = window.innerHeight * 0.7;
+        sections.forEach((section) => {
+          const rect = section.getBoundingClientRect();
+          if (rect.top < trigger && rect.bottom > 100) {
+            section.classList.add("active");
+          } else {
+            section.classList.remove("active");
+          }
+        });
+      }
+      window.addEventListener("scroll", handleScroll);
+      window.addEventListener("load", handleScroll);
+
+      // ========== 点击图片切换==========
+      const categoryBox = document.getElementById("categoryBox");
+      const imgs = categoryBox.querySelectorAll("img");
+      let currentIndex = 0;
+
+      categoryBox.addEventListener("click", () => {
+        // 隐藏当前图片
+        imgs[currentIndex].classList.remove("active");
+
+        // 切换到下一张，循环（4→0）
+        currentIndex = (currentIndex + 1) % imgs.length;
+
+        // 显示新图片
+        imgs[currentIndex].classList.add("active");
+      });
+
+      // ===== 工序切换=====
+      const processBox = document.getElementById("processBox");
+      const processImgs = processBox.querySelectorAll("img");
+
+      const processData = [
+        {
+          title: "制灰挂灰",
+          desc: "木胎披麻挂灰，采用生漆土籽灰等三种灰浆，分底灰、浆灰，挂灰四道以上，夯实基底。",
+        },
+        {
+          title: "漆栓制作",
+          desc: "特制髹饰工具，高档款用少女头发，常规款以牛尾、大漆、桐油制成，使用前需开栓。",
+        },
+        {
+          title: "阴房阴干",
+          desc: "大漆干燥需特定温湿度，每道上漆后均入特制阴房阴干，为必备工序。",
+        },
+        {
+          title: "描金彩绘",
+          desc: "核心装饰工艺，含平金开黑等十余种技法，用大漆调配专用颜料，搭配自制山猫脊鬃笔、雕刀创作。",
+        },
+        {
+          title: "推光抛光",
+          desc: "面漆工序以手掌推磨为核心，经砂纸、木炭、头发打磨后，手掌蘸细砖灰+麻油推光，漆面光亮如镜。",
+        },
+      ];
+
+      let processIndex = 0;
+
+      processBox.addEventListener("click", () => {
+        // 切换图片
+        processImgs[processIndex].classList.remove("active");
+        processIndex = (processIndex + 1) % processImgs.length;
+        processImgs[processIndex].classList.add("active");
+
+        // 切换文字
+        document.getElementById("processTitle").innerText =
+          processData[processIndex].title;
+        document.getElementById("processDesc").innerText =
+          processData[processIndex].desc;
+      });
+    </script>
+  </body>
+</html>

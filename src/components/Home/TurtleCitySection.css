@@ -1,0 +1,459 @@
+/* 龟城形制：按参考「#scene fixed + #scroll_container 在上层」重写，不用 sticky 内嵌立方体 */
+
+.turtle-sector {
+  --hairline: 1px;
+  --ui-inset: 2rem;
+  --nav-x: calc(var(--ui-inset) + 2px);
+  --turtle-top: 94px;
+  --turtle-bottom-gap: 14px;
+  --bg: #f4f6f0;
+  --fg: #8699ad;
+  --muted: #9badb9;
+  --accent: #8699ad;
+  --card-bg: rgba(244, 246, 240, 0.72);
+  --card-border: rgba(162, 185, 196, 0.36);
+  --dot: rgba(162, 185, 196, 0.46);
+  position: relative;
+  min-height: 600vh;
+  margin-top: 0;
+  border-radius: 28px;
+  overflow: visible;
+}
+
+.turtle-sector.is-light {
+  --card-bg: rgba(244, 246, 240, 0.82);
+  --card-border: rgba(162, 185, 196, 0.28);
+  --dot: rgba(162, 185, 196, 0.38);
+}
+
+/* ========== 参考 #scene ========== */
+.turtle-sector__scene {
+  position: fixed;
+  left: 0;
+  right: 0;
+  top: var(--turtle-top);
+  height: calc(100vh - var(--turtle-top) - var(--turtle-bottom-gap));
+  z-index: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  perspective: 1100px;
+  pointer-events: none;
+  background:
+    radial-gradient(circle at 20% 18%, rgba(183, 200, 208, 0.22), transparent 24%),
+    radial-gradient(circle at 76% 82%, rgba(162, 185, 196, 0.16), transparent 26%),
+    radial-gradient(circle at 50% 50%, rgba(244, 246, 240, 0.92), rgba(244, 246, 240, 0.3) 44%, transparent 72%),
+    var(--bg);
+  opacity: 0;
+  visibility: hidden;
+}
+
+.turtle-sector.is-active .turtle-sector__scene {
+  opacity: 1;
+  visibility: visible;
+}
+
+/* ========== 参考 #cube ========== */
+.turtle-sector__cube {
+  --s: min(62vw, 58vh, 440px);
+  width: var(--s);
+  height: var(--s);
+  position: relative;
+  transform-style: preserve-3d;
+  will-change: transform;
+  pointer-events: auto;
+}
+
+/* ========== 参考 .face ========== */
+.turtle-sector__face {
+  position: absolute;
+  inset: 0;
+  overflow: hidden;
+  backface-visibility: hidden;
+  background-color: rgba(134, 153, 173, 0.28);
+  background-size: cover;
+  background-position: center;
+  border: 1px solid rgba(162, 185, 196, 0.32);
+  box-shadow: inset 0 0 0 1px rgba(134, 153, 173, 0.12);
+  filter: saturate(0.7) contrast(1.02);
+}
+
+.turtle-sector__face::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background:
+    linear-gradient(180deg, rgba(244, 246, 240, 0.06), rgba(134, 153, 173, 0.22)),
+    radial-gradient(circle at center, rgba(244, 246, 240, 0.12), transparent 70%);
+  pointer-events: none;
+}
+
+.turtle-sector__face-label {
+  position: absolute;
+  left: 1rem;
+  bottom: 0.875rem;
+  z-index: 2;
+  font-size: clamp(1.1rem, 2.2vw, 1.75rem);
+  letter-spacing: 0.08em;
+  color: rgba(244, 246, 240, 0.96);
+  pointer-events: none;
+}
+
+.turtle-sector__face[data-active="true"] {
+  box-shadow:
+    0 0 0 2px rgba(162, 185, 196, 0.44),
+    0 14px 44px rgba(134, 153, 173, 0.18);
+}
+
+.turtle-sector__face--front {
+  transform: translateZ(calc(var(--s) / 2));
+}
+
+.turtle-sector__face--back {
+  transform: rotateY(180deg) translateZ(calc(var(--s) / 2));
+}
+
+.turtle-sector__face--right {
+  transform: rotateY(90deg) translateZ(calc(var(--s) / 2));
+}
+
+.turtle-sector__face--left {
+  transform: rotateY(-90deg) translateZ(calc(var(--s) / 2));
+}
+
+.turtle-sector__face--top {
+  transform: rotateX(-90deg) translateZ(calc(var(--s) / 2));
+}
+
+.turtle-sector__face--bottom {
+  transform: rotateX(90deg) translateZ(calc(var(--s) / 2));
+}
+
+/* ========== 参考 #hud ========== */
+.turtle-sector__hud {
+  position: fixed;
+  z-index: 10;
+  top: calc(var(--turtle-top) + 0.5rem);
+  right: var(--ui-inset);
+  width: 7.5rem;
+  text-align: right;
+  font-size: 0.65rem;
+  letter-spacing: 0.15em;
+  color: var(--muted);
+  text-transform: uppercase;
+  opacity: 0;
+  visibility: hidden;
+  pointer-events: none;
+  transition:
+    opacity 0.2s ease,
+    visibility 0.2s;
+}
+
+.turtle-sector.is-active .turtle-sector__hud {
+  opacity: 1;
+  visibility: visible;
+  pointer-events: auto;
+}
+
+.turtle-sector__hud-pct {
+  letter-spacing: 0.2em;
+}
+
+.turtle-sector__progress-bar {
+  width: 100%;
+  height: var(--hairline);
+  background: color-mix(in srgb, var(--muted) 65%, transparent);
+  margin-top: 0.5rem;
+  margin-left: auto;
+  position: relative;
+  overflow: hidden;
+}
+
+.turtle-sector__progress-fill {
+  position: absolute;
+  inset-block: 0;
+  inset-inline-start: 0;
+  height: 100%;
+  background: var(--accent);
+  transition: width 0.08s linear;
+}
+
+.turtle-sector__scene-label {
+  font-size: 0.6rem;
+  color: var(--accent);
+  margin-top: 0.4rem;
+  text-transform: none;
+  letter-spacing: 0.06em;
+}
+
+/* ========== 参考 #theme_toggle（简化为文字按钮） ========== */
+.turtle-sector__theme {
+  position: fixed;
+  z-index: 10;
+  left: var(--nav-x);
+  bottom: var(--ui-inset);
+  translate: -50% 0;
+  border: 1px solid color-mix(in srgb, var(--muted) 62%, transparent);
+  border-radius: 999px;
+  background: color-mix(in srgb, var(--bg) 76%, transparent);
+  color: var(--fg);
+  padding: 7px 12px;
+  cursor: pointer;
+  font-size: 0.78rem;
+  opacity: 0;
+  visibility: hidden;
+  pointer-events: none;
+  transition:
+    opacity 0.2s ease,
+    visibility 0.2s;
+}
+
+.turtle-sector.is-active .turtle-sector__theme {
+  opacity: 1;
+  visibility: visible;
+  pointer-events: auto;
+}
+
+/* ========== 参考 #scene_strip ========== */
+.turtle-sector__strip {
+  position: fixed;
+  z-index: 10;
+  left: var(--nav-x);
+  top: 50%;
+  translate: -50% -50%;
+  display: flex;
+  flex-direction: column;
+  gap: 0.75rem;
+  opacity: 0;
+  visibility: hidden;
+  pointer-events: none;
+  transition:
+    opacity 0.2s ease,
+    visibility 0.2s;
+}
+
+.turtle-sector.is-active .turtle-sector__strip {
+  opacity: 1;
+  visibility: visible;
+  pointer-events: auto;
+}
+
+.turtle-sector__dot {
+  position: relative;
+  width: 0.25rem;
+  height: 0.25rem;
+  padding: 0;
+  border: 0;
+  border-radius: 50%;
+  background: var(--dot);
+  cursor: pointer;
+  transition:
+    background 0.25s ease,
+    transform 0.25s ease;
+}
+
+.turtle-sector__dot::before {
+  content: "";
+  position: absolute;
+  inset: -0.2rem;
+}
+
+.turtle-sector__dot.is-active {
+  background: var(--accent);
+  transform: scale(1.8);
+}
+
+/* ========== 参考 #face_caption ========== */
+.turtle-sector__face-caption {
+  position: fixed;
+  z-index: 10;
+  left: 50%;
+  bottom: var(--ui-inset);
+  translate: -50% 0;
+  text-align: center;
+  pointer-events: none;
+  user-select: none;
+  color: var(--muted);
+  opacity: 0;
+  visibility: hidden;
+  transition:
+    opacity 0.2s ease,
+    visibility 0.2s;
+}
+
+.turtle-sector.is-active .turtle-sector__face-caption {
+  opacity: 1;
+  visibility: visible;
+}
+
+.turtle-sector__face-caption-num {
+  font-size: 0.58rem;
+  letter-spacing: 0.28em;
+  color: var(--accent);
+  text-transform: uppercase;
+  margin-bottom: 0.15rem;
+}
+
+.turtle-sector__face-caption-name {
+  font-size: clamp(1.5rem, 3.4vw, 2.8rem);
+  letter-spacing: 0.08em;
+  line-height: 1;
+  opacity: 0.55;
+}
+
+/* ========== 参考 #scroll_container ========== */
+.turtle-sector__scroll {
+  position: relative;
+  z-index: 2;
+  display: flex;
+  flex-direction: column;
+  pointer-events: none;
+}
+
+/* 透明外壳，仅内层 .panel 有背景与 backdrop，中间透出 fixed scene */
+.turtle-sector__panel-shell {
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: flex-start;
+  width: 100%;
+  margin: 0;
+  padding: 0;
+  background: none;
+  pointer-events: none;
+}
+
+.turtle-sector__panel-shell.is-right {
+  align-items: flex-end;
+}
+
+.turtle-sector__panel {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  width: min(360px, 78vw);
+  max-width: 100%;
+  box-sizing: border-box;
+  margin-left: 5%;
+  margin-right: 0;
+  pointer-events: auto;
+  padding: 26px 24px;
+  border-left: var(--hairline) solid var(--card-border);
+  backdrop-filter: blur(6px) saturate(120%);
+  -webkit-backdrop-filter: blur(6px) saturate(120%);
+  color: var(--fg);
+  background:
+    linear-gradient(180deg, rgba(244, 246, 240, 0.82), rgba(183, 200, 208, 0.12)),
+    var(--card-bg);
+}
+
+.turtle-sector__panel-shell.is-right .turtle-sector__panel {
+  margin-left: 0;
+  margin-right: 5%;
+  border-left: none;
+  border-right: var(--hairline) solid var(--card-border);
+  text-align: right;
+}
+
+.turtle-sector__tag {
+  margin: 0 0 12px;
+  font-size: 0.7rem;
+  letter-spacing: 0.18em;
+  color: var(--accent);
+  word-break: keep-all;
+  overflow-wrap: break-word;
+}
+
+.turtle-sector__panel h2 {
+  margin: 0 0 14px;
+  font-size: clamp(2rem, 4.8vw, 3.6rem);
+  line-height: 1.04;
+  font-weight: 400;
+  word-break: keep-all;
+  overflow-wrap: break-word;
+}
+
+.turtle-sector__body {
+  margin: 0;
+  line-height: 1.75;
+  color: color-mix(in srgb, var(--fg) 70%, transparent);
+  word-break: keep-all;
+  overflow-wrap: break-word;
+}
+
+.turtle-sector__cta {
+  margin-top: 18px;
+  align-self: flex-start;
+  border: 1px solid color-mix(in srgb, var(--accent) 64%, transparent);
+  background: transparent;
+  color: var(--accent);
+  padding: 8px 12px;
+  cursor: pointer;
+  font-size: 0.78rem;
+}
+
+.turtle-sector__panel-shell.is-right .turtle-sector__cta {
+  align-self: flex-end;
+}
+
+.turtle-sector__detail {
+  margin-top: 10px !important;
+  padding: 10px 11px;
+  border: 1px solid color-mix(in srgb, var(--accent) 36%, transparent);
+  background: color-mix(in srgb, var(--card-bg) 85%, transparent);
+  color: color-mix(in srgb, var(--fg) 78%, transparent) !important;
+  word-break: keep-all;
+  overflow-wrap: break-word;
+}
+
+@media (max-width: 900px) {
+  .turtle-sector {
+    --turtle-top: 80px;
+    --turtle-bottom-gap: 12px;
+    border-radius: 20px;
+  }
+
+  .turtle-sector__cube {
+    --s: min(68vw, 48vh, 300px);
+  }
+
+  .turtle-sector__hud {
+    top: 1rem;
+    right: 1rem;
+  }
+
+  .turtle-sector__strip {
+    display: none;
+  }
+
+  .turtle-sector__theme {
+    bottom: 1rem;
+    left: 1.25rem;
+    translate: 0 0;
+  }
+
+  .turtle-sector__face-caption {
+    bottom: 1rem;
+  }
+
+  .turtle-sector__panel-shell,
+  .turtle-sector__panel-shell.is-right {
+    align-items: center;
+  }
+
+  .turtle-sector__panel-shell .turtle-sector__panel,
+  .turtle-sector__panel-shell.is-right .turtle-sector__panel {
+    margin-left: auto;
+    margin-right: auto;
+    text-align: left;
+    border-right: none;
+    border-left: var(--hairline) solid var(--card-border);
+    width: min(92vw, 520px);
+    padding: 18px 16px;
+  }
+
+  .turtle-sector__panel-shell.is-right .turtle-sector__cta {
+    align-self: flex-start;
+  }
+}

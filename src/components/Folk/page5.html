@@ -1,0 +1,200 @@
+<!doctype html>
+<html lang="zh-CN">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>平遥彩塑</title>
+
+    <style>
+      html,
+      body {
+        margin: 0;
+        padding: 0;
+        font-family: "Microsoft YaHei", sans-serif;
+        background: #ffffff;
+        color: #2b2b2b;
+        scroll-behavior: smooth;
+      }
+
+      /* 每一屏 */
+      .section {
+        height: 100vh;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+      }
+
+      /* 布局 */
+      .content {
+        width: 80%;
+        max-width: 1100px;
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        gap: 50px;
+      }
+
+      /* 文字 */
+      .text {
+        width: 48%;
+        opacity: 0;
+        transform: translateY(60px);
+        transition: all 0.8s ease;
+      }
+
+      .text h2 {
+        font-size: 28px;
+        margin-bottom: 16px;
+        font-weight: 500;
+      }
+
+      .text p {
+        font-size: 15px;
+        line-height: 1.8;
+        color: #555;
+        margin-bottom: 10px;
+      }
+
+      /* 图片 */
+      .image {
+        width: 48%;
+        opacity: 0;
+        transform: translateY(80px);
+        transition: all 0.9s ease;
+      }
+
+      .image img {
+        width: 100%;
+        border-radius: 10px;
+      }
+
+      /* 动画 */
+      .section.active .text {
+        opacity: 1;
+        transform: translateY(0);
+      }
+
+      .section.active .image {
+        opacity: 1;
+        transform: translateY(0);
+      }
+
+      /* 首屏 */
+      .hero {
+        flex-direction: column;
+        text-align: center;
+      }
+
+      .hero h1 {
+        font-size: 40px;
+        margin-bottom: 10px;
+        font-weight: 500;
+      }
+
+      .hero p {
+        color: #777;
+      }
+    </style>
+  </head>
+
+  <body>
+    <!-- 首屏 -->
+    <div class="section hero active">
+      <h1>平遥彩塑</h1>
+      <p>东方彩塑瑰宝 · 世界文化遗产</p>
+    </div>
+
+    <!-- 遗产定位 -->
+    <div class="section">
+      <div class="content">
+        <div class="text">
+          <h2>遗产定位</h2>
+          <p>
+            平遥彩塑是我国北方汉民族传统雕塑艺术的杰出代表，双林寺彩塑最为惊艳，四大金刚、哑罗汉、韦驮像等造像精美传神。
+          </p>
+          <p>
+            双林寺被誉为“古代雕塑博物馆”“东方彩塑艺术宝库”，1997年列入世界文化遗产名录，成为中外闻名的艺术瑰宝。
+          </p>
+        </div>
+        <div class="image">
+          <img src="../../assets/images/folk/caisu1.png" alt="平遥彩塑" />
+        </div>
+      </div>
+    </div>
+
+    <!-- 发展历程 -->
+    <div class="section">
+      <div class="content">
+        <div class="image">
+          <img src="../../assets/images/folk/caisu2.png" alt="发展历程" />
+        </div>
+        <div class="text">
+          <h2>发展历程</h2>
+          <p>
+            始于东汉萌芽，宋元明清步入鼎盛，诞生镇国寺、双林寺等大批传世精品。
+          </p>
+          <p>
+            民国至改革开放前发展低迷，1978年后经系统性修复修缮，彩塑艺术重获新生。
+          </p>
+          <p>千年传承跌宕兴荣，见证了传统雕塑艺术的兴衰更迭。</p>
+        </div>
+      </div>
+    </div>
+
+    <!-- 工艺技法 -->
+    <div class="section">
+      <div class="content">
+        <div class="text">
+          <h2>工艺技法</h2>
+          <p>恪守“绘塑合一”传统，分立骨、贴肉、穿衣、装饰彩绘四大核心步骤。</p>
+          <p>
+            采用天然矿物颜料，运用涂、染、描、贴金等技法，设色大胆，视觉冲击力极强。
+          </p>
+          <p>工艺考究技法精湛，每一步都凝聚着匠人匠心。</p>
+        </div>
+        <div class="image">
+          <img src="../../assets/images/folk/caisu3.png" alt="工艺技法" />
+        </div>
+      </div>
+    </div>
+
+    <!-- 艺术特色 -->
+    <div class="section">
+      <div class="content">
+        <div class="image">
+          <img src="../../assets/images/folk/caisu4.png" alt="艺术特色" />
+        </div>
+        <div class="text">
+          <h2>艺术特色</h2>
+          <p>
+            形神兼备、气韵醇厚，具备点睛传神、佛俗相融、线韵相融、静中寓动四大特征。
+          </p>
+          <p>
+            突破宗教造像刻板范式，将艺术美感与生活意象完美融合，极具感染力。
+          </p>
+        </div>
+      </div>
+    </div>
+
+    <script>
+      const sections = document.querySelectorAll(".section");
+
+      function handleScroll() {
+        const trigger = window.innerHeight * 0.7;
+
+        sections.forEach((section) => {
+          const rect = section.getBoundingClientRect();
+
+          if (rect.top < trigger && rect.bottom > 100) {
+            section.classList.add("active");
+          } else {
+            section.classList.remove("active");
+          }
+        });
+      }
+
+      window.addEventListener("scroll", handleScroll);
+      window.addEventListener("load", handleScroll);
+    </script>
+  </body>
+</html>

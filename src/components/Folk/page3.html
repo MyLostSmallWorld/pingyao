@@ -1,0 +1,203 @@
+<!doctype html>
+<html lang="zh-CN">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>平遥镖局文化</title>
+
+    <style>
+      html,
+      body {
+        margin: 0;
+        padding: 0;
+        font-family: "Microsoft YaHei", sans-serif;
+        background: #ffffff;
+        color: #2b2b2b;
+        scroll-behavior: smooth;
+      }
+
+      /* 每一屏 */
+      .section {
+        height: 100vh;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+      }
+
+      /* 布局 */
+      .content {
+        width: 80%;
+        max-width: 1100px;
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        gap: 50px;
+      }
+
+      /* 文字 */
+      .text {
+        width: 48%;
+        opacity: 0;
+        transform: translateY(60px);
+        transition: all 0.8s ease;
+      }
+
+      .text h2 {
+        font-size: 28px;
+        margin-bottom: 16px;
+        font-weight: 500;
+      }
+
+      .text p {
+        font-size: 15px;
+        line-height: 1.8;
+        color: #555;
+        margin-bottom: 10px;
+      }
+
+      /* 图片 */
+      .image {
+        width: 48%;
+        opacity: 0;
+        transform: translateY(80px);
+        transition: all 0.9s ease;
+      }
+
+      .image img {
+        width: 100%;
+        border-radius: 10px;
+      }
+
+      /* 动画 */
+      .section.active .text {
+        opacity: 1;
+        transform: translateY(0);
+      }
+
+      .section.active .image {
+        opacity: 1;
+        transform: translateY(0);
+      }
+
+      /* 首屏 */
+      .hero {
+        flex-direction: column;
+        text-align: center;
+      }
+
+      .hero h1 {
+        font-size: 40px;
+        margin-bottom: 10px;
+        font-weight: 500;
+      }
+
+      .hero p {
+        color: #777;
+      }
+    </style>
+  </head>
+
+  <body>
+    <!-- 首屏 -->
+    <div class="section hero active">
+      <h1>平遥镖局文化</h1>
+      <p>一段行走在刀光与信义之间的历史</p>
+    </div>
+
+    <!-- 起源 -->
+    <div class="section">
+      <div class="content">
+        <div class="text">
+          <h2>起源与兴盛</h2>
+          <p>镖局诞生于清代商业繁荣背景之下，伴随晋商崛起而兴起。</p>
+          <p>相较于古代驿站只服务官方，镖局首次为民间商贸提供安全保障。</p>
+          <p>平遥成为重要中心，同兴公等镖局名震一时。</p>
+        </div>
+        <div class="image">
+          <img src="../../assets/images/folk/biao1.png" />
+        </div>
+      </div>
+    </div>
+
+    <!-- 结构 -->
+    <div class="section">
+      <div class="content">
+        <div class="image">
+          <img src="../../assets/images/folk/biao2.png" />
+        </div>
+        <div class="text">
+          <h2>组织结构</h2>
+          <p>镖局分工严密，形成完整运作体系。</p>
+          <p>主人统筹全局，总镖头负责押运核心，镖师执行护送任务。</p>
+          <p>掌柜管理账务与运营，伙计维持日常事务。</p>
+        </div>
+      </div>
+    </div>
+
+    <!-- 立足 -->
+    <div class="section">
+      <div class="content">
+        <div class="text">
+          <h2>立足之道</h2>
+          <p>镖局开业需“亮镖”，通过人脉与声望确立地位。</p>
+          <p>首次出镖尤为关键，成功则可树立名号。</p>
+          <p>信誉与实力，是镖局长期发展的根本。</p>
+        </div>
+        <div class="image">
+          <img src="../../assets/images/folk/biao3.png" />
+        </div>
+      </div>
+    </div>
+
+    <!-- 业务 -->
+    <div class="section">
+      <div class="content">
+        <div class="image">
+          <img src="../../assets/images/folk/biao4.png" />
+        </div>
+        <div class="text">
+          <h2>押镖流程</h2>
+          <p>镖局以押运银两与货物为主要业务，按约收取报酬。</p>
+          <p>接单需当面清点，记录明确，确保责任清晰。</p>
+          <p>由经验丰富的镖师带队，最终安全送达完成结算。</p>
+        </div>
+      </div>
+    </div>
+
+    <!-- 工具 -->
+    <div class="section">
+      <div class="content">
+        <div class="text">
+          <h2>行镖装备</h2>
+          <p>镖车、镖旗与镖箱是押运的重要工具。</p>
+          <p>镖旗象征身份与威慑，镖箱结构严密防止内外失窃。</p>
+          <p>配合各类兵器，形成完整的安全保障体系。</p>
+        </div>
+        <div class="image">
+          <img src="../../assets/images/folk/biao5.png" />
+        </div>
+      </div>
+    </div>
+
+    <script>
+      const sections = document.querySelectorAll(".section");
+
+      function handleScroll() {
+        const trigger = window.innerHeight * 0.7;
+
+        sections.forEach((section) => {
+          const rect = section.getBoundingClientRect();
+
+          if (rect.top < trigger && rect.bottom > 100) {
+            section.classList.add("active");
+          } else {
+            section.classList.remove("active");
+          }
+        });
+      }
+
+      window.addEventListener("scroll", handleScroll);
+      window.addEventListener("load", handleScroll);
+    </script>
+  </body>
+</html>

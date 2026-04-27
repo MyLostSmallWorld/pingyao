@@ -1,0 +1,30 @@
+﻿# Dependencies
+node_modules/
+
+# Build output
+dist/
+
+# IDE
+.vscode/
+.idea/
+*.swp
+*.swo
+
+# OS
+.DS_Store
+Thumbs.db
+
+# Logs
+*.log
+npm-debug.log*
+
+# Draft assets (草稿资源，不提交到 Git)
+assets/drafts/
+assets/unused/
+
+# Legacy archives (归档的旧版本)
+archive/
+
+# Environment variables
+.env
+.env.local

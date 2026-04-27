@@ -1,0 +1,614 @@
+﻿<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>平遥古城 · 晋商文化总览</title>
+  <!-- Tailwind CSS CDN -->
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script>
+    tailwind.config = {
+      theme: {
+        extend: {
+          colors: {
+            /* 青灰暮霭 · 配色板 */
+            qing: {
+              mist: "#F4F6F0",
+              light: "#B7C8D0",
+              mid: "#A2B9C4",
+              deep: "#8699AD",
+              accent: "#9BADB9",
+            },
+            rice: "#F4F6F0",
+            ink: "#373737",
+            clay: "#8699AD",
+            mist: "#B7C8D0",
+          },
+          fontFamily: {
+            serifcn: [
+              "STSong",
+              "SimSun",
+              "Songti SC",
+              "Noto Serif SC",
+              "serif",
+            ],
+          },
+          animation: {
+            "float-slow": "floatY 8s ease-in-out infinite",
+            "breathe": "breathe 5s ease-in-out infinite",
+            "gradient-shift": "gradientShift 14s ease infinite",
+          },
+          keyframes: {
+            floatY: {
+              "0%, 100%": { transform: "translateY(0)" },
+              "50%": { transform: "translateY(-10px)" },
+            },
+            breathe: {
+              "0%, 100%": { opacity: "0.55" },
+              "50%": { opacity: "0.95" },
+            },
+            gradientShift: {
+              "0%, 100%": { backgroundPosition: "0% 50%" },
+              "50%": { backgroundPosition: "100% 50%" },
+            },
+          },
+        },
+      }
+    };
+  </script>
+  <style>
+    html {
+      scroll-behavior: smooth;
+    }
+    /* 清透化：弱化"框框感" */
+    [class*="border-qing-light/"],
+    [class*="border-qing-mid/"] {
+      border-width: 0 !important;
+    }
+
+    /* 涟漪按钮效果 */
+    .ripple {
+      position: relative;
+      overflow: hidden;
+    }
+    .ripple::after {
+      content: "";
+      position: absolute;
+      inset: 0;
+      border-radius: inherit;
+      background: radial-gradient(
+        circle at center,
+        rgba(255,255,255,0.45),
+        transparent 55%
+      );
+      opacity: 0;
+      transform: scale(0);
+      transition: opacity 0.4s ease, transform 0.4s ease;
+    }
+    .ripple:active::after {
+      opacity: 1;
+      transform: scale(2.5);
+      transition: 0s;
+    }
+
+    @keyframes floatY {
+      0%,
+      100% { transform: translateY(0); }
+      50% { transform: translateY(-10px); }
+    }
+
+    /* 滚动进入视差：背景微动 */
+    .hero-blob {
+      animation: floatY 10s ease-in-out infinite;
+    }
+    .hero-blob-delay {
+      animation: floatY 12s ease-in-out infinite;
+      animation-delay: -3s;
+    }
+
+    /* 区块渐入 */
+    .reveal {
+      opacity: 0;
+      transform: translateY(22px);
+      transition: opacity 0.7s ease, transform 0.7s ease;
+    }
+    .reveal.is-visible {
+      opacity: 1;
+      transform: translateY(0);
+    }
+
+    /* 卡片动效 */
+    .catalog-card {
+      transition: transform 0.35s ease, box-shadow 0.35s ease,
+        border-color 0.25s ease;
+    }
+    .catalog-card:hover {
+      transform: translateY(-6px) scale(1.02);
+      box-shadow: 0 20px 40px rgba(134, 153, 173, 0.28);
+    }
+
+    .scroll-hero-wrapper {
+      position: relative;
+      height: 360vh; /* 长滚动段 */
+    }
+    .scroll-hero-fixed {
+      position: fixed;
+      inset: 0;
+      width: 100vw;
+      height: 100vh;
+      pointer-events: none;
+    }
+    .scroll-layer {
+      will-change: transform, opacity;
+      transition: transform 0.1s linear, opacity 0.2s linear;
+    }
+
+    /* iframe 基础样式 */
+    .final-iframe {
+      width: 100%;
+      border: none;
+      overflow: hidden;
+    }
+    .final-iframe--self-scroll {
+      min-height: 100vh;
+      min-height: 100dvh;
+      height: 100vh;
+      height: 100dvh;
+    }
+    .final-iframe--piaohao-core {
+      min-height: 88vh;
+      min-height: 88dvh;
+      height: 88vh;
+      height: 88dvh;
+    }
+    .iframe-500 { min-height: 500px; }
+    .iframe-600 { min-height: 600px; }
+    .iframe-700 { min-height: 700px; }
+    .iframe-800 { min-height: 800px; }
+    .iframe-900 { min-height: 900px; }
+    .iframe-1500 { min-height: 1500px; }
+
+    .final-iframe::-webkit-scrollbar { display: none; }
+    .final-iframe + .final-iframe { margin-top: 40px; }
+
+    /* 票号区间距微调：04/05 间隔更大，且与后续模块节奏保持一致 */
+    #piaohao .final-iframe:first-of-type { margin-top: 0; }
+    #piaohao .final-iframe + .final-iframe { margin-top: 86px; }
+    #piaohao { padding-bottom: 14px !important; }
+    #character { padding-top: 14px !important; }
+
+    @media (max-width: 900px) {
+      .final-iframe--piaohao-core {
+        min-height: 82vh;
+        min-height: 82dvh;
+        height: 82vh;
+        height: 82dvh;
+      }
+    }
+
+    /* 隐藏主页面滚动条 */
+    body::-webkit-scrollbar { display: none; }
+    body {
+      -ms-overflow-style: none;
+      scrollbar-width: none;
+      overflow-x: hidden;
+    }
+
+    .float-card {
+      transition: transform 0.35s ease;
+    }
+    .float-card:hover {
+      transform: translateY(-10px);
+    }
+
+    @keyframes fadeSlideDown {
+      0% { opacity: 0; transform: translateY(-30px); }
+      100% { opacity: 1; transform: translateY(0); }
+    }
+    .animate-fade-slide-down {
+      animation: fadeSlideDown 1s ease forwards;
+    }
+
+    .section-container {
+      max-width: 1200px;
+      margin: 0 auto;
+      padding: 0 20px;
+    }
+
+    @media (prefers-reduced-motion: reduce) {
+      .hero-blob, .hero-blob-delay { animation: none !important; }
+      .animate-breathe { animation: none !important; }
+      .reveal { opacity: 1 !important; transform: none !important; transition: none !important; }
+    }
+
+    /* 副标题 + 导航字体 */
+    @font-face {
+      font-family: 'XuanZongTi';
+      src: url('../../assets/fonts/XuanZongTi.otf') format('opentype');
+      font-weight: normal;
+      font-style: normal;
+      font-display: swap;
+    }
+    .title-font {
+      font-family: 'XuanZongTi', serif !important;
+    }
+
+    /* 主标题字体 */
+    @font-face {
+      font-family: 'BangBangTi';
+      src: url('../../assets/fonts/FeiYangTi.ttf') format('truetype');
+      font-weight: normal;
+      font-style: normal;
+      font-display: swap;
+    }
+    .main-title-font {
+      font-family: 'BangBangTi', serif !important;
+    }
+
+    /* 内容区二级标题字体：禹卫书法云墨繁体 */
+    @font-face {
+      font-family: 'YuWeiYunMo';
+      src: url('../../assets/fonts/BangBangTi.ttf') format('truetype');
+      font-weight: normal;
+      font-style: normal;
+      font-display: swap;
+    }
+    .section-title-font {
+      font-family: 'YuWeiYunMo', serif !important;
+    }
+
+  </style>
+</head>
+
+<body
+  class="min-h-screen text-slate-800 font-serifcn antialiased flex flex-col selection:bg-qing-light/40 relative"
+>
+  <!-- 全屏古风背景图 + 青灰色遮罩 -->
+  <div class="fixed inset-0 -z-10">
+    <img
+      src="../../assets/images/merchant/01_bg.jpg"
+      class="w-full h-full object-cover opacity-50"
+      alt="背景"
+    />
+    <!-- 新增的 #A2B9C4 青灰色半透明图层 -->
+    <div class="absolute inset-0 bg-[#A2B9C4] opacity-20"></div>
+  </div>
+
+  <main class="flex-1 relative z-0">
+    <!-- 滚动引入 · 全屏背景视差区 -->
+    <section class="scroll-hero-wrapper" id="scroll-hero-wrapper">
+      <!-- 固定视口容器 -->
+      <div class="scroll-hero-fixed pointer-events-none" id="scroll-hero-fixed">
+        
+        <!-- 背景图片 -->
+        <img 
+          src="../../assets/images/merchant/01_beginning_bg.jpg" 
+          alt="平遥古城" 
+          class="absolute inset-0 w-full h-full object-cover"
+          data-layer="bg"
+        />
+        
+        <!-- 渐变遮罩（已改为 #A2B9C4 色系） -->
+        <div class="absolute inset-0" style="background: linear-gradient(180deg, rgba(162, 185, 196, 0.1) 0%, rgba(162, 185, 196, 0.05) 50%, rgba(162, 185, 196, 0.3) 100%);"></div>
+        
+        <!-- 浮动光斑 -->
+        <div class="pointer-events-none absolute top-1/4 -right-20 h-64 w-64 rounded-full bg-qing-mid/15 blur-3xl hero-blob"></div>
+        <div class="pointer-events-none absolute -bottom-32 -left-20 h-72 w-72 rounded-full bg-qing-light/15 blur-3xl hero-blob-delay"></div>
+
+        <!-- 顶部主标题 -->
+        <div class="scroll-layer absolute inset-x-0 top-[15%] flex justify-center" data-layer="title">
+          <div class="mx-auto max-w-5xl px-4 sm:px-6 lg:px-8 text-center">
+            <!-- 主标题：平遥古城 → BangBangTi -->
+            <h1 class="text-6xl sm:text-7xl lg:text-8xl mb-4 main-title-font" style="color: #617185; text-shadow: 0 2px 20px rgba(134, 153, 173, 0.3); letter-spacing: 0.15em;">
+              平遥古城
+            </h1>
+            <!-- 副标题 -->
+            <p class="text-lg sm:text-xl lg:text-2xl mb-6 font-light" style="color: #a68960; letter-spacing: 0.4em;">
+              晋 商 文 化
+            </p>
+            <!-- 装饰线 -->
+            <div class="flex items-center justify-center gap-4">
+              <span class="h-px w-20 sm:w-32" style="background: linear-gradient(90deg, transparent 0%, #c8a97e 50%, transparent 100%);"></span>
+              <span class="text-[10px] sm:text-xs tracking-[0.35em]" style="color:#bc9f77;">PINGYAO · JINSHANG</span>
+              <span class="h-px w-20 sm:w-32" style="background: linear-gradient(90deg, transparent 0%, #c8a97e 50%, transparent 100%);"></span>
+            </div>
+          </div>
+        </div>
+
+        <!-- 主体 · 文字直接展示 -->
+        <div class="scroll-layer absolute inset-0 flex items-center justify-center" data-layer="main">
+          <div class="mx-auto max-w-5xl px-4 sm:px-6 lg:px-8 text-center">
+            <h2 class="text-3xl sm:text-4xl lg:text-5xl font-light leading-relaxed text-[#63778d] tracking-wide title-font" style="line-height: 2; letter-spacing: 0.12em;">
+              探索平遥古城的金融智慧，<br class="hidden sm:block" />
+              &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;解码晋商票号百年信用网络
+            </h2>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- 标题过渡区 -->
+    <section class="reveal relative py-12 bg-gradient-to-b from-transparent via-white/30 to-[#A2B9C4]/20">
+      <div class="mx-auto max-w-4xl px-4 sm:px-6 lg:px-8 text-center">
+        <div class="max-w-2xl mx-auto">
+          <!-- 金色文字 + 左右横线 -->
+          <div class="flex items-center justify-center gap-4">
+            <span class="h-px w-16 bg-gradient-to-r from-transparent to-[#c8a97e]"></span>
+            <p class="text-xs sm:text-sm text-[#c8a97e] leading-relaxed">
+              点击下方主题，探寻古城百年商脉
+            </p>
+            <span class="h-px w-16 bg-gradient-to-r from-[#c8a97e] to-transparent"></span>
+          </div>
+        </div>
+      </div>
+    </section>
+
+<!-- 导航 -->
+<section class="py-16 reveal">
+  <div class="section-container">
+    <div class="flex justify-center items-center gap-10 flex-nowrap">
+      <div class="float-card flex flex-col items-center mt-8">
+        <a href="#history" class="relative block w-[148px] h-[148px]">
+          <!-- 外框1 -->
+          <img src="../../assets/images/merchant/frame.png" 
+               class="absolute inset-0 w-full h-full object-contain z-10 pointer-events-none" 
+               alt="边框装饰" />
+          <!-- 内容图 -->
+          <img src="../../assets/images/merchant/01_history.jpg" 
+               class="absolute inset-[10px] w-[128px] h-[128px] rounded-full object-cover z-0" />
+        </a>
+        <p class="mt-3 text-center text-lg text-[#8699AD] font-medium title-font">历史沿革</p>
+      </div>
+
+      <div class="float-card flex flex-col items-center -mt-8">
+        <a href="#piaohao" class="relative block w-[148px] h-[148px]">
+          <img src="../../assets/images/merchant/frame2.png" 
+               class="absolute inset-0 w-full h-full object-contain z-10 pointer-events-none" 
+               alt="边框装饰" />
+          <img src="../../assets/images/merchant/01_overview.jpg" 
+               class="absolute inset-[10px] w-[128px] h-[128px] rounded-full object-cover z-0" />
+        </a>
+        <p class="mt-3 text-center text-lg text-[#8699AD] font-medium title-font">票号发展</p>
+      </div>
+
+      <div class="float-card flex flex-col items-center mt-8">
+        <a href="#draft" class="relative block w-[148px] h-[148px]">
+          <img src="../../assets/images/merchant/frame.png" 
+               class="absolute inset-0 w-full h-full object-contain z-10 pointer-events-none" 
+               alt="边框装饰" />
+          <img src="../../assets/images/merchant/01_piaohao.jpg" 
+               class="absolute inset-[10px] w-[128px] h-[128px] rounded-full object-cover z-0" />
+        </a>
+        <p class="mt-3 text-center text-lg text-[#8699AD] font-medium title-font">汇票制作</p>
+      </div>
+
+      <div class="float-card flex flex-col items-center -mt-8">
+        <a href="#character" class="relative block w-[148px] h-[148px]">
+          <img src="../../assets/images/merchant/frame2.png" 
+               class="absolute inset-0 w-full h-full object-contain z-10 pointer-events-none" 
+               alt="边框装饰" />
+          <img src="../../assets/images/merchant/01_character.jpg" 
+               class="absolute inset-[10px] w-[128px] h-[128px] rounded-full object-cover z-0" />
+        </a>
+        <p class="mt-3 text-center text-lg text-[#8699AD] font-medium title-font">知识图谱</p>
+      </div>
+
+      <div class="float-card flex flex-col items-center mt-8">
+        <a href="#management" class="relative block w-[148px] h-[148px]">
+          <img src="../../assets/images/merchant/frame.png" 
+               class="absolute inset-0 w-full h-full object-contain z-10 pointer-events-none" 
+               alt="边框装饰" />
+          <img src="../../assets/images/merchant/01_management.jpg" 
+               class="absolute inset-[10px] w-[128px] h-[128px] rounded-full object-cover z-0" />
+        </a>
+        <p class="mt-3 text-center text-lg text-[#8699AD] font-medium title-font">经营制度</p>
+      </div>
+
+      <div class="float-card flex flex-col items-center -mt-8">
+        <a href="#spirit" class="relative block w-[148px] h-[148px]">
+          <img src="../../assets/images/merchant/frame2.png" 
+               class="absolute inset-0 w-full h-full object-contain z-10 pointer-events-none" 
+               alt="边框装饰" />
+          <img src="../../assets/images/merchant/01_spirit.jpg" 
+               class="absolute inset-[10px] w-[128px] h-[128px] rounded-full object-cover z-0" />
+        </a>
+        <p class="mt-3 text-center text-lg text-[#8699AD] font-medium title-font">精神传承</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- 内容区 -->
+<div class="pb-24">
+  <section id="history" class="py-16 scroll-mt-10 reveal">
+    <div class="section-container">
+      <h2 class="text-5xl section-title-font text-[#5A6B7F] border-l-8 border-[#8699AD] pl-4 mb-8">
+        历史沿革
+      </h2>
+      <iframe src="../../components/Merchant/03_history.html" class="final-iframe iframe-600 reveal" onload="resizeIframe(this)"></iframe>
+    </div>
+  </section>
+
+  <section id="piaohao" class="py-16 scroll-mt-10 reveal">
+    <div class="section-container">
+      <h2 class="text-5xl section-title-font text-[#5A6B7F] border-l-8 border-[#8699AD] pl-4 mb-8">
+        票号发展
+      </h2>
+      <iframe src="../../components/Merchant/04_business.html" class="final-iframe final-iframe--self-scroll js-skip-resize" style="display:block;visibility:visible;z-index:2;"></iframe>
+    </div>
+  </section>
+
+  <section id="draft" class="py-16 scroll-mt-10 reveal">
+    <div class="section-container">
+      <h2 class="text-5xl section-title-font text-[#5A6B7F] border-l-8 border-[#8699AD] pl-4 mb-8">
+        汇票制作
+      </h2>
+      <iframe src="../../components/Merchant/09_draft.html" class="final-iframe iframe-700 reveal" onload="resizeIframe(this)"></iframe>
+    </div>
+  </section>
+
+  <section id="character" class="py-16 scroll-mt-10 reveal">
+    <div class="section-container">
+      <h2 class="text-5xl section-title-font text-[#5A6B7F] border-l-8 border-[#8699AD] pl-4 mb-8">
+        知识图谱
+      </h2>
+      <iframe src="../../components/Merchant/06_character_map.html" class="final-iframe iframe-700 reveal" onload="resizeIframe(this)"></iframe>
+    </div>
+  </section>
+
+  <section id="management" class="py-16 scroll-mt-10 reveal">
+    <div class="section-container">
+      <h2 class="text-5xl section-title-font text-[#5A6B7F] border-l-8 border-[#8699AD] pl-4 mb-8">
+        经营制度
+      </h2>
+      <iframe src="../../components/Merchant/07_management.html" class="final-iframe iframe-700 reveal" onload="resizeIframe(this)"></iframe>
+    </div>
+  </section>
+
+  <section id="spirit" class="py-16 scroll-mt-10 reveal">
+    <div class="section-container">
+      <h2 class="text-5xl section-title-font text-[#5A6B7F] border-l-8 border-[#8699AD] pl-4 mb-8">
+        精神传承
+      </h2>
+      <iframe src="../../components/Merchant/08_spirit.html" class="final-iframe iframe-600 reveal" onload="resizeIframe(this)"></iframe>
+    </div>
+  </section>
+</div>
+
+  <script>
+    (function () {
+      var wrapper = document.getElementById("scroll-hero-wrapper");
+      var fixed = document.getElementById("scroll-hero-fixed");
+      var bgLayer = document.querySelector('[data-layer="bg"]');
+      var midLayer = document.querySelector('[data-layer="mid"]');
+      var mainLayer = document.querySelector('[data-layer="main"]');
+      var fgLayer = document.querySelector('[data-layer="fg"]');
+      var titleLayer = document.querySelector('[data-layer="title"]');
+      var subtitleLayer = document.querySelector('[data-layer="subtitle"]');
+
+      function clamp(v, min, max) { return Math.max(min, Math.min(max, v)); }
+
+      function updateParallax() {
+        if (!wrapper || !fixed) return;
+        var rect = wrapper.getBoundingClientRect();
+        var vh = window.innerHeight || document.documentElement.clientHeight;
+        var total = rect.height - vh;
+        if (total <= 0) { fixed.style.opacity = "1"; return; }
+        var progress = clamp(-rect.top / total, 0, 1);
+        if (rect.bottom <= 0 || rect.top >= vh) { fixed.style.opacity = "0"; return; }
+        else { fixed.style.opacity = "1"; }
+        var t = progress; var easeT = t * t;
+        if (bgLayer) { var bgY = easeT * 20; var bgScale = 0.96 + easeT * 0.06; bgLayer.style.transform = "translate3d(0,"+bgY+"px,0) scale("+bgScale+")"; }
+        if (midLayer) { var midY = t * 40; midLayer.style.transform = "translate3d(0,"+midY+"px,0) scale(1.02)"; }
+        if (mainLayer) { var mainY = t * 60; var mainScale = 0.94 + t * 0.08; mainLayer.style.transform = "translate3d(0,"+mainY+"px,0) scale("+mainScale+")"; }
+        if (fgLayer) { var fgY = t * 80; fgLayer.style.transform = "translate3d(0,"+fgY+"px,0)"; }
+        if (titleLayer) { var titleY = t * 20; titleLayer.style.transform = "translate3d(0,"+titleY+"px,0)"; titleLayer.style.opacity = String(Math.min(1, t * 1.5)); }
+        if (subtitleLayer) { var subtitleY = t * 35; subtitleLayer.style.transform = "translate3d(0,"+subtitleY+"px,0)"; subtitleLayer.style.opacity = String(Math.min(1, t * 2)); }
+      }
+
+      window.addEventListener("scroll", updateParallax, { passive: true });
+      window.addEventListener("resize", updateParallax);
+
+      /* 正文区块：滚动进入时渐入 */
+      (function () {
+        if (!window.IntersectionObserver) {
+          document.querySelectorAll(".reveal").forEach(el => { el.classList.add("is-visible"); });
+          return;
+        }
+        var io = new IntersectionObserver(entries => {
+          entries.forEach(entry => {
+            if (entry.isIntersecting) {
+              entry.target.classList.add("is-visible");
+              io.unobserve(entry.target);
+            }
+          });
+        }, { root: null, rootMargin: "0px 0px -8% 0px", threshold: 0.08 });
+        document.querySelectorAll(".reveal").forEach(el => { io.observe(el); });
+      })();
+
+      window.addEventListener("load", function () { updateParallax(); });
+    })();
+
+    // 将 iframe 内滚动方向同步给父页面导航（下滑隐藏，上滑显示）
+    (function () {
+      if (window.parent === window) return;
+
+      let lastY = window.scrollY || 0;
+      const threshold = 4;
+
+      const emitDirection = (direction) => {
+        window.parent.postMessage({ type: "pinyao-nav-scroll", direction }, "*");
+      };
+
+      const onScroll = () => {
+        const y = window.scrollY || 0;
+        if (y > lastY + threshold) {
+          emitDirection("down");
+        } else if (y < lastY - threshold) {
+          emitDirection("up");
+        }
+        lastY = y;
+      };
+
+      const onWheel = (event) => {
+        if (Math.abs(event.deltaY) < 6) return;
+        emitDirection(event.deltaY > 0 ? "down" : "up");
+      };
+
+      window.addEventListener("scroll", onScroll, { passive: true });
+      window.addEventListener("wheel", onWheel, { passive: true });
+    })();
+
+    // 稳定版 iframe 高度自适应：避免“不断 +80”导致的高度膨胀
+    function resizeIframe(iframe) {
+      if (iframe.classList.contains("js-skip-resize")) {
+        return;
+      }
+
+      const MAX_TRIES = 6;
+      const RETRY_DELAY = 300;
+      let tries = parseInt(iframe.dataset.resizeTries || "0", 10);
+
+      const attempt = () => {
+        try {
+          const doc = iframe.contentWindow.document;
+          const measured = Math.max(
+            doc.body.scrollHeight,
+            doc.body.offsetHeight,
+            doc.documentElement.scrollHeight,
+            doc.documentElement.offsetHeight
+          );
+
+          // 取当前高度，防止重复设置触发不必要的 resize 链
+          const current = parseInt(iframe.style.height || "0", 10) || iframe.clientHeight || 0;
+          const next = Math.max(measured, 320);
+
+          if (Math.abs(next - current) > 2) {
+            iframe.style.height = next + "px";
+          }
+
+          iframe.dataset.resizeTries = "0";
+        } catch (err) {
+          tries += 1;
+          iframe.dataset.resizeTries = String(tries);
+          if (tries < MAX_TRIES) {
+            setTimeout(attempt, RETRY_DELAY);
+          } else {
+            console.warn("resizeIframe: failed after retries", iframe.src, err);
+          }
+        }
+      };
+
+      setTimeout(attempt, 120);
+    }
+
+    window.addEventListener("load", () => {
+      document.querySelectorAll(".final-iframe").forEach(f => {
+        if (!f.classList.contains("js-skip-resize")) {
+          resizeIframe(f);
+        }
+      });
+    });
+  </script>
+</body>
+</html>

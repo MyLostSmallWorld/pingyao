@@ -1,0 +1,325 @@
+﻿<!doctype html>
+<html lang="zh-CN">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>平遥晋商精神 3D标签云</title>
+    <link
+      rel="stylesheet"
+      href="https://fonts.googleapis.com/css2?family=Noto+Serif+SC:wght@500;600&family=Noto+Sans+SC:wght@400;500&display=swap"
+    />
+    <style>
+      /* 引入你要的自定义字体 */
+      @font-face {
+        font-family: "XuanZongTi";
+        src: url("../../assets/fonts/XuanZongTi.otf") format("opentype");
+        font-weight: normal;
+        font-style: normal;
+      }
+
+      html,
+      body {
+        background: transparent !important;
+        background-color: transparent !important;
+      }
+
+      :root {
+        --tag-bg-color: #b7c8d0;
+        --tag-text-color: #f4f6f0;
+        --tag-hover-bg-color: #8699ad;
+        --tag-hover-text-color: #ffffff;
+        --bg-color: #f4f6f0;
+        --text-color: #8699ad;
+      }
+      body {
+        background-color: var(--bg-color);
+        color: var(--text-color);
+        margin: 0;
+        padding: 0;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        height: 100vh;
+        overflow: hidden;
+        text-align: center;
+        font-family: "Noto Sans SC", sans-serif;
+      }
+      .tagcloud-wrapper {
+        position: relative;
+        width: 80vmin;
+        height: 80vmin;
+        perspective: 1000px;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        cursor: grab;
+        /* 👇 云标签整体下移 */
+        transform: translateY(8%);
+      }
+      .tagcloud {
+        position: absolute;
+        width: 100%;
+        height: 100%;
+        transform-style: preserve-3d;
+        will-change: transform;
+      }
+      .tagcloud__item {
+        position: absolute;
+        top: 50%;
+        left: 50%;
+        margin: -20px -50px;
+        font-size: 2.5vmin;
+        font-weight: 500;
+        white-space: nowrap;
+        cursor: pointer;
+        user-select: none;
+        will-change: transform;
+        transform-style: preserve-3d;
+      }
+      .tagcloud__item .tag-face {
+        display: inline-block;
+        background-color: var(--tag-bg-color);
+        color: var(--tag-text-color);
+        padding: 8px 16px;
+        border-radius: 20px;
+        box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+        transition:
+          background-color 0.3s ease,
+          color 0.3s ease,
+          transform 0.3s ease;
+        backface-visibility: hidden;
+        -webkit-backface-visibility: hidden;
+        transform-style: preserve-3d;
+        transform: translateZ(1px);
+        position: relative;
+      }
+      .tagcloud__item .tag-face--back {
+        position: absolute;
+        top: 0;
+        left: 0;
+        transform: rotateY(180deg) translateZ(1px);
+      }
+      .tagcloud__item:hover .tag-face {
+        background-color: var(--tag-hover-bg-color);
+        color: var(--tag-hover-text-color);
+      }
+      .tagcloud__item:hover .tag-face--front {
+        transform: translateZ(1px) scale(1.15);
+      }
+      .tagcloud__item:hover .tag-face--back {
+        transform: rotateY(180deg) translateZ(1px) scale(1.15);
+      }
+      .title-panel {
+        position: absolute;
+        top: 20px;
+        left: 50%;
+        transform: translateX(-50%);
+        font-size: 6vmin;
+        font-weight: normal;
+        color: var(--tag-hover-bg-color);
+        z-index: 100;
+        /* 👇 标题字体换成 XuanZongTi */
+        font-family: "XuanZongTi", serif;
+        letter-spacing: 2px;
+      }
+
+      /* 简洁高级悬浮提示框 */
+      .tooltip {
+        position: fixed;
+        z-index: 9999;
+        pointer-events: none;
+        opacity: 0;
+        transition: opacity 0.25s ease;
+        padding: 6px 12px;
+        background: rgba(255, 255, 255, 0.9);
+        border-radius: 6px;
+        box-shadow: 0 3px 8px rgba(0, 0, 0, 0.15);
+        white-space: nowrap;
+        font-family: "Noto Sans SC", sans-serif;
+        font-size: 1.8vmin;
+        color: #444;
+        transform: translate(-50%, -120%);
+      }
+    </style>
+  </head>
+  <body>
+    <div class="title-panel">平遥晋商精神</div>
+    <div class="tagcloud-wrapper">
+      <div class="tagcloud"></div>
+    </div>
+
+    <!-- 悬浮提示框 -->
+    <div class="tooltip"></div>
+
+    <script>
+      const tagCloud = document.querySelector(".tagcloud");
+      const wrapper = document.querySelector(".tagcloud-wrapper");
+      const tooltip = document.querySelector(".tooltip");
+
+      // 标签 + 对应介绍
+      const tagsData = [
+        { text: "诚信为本", desc: "诚信是晋商立足天下的第一准则" },
+        { text: "以义制利", desc: "先义后利，君子爱财取之有道" },
+        { text: "汇通天下", desc: "开创票号，实现货币全国流通" },
+        { text: "勤俭敬业", desc: "勤劳节俭，专心致力于商业经营" },
+        { text: "开拓进取", desc: "敢闯敢试，不断拓展商业版图" },
+        { text: "和气生财", desc: "以和为贵，待人谦和方能聚财" },
+        { text: "同舟共济", desc: "团结互助，携手应对商业风险" },
+        { text: "贾而好儒", desc: "经商亦重学识，商儒兼备" },
+        { text: "重信守诺", desc: "一言九鼎，承诺必达" },
+        { text: "务实经营", desc: "脚踏实地，不图虚名" },
+        { text: "敢为人先", desc: "勇于创新，引领行业变革" },
+        { text: "兼容并蓄", desc: "开放包容，吸纳各方智慧" },
+        { text: "乐善好施", desc: "富而思源，积极回馈社会" },
+        { text: "家国情怀", desc: "以商报国，心怀天下苍生" },
+        { text: "稳健务实", desc: "稳扎稳打，规避冒进风险" },
+        { text: "创新求变", desc: "顺应时势，不断革新模式" },
+        { text: "守信笃行", desc: "言行一致，诚信落地" },
+        { text: "义利兼顾", desc: "道义与利益平衡发展" },
+        { text: "商德至上", desc: "品德是商人的最高财富" },
+        { text: "精诚团结", desc: "同心协力，共创事业" },
+        { text: "经世济民", desc: "经商济世，造福百姓" },
+        { text: "坚韧不拔", desc: "历经磨难依然坚守初心" },
+        { text: "厚德载物", desc: "品德深厚方能承载大业" },
+        { text: "勤勉笃实", desc: "勤奋踏实，不骄不躁" },
+        { text: "诚信立业", desc: "以诚信打造百年基业" },
+        { text: "开拓创新", desc: "勇于突破，不断前行" },
+        { text: "以和为贵", desc: "和谐相处，万事兴旺" },
+        { text: "笃行致远", desc: "知行合一，方能行稳致远" },
+        { text: "忠义诚信", desc: "忠、义、诚、信，晋商之本" },
+        { text: "兴商报国", desc: "发展商业，报效国家" },
+      ];
+
+      let radius = Math.min(wrapper.offsetWidth, wrapper.offsetHeight) / 2.5;
+      const totalTags = tagsData.length;
+
+      let angleX = 0;
+      let angleY = 0;
+      let rotateSpeed = 0.12;
+      let isDragging = false;
+      let lastMouseX, lastMouseY;
+      const friction = 0.95;
+      let velX = 0;
+
+      function createTags() {
+        tagCloud.innerHTML = "";
+        tagsData.forEach((item, i) => {
+          const tagEl = document.createElement("div");
+          tagEl.className = "tagcloud__item";
+
+          const frontEl = document.createElement("span");
+          frontEl.className = "tag-face tag-face--front";
+          frontEl.innerText = item.text;
+
+          const backEl = document.createElement("span");
+          backEl.className = "tag-face tag-face--back";
+          backEl.innerText = item.text;
+
+          tagEl.appendChild(frontEl);
+          tagEl.appendChild(backEl);
+          tagCloud.appendChild(tagEl);
+
+          const phi = Math.acos(-1 + (2 * i + 1) / totalTags);
+          const theta = Math.sqrt(totalTags * Math.PI) * phi;
+          const x = radius * Math.cos(theta) * Math.sin(phi);
+          const y = radius * Math.sin(theta) * Math.sin(phi);
+          const z = radius * Math.cos(phi);
+          tagEl.style.transform = `translate3d(${x}px, ${y}px, ${z}px)`;
+
+          // ========== 🔥 核心修复：正面 + 背面 都绑定悬浮事件 ==========
+          function bindTooltip(el) {
+            el.addEventListener("mouseenter", (e) => {
+              tooltip.innerText = item.desc;
+              tooltip.style.opacity = 1;
+            });
+            el.addEventListener("mouseleave", () => {
+              tooltip.style.opacity = 0;
+            });
+            el.addEventListener("mousemove", (e) => {
+              tooltip.style.left = e.clientX + "px";
+              tooltip.style.top = e.clientY + "px";
+            });
+          }
+
+          // 给正面、背面都加上提示
+          bindTooltip(frontEl);
+          bindTooltip(backEl);
+        });
+      }
+
+      function animate() {
+        if (!isDragging) {
+          angleY += rotateSpeed;
+          angleX += velX;
+          velX *= friction;
+        }
+        tagCloud.style.transform = `rotateY(${angleY}deg) rotateX(${angleX}deg)`;
+        requestAnimationFrame(animate);
+      }
+
+      // 鼠标拖拽
+      wrapper.addEventListener("mousedown", (e) => {
+        isDragging = true;
+        lastMouseX = e.clientX;
+        lastMouseY = e.clientY;
+        wrapper.style.cursor = "grabbing";
+      });
+      globalThis.addEventListener("mousemove", (e) => {
+        if (!isDragging) return;
+        const dx = e.clientX - lastMouseX;
+        const dy = e.clientY - lastMouseY;
+        angleY += dx * 0.2;
+        angleX -= dy * 0.2;
+        velX = -dy * 0.2;
+        lastMouseX = e.clientX;
+        lastMouseY = e.clientY;
+      });
+      ["mouseup", "mouseleave"].forEach((evt) => {
+        globalThis.addEventListener(evt, () => {
+          isDragging = false;
+          wrapper.style.cursor = "grab";
+        });
+      });
+
+      // 触摸
+      wrapper.addEventListener(
+        "touchstart",
+        (e) => {
+          isDragging = true;
+          lastMouseX = e.touches[0].clientX;
+          lastMouseY = e.touches[0].clientY;
+        },
+        { passive: true },
+      );
+      globalThis.addEventListener(
+        "touchmove",
+        (e) => {
+          if (!isDragging) return;
+          const dx = e.touches[0].clientX - lastMouseX;
+          const dy = e.touches[0].clientY - lastMouseY;
+          angleY += dx * 0.2;
+          angleX -= dy * 0.2;
+          velX = -dy * 0.2;
+          lastMouseX = e.touches[0].clientX;
+          lastMouseY = e.touches[0].clientY;
+        },
+        { passive: true },
+      );
+      globalThis.addEventListener("touchend", () => {
+        isDragging = false;
+      });
+
+      createTags();
+      animate();
+
+      let resizeTimeout;
+      globalThis.addEventListener("resize", () => {
+        clearTimeout(resizeTimeout);
+        resizeTimeout = setTimeout(() => {
+          radius = Math.min(wrapper.offsetWidth, wrapper.offsetHeight) / 2.5;
+          createTags();
+        }, 120);
+      });
+    </script>
+  </body>
+</html>

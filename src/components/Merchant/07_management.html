@@ -1,0 +1,631 @@
+﻿<!doctype html>
+<html lang="zh-CN">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>晋商文化 - 管理制度展</title>
+    <style>
+      @font-face {
+        font-family: "YuWeiShuFa";
+        src: url("../../assets/fonts/YuWeiShuFaYunMoFanTi-2.ttf") format("truetype");
+        font-weight: normal;
+        font-style: normal;
+      }
+      @font-face {
+        font-family: "XuanZong";
+        src: url("../../assets/fonts/XuanZongTi.otf") format("opentype");
+        font-weight: normal;
+        font-style: normal;
+      }
+      @font-face {
+        font-family: "FeiYang";
+        src: url("../../assets/fonts/FeiYangTi.ttf") format("truetype");
+        font-weight: normal;
+        font-style: normal;
+      }
+      html,
+      body {
+        background: transparent !important;
+        background-color: transparent !important;
+      }
+
+      * {
+        margin: 0;
+        padding: 0;
+        box-sizing: border-box;
+        font-family:
+          "SF Pro Display", "PingFang SC", "Microsoft YaHei", sans-serif;
+      }
+
+      /* 青灰暮霭配色 */
+      :root {
+        --tag-bg-color: #b7c8d0;
+        --tag-text-color: #f4f6f0;
+        --tag-hover-bg-color: #8699ad;
+        --bg-color: #f4f6f0;
+        --text-color: #5a7080;
+      }
+
+      body {
+        background-color: var(--bg-color);
+        color: #333;
+        min-height: 100vh;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        padding: 20px;
+        overflow-x: hidden;
+      }
+
+      .container {
+        max-width: 1300px;
+        width: 100%;
+        position: relative;
+      }
+
+      .main-display {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        gap: 100px;
+        position: relative;
+      }
+
+      .side-decoration {
+        width: 70px;
+        height: 380px;
+        border-radius: 8px;
+        overflow: hidden;
+        box-shadow: 0 8px 25px rgba(113, 110, 110, 0.15);
+        flex-shrink: 0;
+        position: relative;
+        align-self: flex-start;
+        margin-top: 80px;
+        background: var(--bg-color);
+      }
+
+      .side-decoration.left,
+      .side-decoration.right {
+        background: var(--bg-color);
+      }
+
+      .side-decoration img {
+        width: 100%;
+        height: 100%;
+        object-fit: cover;
+        opacity: 0.7;
+        filter: grayscale(40%);
+      }
+
+      .side-label {
+        position: absolute;
+        writing-mode: vertical-rl;
+        text-orientation: mixed;
+        font-size: 20px;
+        font-weight: normal;
+        font-family: "FeiYang", "YuWeiShuFa", serif;
+        color: #7a9fb0;
+        letter-spacing: 5px;
+        top: 50%;
+        left: 50%;
+        transform: translate(-50%, -50%);
+        opacity: 0.95;
+      }
+
+      .content-area {
+        flex: 1;
+        max-width: 950px;
+        position: relative;
+      }
+
+      .card-container {
+        position: relative;
+        padding-left: 60px;
+      }
+
+      .main-card {
+        background: url("../../assets/images/merchant/07_bg.jpg") center/cover no-repeat;
+        border-radius: 16px;
+        box-shadow: 0 25px 60px rgba(134, 153, 173, 0.12);
+        padding: 40px 40px 40px 320px;
+        height: 480px;
+        position: relative;
+        display: flex;
+        align-items: center;
+      }
+
+      .floating-image-wrapper {
+        position: absolute;
+        left: -50px;
+        top: 50%;
+        transform: translateY(-50%);
+        z-index: 10;
+      }
+
+      .floating-image {
+        width: 320px;
+        height: 440px;
+        border-radius: 10px;
+        overflow: hidden;
+        position: relative;
+        box-shadow: 18px 18px 40px rgba(0, 0, 0, 0.18);
+        transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+      }
+
+      .floating-image:hover {
+        transform: translateY(-8px);
+        box-shadow: 22px 28px 50px rgba(0, 0, 0, 0.24);
+      }
+
+      .floating-image img {
+        width: 100%;
+        height: 100%;
+        object-fit: cover;
+        transition: transform 0.5s ease;
+      }
+
+      .floating-image:hover img {
+        transform: scale(1.05);
+      }
+
+      .text-section {
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        padding-left: 20px;
+        height: 100%;
+      }
+
+      .badge {
+        display: inline-flex;
+        align-items: center;
+        gap: 8px;
+        margin-bottom: 18px;
+      }
+
+      .badge-dot {
+        width: 10px;
+        height: 10px;
+        background: var(--tag-bg-color);
+        border-radius: 50%;
+      }
+
+      .badge-text {
+        font-size: 13px;
+        color: var(--text-color);
+        font-weight: 500;
+        letter-spacing: 1.5px;
+      }
+
+      .card-title {
+        font-size: 32px;
+        font-weight: normal;
+        font-family: "XuanZong", "YuWeiShuFa", serif;
+        color: #1e3a4a;
+        margin-bottom: 22px;
+        line-height: 1.4;
+        letter-spacing: 4px;
+        text-shadow: 0 2px 6px rgba(30, 58, 74, 0.18);
+      }
+
+      .card-description {
+        font-size: 14px;
+        line-height: 1.9;
+        color: #3d5a6a;
+        font-family: "华文细黑", "STXihei", "PingFang SC", "Source Han Sans CN", "Microsoft YaHei", sans-serif;
+        font-weight: 300;
+        text-indent: 2em;
+        margin-bottom: 20px;
+      }
+
+      .feature-list {
+        list-style: none;
+      }
+
+      .feature-list li {
+        display: flex;
+        align-items: flex-start;
+        margin-bottom: 12px;
+        color: #4a6878;
+        font-size: 13px;
+        font-family: "华文细黑", "STXihei", "PingFang SC", "Source Han Sans CN", "Microsoft YaHei", sans-serif;
+        font-weight: 300;
+        line-height: 1.7;
+      }
+
+      .feature-list li::before {
+        content: "✓";
+        display: inline-block;
+        width: 20px;
+        height: 20px;
+        background: var(--tag-bg-color);
+        color: white;
+        border-radius: 50%;
+        text-align: center;
+        line-height: 20px;
+        margin-right: 12px;
+        font-size: 11px;
+        font-weight: bold;
+        flex-shrink: 0;
+        margin-top: 2px;
+      }
+
+      .content-page {
+        display: none;
+        animation: fadeIn 0.5s ease;
+      }
+
+      .content-page.active {
+        display: block;
+      }
+
+      @keyframes fadeIn {
+        from {
+          opacity: 0;
+          transform: translateY(10px);
+        }
+        to {
+          opacity: 1;
+          transform: translateY(0);
+        }
+      }
+
+      .pagination-wrapper {
+        display: flex;
+        justify-content: flex-end;
+        align-items: center;
+        gap: 20px;
+        margin-top: 35px;
+        padding-right: 40px;
+      }
+
+      .page-fraction {
+        font-size: 16px;
+        color: var(--text-color);
+        font-weight: 500;
+        letter-spacing: 2px;
+        display: flex;
+        align-items: center;
+        gap: 8px;
+      }
+
+      .page-fraction .current {
+        font-size: 30px;
+        color: var(--tag-hover-bg-color);
+        font-weight: 700;
+      }
+
+      .page-fraction .divider {
+        color: var(--tag-bg-color);
+        font-size: 20px;
+      }
+
+      .page-fraction .total {
+        font-size: 18px;
+        color: #999;
+      }
+
+      .nav-arrows {
+        display: flex;
+        gap: 15px;
+      }
+
+      .nav-arrow {
+        width: 46px;
+        height: 46px;
+        border-radius: 50%;
+        background: rgb(183, 200, 208, 0.35);
+        border: 1px solid #e1e6eb;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        font-size: 24px;
+        color: var(--tag-hover-bg-color);
+        cursor: pointer;
+        transition: all 0.3s ease;
+        box-shadow: 0 6px 15px rgba(134, 153, 173, 0.12);
+      }
+
+      .nav-arrow:hover {
+        background: var(--tag-hover-bg-color);
+        color: white;
+        border-color: var(--tag-hover-bg-color);
+        transform: translateY(-3px);
+        box-shadow: 0 10px 20px rgba(134, 153, 173, 0.18);
+      }
+
+      .page-dots {
+        display: flex;
+        gap: 10px;
+        justify-content: center;
+        margin-top: 50px;
+      }
+
+      .dot {
+        width: 8px;
+        height: 8px;
+        border-radius: 50%;
+        background: #dce5eb;
+        cursor: pointer;
+        transition: all 0.3s ease;
+      }
+
+      .dot.active {
+        width: 24px;
+        background: var(--tag-bg-color);
+        border-radius: 4px;
+      }
+
+      @media (max-width: 1100px) {
+        .main-display {
+          gap: 60px;
+        }
+      }
+
+      @media (max-width: 1000px) {
+        .side-decoration {
+          display: none;
+        }
+
+        .main-display {
+          gap: 0;
+        }
+
+        .card-container {
+          padding-left: 0;
+        }
+
+        .main-card {
+          padding: 30px;
+          height: auto;
+          display: block;
+        }
+
+        .floating-image-wrapper {
+          position: relative;
+          left: 0;
+          top: 0;
+          transform: none;
+          margin-bottom: 30px;
+        }
+
+        .floating-image {
+          width: 100%;
+          max-width: 400px;
+          height: 300px;
+          margin: 0 auto;
+          box-shadow:
+            0 15px 35px rgba(0, 0, 0, 0.2),
+            0 0 0 8px white,
+            0 0 0 10px rgba(160, 175, 186, 0.1);
+        }
+
+        .text-section {
+          padding-left: 0;
+        }
+
+        .pagination-wrapper {
+          justify-content: center;
+          padding-right: 0;
+        }
+      }
+
+      @media (max-width: 600px) {
+        .main-card {
+          padding: 25px 20px;
+        }
+
+        .card-title {
+          font-size: 24px;
+          margin-bottom: 18px;
+        }
+
+        .floating-image {
+          height: 250px;
+        }
+
+        .nav-arrow {
+          width: 42px;
+          height: 42px;
+          font-size: 22px;
+        }
+
+        .page-fraction .current {
+          font-size: 26px;
+        }
+      }
+
+      @media (max-width: 400px) {
+        .pagination-wrapper {
+          flex-direction: column;
+          gap: 15px;
+          align-items: center;
+        }
+
+        .nav-arrows {
+          order: 1;
+        }
+
+        .page-fraction {
+          order: 2;
+        }
+      }
+    </style>
+  </head>
+  <body>
+    <div class="container">
+      <div class="main-display">
+        <div class="side-decoration left">
+          <img src="../../assets/images/merchant/07_left.jpg" alt="装饰图" />
+          <div class="side-label">晋商制度</div>
+        </div>
+
+        <div class="content-area">
+          <div class="card-container">
+            <div class="content-page active" data-page="0">
+              <div class="main-card">
+                <div class="floating-image-wrapper">
+                  <div class="floating-image">
+                    <img
+                      src="../../assets/images/merchant/07_shengu.jpg"
+                      alt="晋商身股制"
+                    />
+                  </div>
+                </div>
+                <div class="text-section">
+                  <h2 class="card-title">晋商身股制度</h2>
+                  <p class="card-description">
+                    无需出资，凭才获股——晋商独创的股权激励制度，是中国最早的现代股权激励雏形。
+                  </p>
+                  <ul class="feature-list">
+                    <li>财股与身股并行的二元股权结构</li>
+                    <li>按能力定级，按业绩分红</li>
+                    <li>打破阶层限制，晋升通道畅通</li>
+                    <li>实现劳资共赢的经典制度</li>
+                  </ul>
+                </div>
+              </div>
+            </div>
+
+            <div class="content-page" data-page="1">
+              <div class="main-card">
+                <div class="floating-image-wrapper">
+                  <div class="floating-image">
+                    <img
+                      src="../../assets/images/merchant/07_haogui.jpg"
+                      alt="号规管理"
+                    />
+                  </div>
+                </div>
+                <div class="text-section">
+                  <h2 class="card-title">商号号规管理</h2>
+                  <p class="card-description">
+                    以制度代人治，晋商号规涵盖人事、财务、纪律全维度，支撑跨地域规范化运营。
+                  </p>
+                  <ul class="feature-list">
+                    <li>全流程标准化管理制度体系</li>
+                    <li>严格的财务审计与内控机制</li>
+                    <li>异地分号统一管理模式</li>
+                    <li>风险防控与应急处理机制</li>
+                  </ul>
+                </div>
+              </div>
+            </div>
+
+            <div class="content-page" data-page="2">
+              <div class="main-card">
+                <div class="floating-image-wrapper">
+                  <div class="floating-image">
+                    <img
+                      src="../../assets/images/merchant/07_renpei.jpg"
+                      alt="人才培养"
+                    />
+                  </div>
+                </div>
+                <div class="text-section">
+                  <h2 class="card-title">人才培养与选拔</h2>
+                  <p class="card-description">
+                    从学徒选拔到逐级晋升，晋商以德为先、唯功是举，形成完整的人才培育闭环。
+                  </p>
+                  <ul class="feature-list">
+                    <li>严格的学徒选拔与考核标准</li>
+                    <li>师徒传承的传统培养模式</li>
+                    <li>德才兼备、以德为先的用人理念</li>
+                    <li>公平透明的逐级晋升机制</li>
+                  </ul>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <div class="pagination-wrapper">
+            <div class="page-fraction">
+              <span class="current" id="currentPage">01</span>
+              <span class="divider">/</span>
+              <span class="total">03</span>
+            </div>
+            <div class="nav-arrows">
+              <div class="nav-arrow prev">‹</div>
+              <div class="nav-arrow next">›</div>
+            </div>
+          </div>
+        </div>
+
+        <div class="side-decoration right">
+          <img src="../../assets/images/merchant/07_right.jpg" alt="装饰图" />
+          <div class="side-label">文化传承</div>
+        </div>
+      </div>
+
+      <div class="page-dots">
+        <div class="dot active" data-page="0"></div>
+        <div class="dot" data-page="1"></div>
+        <div class="dot" data-page="2"></div>
+      </div>
+    </div>
+
+    <script>
+      class ExhibitionCarousel {
+        constructor() {
+          this.pages = document.querySelectorAll(".content-page");
+          this.dots = document.querySelectorAll(".dot");
+          this.prevBtn = document.querySelector(".nav-arrow.prev");
+          this.nextBtn = document.querySelector(".nav-arrow.next");
+          this.currentPageEl = document.querySelector("#currentPage");
+          this.currentIndex = 0;
+          this.totalPages = this.pages.length;
+
+          this.init();
+        }
+
+        init() {
+          this.prevBtn.addEventListener("click", () => this.prevPage());
+          this.nextBtn.addEventListener("click", () => this.nextPage());
+
+          this.dots.forEach((dot, index) => {
+            dot.addEventListener("click", () => this.goToPage(index));
+          });
+
+          document.addEventListener("keydown", (e) => {
+            if (e.key === "ArrowLeft") this.prevPage();
+            if (e.key === "ArrowRight") this.nextPage();
+          });
+        }
+
+        goToPage(index) {
+          this.pages[this.currentIndex].classList.remove("active");
+          this.dots[this.currentIndex].classList.remove("active");
+
+          this.currentIndex = index;
+
+          this.pages[this.currentIndex].classList.add("active");
+          this.dots[this.currentIndex].classList.add("active");
+
+          this.currentPageEl.textContent = (this.currentIndex + 1)
+            .toString()
+            .padStart(2, "0");
+        }
+
+        prevPage() {
+          const newIndex =
+            this.currentIndex === 0
+              ? this.totalPages - 1
+              : this.currentIndex - 1;
+          this.goToPage(newIndex);
+        }
+
+        nextPage() {
+          const newIndex =
+            this.currentIndex === this.totalPages - 1
+              ? 0
+              : this.currentIndex + 1;
+          this.goToPage(newIndex);
+        }
+      }
+
+      document.addEventListener("DOMContentLoaded", () => {
+        new ExhibitionCarousel();
+      });
+    </script>
+  </body>
+</html>

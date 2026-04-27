@@ -1,0 +1,212 @@
+<!doctype html>
+<html lang="zh-CN">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>平遥纱阁戏人</title>
+    <style>
+      html,
+      body {
+        margin: 0;
+        padding: 0;
+        font-family: "Microsoft YaHei", sans-serif;
+        background: #ffffff;
+        color: #2b2b2b;
+        scroll-behavior: smooth;
+      }
+      /* 每一屏 */
+      .section {
+        height: 100vh;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+      }
+      /* 布局 */
+      .content {
+        width: 80%;
+        max-width: 1100px;
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        gap: 50px;
+      }
+      /* 文字 */
+      .text {
+        width: 48%;
+        opacity: 0;
+        transform: translateY(60px);
+        transition: all 0.8s ease;
+      }
+      .text h2 {
+        font-size: 28px;
+        margin-bottom: 16px;
+        font-weight: 500;
+      }
+      .text p {
+        font-size: 15px;
+        line-height: 1.8;
+        color: #555;
+        margin-bottom: 10px;
+      }
+      /* 图片 */
+      .image {
+        width: 48%;
+        opacity: 0;
+        transform: translateY(80px);
+        transition: all 0.9s ease;
+      }
+      .image img {
+        width: 100%;
+        border-radius: 10px;
+      }
+      /* 动画 */
+      .section.active .text {
+        opacity: 1;
+        transform: translateY(0);
+      }
+      .section.active .image {
+        opacity: 1;
+        transform: translateY(0);
+      }
+      /* 首屏 */
+      .hero {
+        flex-direction: column;
+        text-align: center;
+      }
+      .hero h1 {
+        font-size: 40px;
+        margin-bottom: 10px;
+        font-weight: 500;
+      }
+      .hero p {
+        color: #777;
+      }
+
+      /* 步骤块 */
+      .steps {
+        margin-top: 10px;
+      }
+
+      .step {
+        margin-bottom: 14px;
+        padding-left: 10px;
+        border-left: 3px solid #d8cfc4;
+      }
+
+      .step h3 {
+        font-size: 16px;
+        margin-bottom: 4px;
+        color: #333;
+      }
+
+      .step p {
+        font-size: 14px;
+        color: #666;
+      }
+    </style>
+  </head>
+  <body>
+    <!-- 首屏 -->
+    <div class="section hero active">
+      <h1>平遥纱阁戏人</h1>
+      <p>戏韵藏匠心 · 纱间传千年</p>
+    </div>
+    <!-- 艺术渊源与起源发展 -->
+    <div class="section">
+      <div class="content">
+        <div class="text">
+          <h2>艺术渊源与起源发展</h2>
+          <p>
+            平遥纱阁戏人集雕塑、纸扎、彩绘、戏剧、人物造型五大艺术于一体，传承当地千年艺术血脉，以镇国寺彩绘、双林寺彩塑等为艺术源泉。
+          </p>
+          <p>
+            其有据可考的历史始于清代光绪三十二年，由平遥“六合斋”艺人许立廷等人制作36阁戏人，专供市楼陈列，成为古城年俗盛景。
+          </p>
+          <p>
+            纱阁高约70厘米，戏人高约50厘米，一阁一剧，每年春节、元宵节供民众游赏，独具特色。
+          </p>
+        </div>
+        <div class="image">
+          <img
+            src="../../assets/images/folk/shage1.png"
+            alt="纱阁戏人艺术渊源"
+          />
+        </div>
+      </div>
+    </div>
+    <!-- 材质特点与题材内容 -->
+    <div class="section">
+      <div class="content">
+        <div class="image">
+          <img
+            src="../../assets/images/folk/shage2.png"
+            alt="纱阁戏人材质与题材"
+          />
+        </div>
+        <div class="text">
+          <h2>材质特点与题材内容</h2>
+          <p>
+            选材以稻秸泥、高粱杆、洒金宣纸等天然材料为主，其中洒金宣纸韧性佳、着色鲜亮，扎制服饰宛若真纱，“纱阁”因此得名。
+          </p>
+          <p>
+            题材多取自晋剧、京剧、昆曲等传统剧目，36阁涵盖神话、民间生活等主题，角色囊括生旦净末丑全行当，神态贴合剧情。
+          </p>
+        </div>
+      </div>
+    </div>
+    <!-- 制作流程 -->
+    <div class="section">
+      <div class="content">
+        <div class="text">
+          <h2>制作流程</h2>
+
+          <div class="steps">
+            <div class="step">
+              <h3>骨架与塑形</h3>
+              <p>
+                以高粱杆、稻草扎制人形骨架，确定戏曲姿态，再进行泥塑头部与靴子造型，奠定整体结构。
+              </p>
+            </div>
+
+            <div class="step">
+              <h3>裹纸与定型</h3>
+              <p>
+                先用草纸裹体塑形，再覆盖洒金宣纸，使造型更加饱满自然，同时保证质感轻盈通透。
+              </p>
+            </div>
+
+            <div class="step">
+              <h3>装饰与成景</h3>
+              <p>
+                绘制脸谱、搭配服饰与头饰，并制作道具与屏风，最终组合成完整的微型戏曲场景。
+              </p>
+            </div>
+          </div>
+        </div>
+
+        <div class="image">
+          <img
+            src="../../assets/images/folk/shage3.png"
+            alt="纱阁戏人制作流程"
+          />
+        </div>
+      </div>
+    </div>
+    <script>
+      const sections = document.querySelectorAll(".section");
+      function handleScroll() {
+        const trigger = window.innerHeight * 0.7;
+        sections.forEach((section) => {
+          const rect = section.getBoundingClientRect();
+          if (rect.top < trigger && rect.bottom > 100) {
+            section.classList.add("active");
+          } else {
+            section.classList.remove("active");
+          }
+        });
+      }
+      window.addEventListener("scroll", handleScroll);
+      window.addEventListener("load", handleScroll);
+    </script>
+  </body>
+</html>

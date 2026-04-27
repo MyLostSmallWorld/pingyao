@@ -1,0 +1,593 @@
+@charset "UTF-8";
+
+@font-face {
+  font-family: "YuWeiShuFa";
+  src: url("../assets/images/craft/YuWeiShuFaYunMoFanTi-2.ttf")
+    format("truetype"); /* 更新字体路径 */
+  font-weight: normal;
+  font-style: normal;
+  font-display: swap;
+}
+
+body {
+  margin: 0;
+}
+
+.sandiao-container {
+  background: url("../../assets/images/craft/background.jpg") center center /
+    cover no-repeat fixed; /* 更新背景图片路径 */
+  background-color: #bfc3c6;
+  font-family: "SimKai", "KaiTi", "楷体", "Segoe UI", system-ui, sans-serif;
+  color: #2e3a3a;
+  min-height: 100vh;
+  padding-bottom: 100px;
+}
+
+.hero {
+  height: 36vh;
+  background:
+    linear-gradient(
+      135deg,
+      rgba(0, 0, 0, 0.4),
+      rgba(0, 0, 0, 0.6),
+      rgba(0, 0, 0, 0.7)
+    ),
+    url("../../assets/images/craft/header.jpg") center/cover no-repeat; /* 更新背景图路径 */
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: #fff;
+  text-shadow: 0 2px 8px rgba(0, 0, 0, 0.3);
+}
+
+.hero h1 {
+  font-size: clamp(2.2rem, 9vw, 4rem);
+  font-weight: 350;
+  letter-spacing: 6px;
+  border-bottom: 2px solid #9caeb9;
+  padding-bottom: 12px;
+}
+
+.section {
+  padding: 70px 8%;
+  max-width: 1400px;
+  margin: 0 auto;
+  margin-top: -60px;
+  position: relative;
+  z-index: 10;
+}
+
+.vertical-title {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  gap: 10px;
+  font-family: "SimKai", "KaiTi", serif;
+}
+
+.vertical-title .cn {
+  writing-mode: vertical-rl;
+  text-orientation: mixed;
+  font-size: 1.6rem;
+  color: #4b5a60;
+  letter-spacing: 6px;
+  position: relative;
+  display: inline-block;
+}
+
+.vertical-title .cn::before,
+.vertical-title .cn::after {
+  content: "";
+  position: absolute;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 1.5px;
+  height: 45px;
+  background: #9caeb9;
+  opacity: 0.7;
+}
+
+.vertical-title .cn::before {
+  top: -50px;
+}
+.vertical-title .cn::after {
+  bottom: -50px;
+}
+
+.vertical-title .en {
+  writing-mode: vertical-rl;
+  text-orientation: mixed;
+  font-size: 0.85rem;
+  color: #6f7d84;
+  opacity: 0.7;
+  letter-spacing: 2px;
+  text-transform: uppercase;
+  margin-left: 4px;
+}
+
+.left-title-module,
+.right-title-module {
+  display: flex;
+  justify-content: space-between;
+  margin: 80px 0;
+  gap: 40px;
+  align-items: center;
+}
+
+.right-title-module {
+  flex-direction: row-reverse;
+}
+
+.left-title-wrap,
+.right-title-wrap {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  min-width: 100px;
+  flex-shrink: 0;
+}
+
+.content-center {
+  flex: 1;
+  width: 100%;
+  display: flex;
+  justify-content: flex-start;
+  position: relative;
+}
+
+.three-images {
+  display: flex;
+  align-items: flex-end;
+  justify-content: flex-start;
+  gap: 24px;
+  min-height: 420px;
+  position: relative;
+  margin-left: 80px;
+}
+
+.intro {
+  display: flex;
+  gap: 120px;
+  align-items: center;
+  margin-bottom: 70px;
+  flex-wrap: wrap;
+  justify-content: center;
+}
+
+.calligraphy {
+  font-size: clamp(8rem, 20vw, 14rem);
+  line-height: 0.8;
+  font-weight: 400;
+  writing-mode: vertical-rl;
+  color: #6f7d84;
+  text-shadow: 4px 4px 8px rgba(0, 0, 0, 0.5);
+  text-orientation: upright;
+  letter-spacing: -20px;
+  font-family: "YuWeiShuFa", serif;
+  margin-top: -80px;
+  margin-left: -20px;
+}
+
+.intro-text {
+  font-size: 1.25rem;
+  max-width: 680px;
+  line-height: 1.8;
+  color: #2e3a3a;
+}
+
+.card-item {
+  position: relative;
+  width: 250px;
+  border-radius: 4px;
+  overflow: hidden;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.12);
+}
+
+.card-item:nth-child(1) {
+  height: 420px;
+}
+.card-item:nth-child(2) {
+  height: 380px;
+  margin-top: 40px;
+}
+.card-item:nth-child(3) {
+  height: 400px;
+  margin-top: 20px;
+}
+
+.card-item img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  transition: transform 0.4s ease;
+}
+
+.card-item::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background: rgba(0, 0, 0, 0.3);
+  z-index: 1;
+}
+
+.card-content {
+  position: absolute;
+  top: 20px;
+  left: 20px;
+  z-index: 2;
+  color: #fff;
+  width: calc(100% - 40px);
+}
+
+.card-title {
+  font-size: 1.4rem;
+  font-weight: 500;
+  margin-bottom: 8px;
+  letter-spacing: 2px;
+}
+
+.card-more {
+  font-size: 0.95rem;
+  opacity: 0.85;
+  display: flex;
+  align-items: center;
+  gap: 6px;
+}
+
+.card-tag {
+  position: absolute;
+  bottom: 20px;
+  left: 20px;
+  z-index: 2;
+  color: #fff;
+  font-size: 1.2rem;
+  font-weight: 300;
+  opacity: 0.9;
+}
+
+.card-item:hover {
+  transform: translateY(-8px);
+  box-shadow: 0 12px 32px rgba(0, 0, 0, 0.18);
+}
+
+.card-item:hover img {
+  transform: scale(1.05);
+}
+
+/* Bubbles */
+.bubbles-section {
+  position: relative;
+  height: 500px;
+  width: 100%;
+}
+
+.bubble-wrap {
+  position: absolute;
+}
+
+.bubble {
+  border-radius: 50%;
+  overflow: hidden;
+  transition: 0.3s;
+  position: relative;
+}
+
+.bubble img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  filter: brightness(0.82) contrast(1.08);
+}
+
+.bubble::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background: rgba(0, 0, 0, 0.22);
+  pointer-events: none;
+}
+
+.bubble-wrap:hover .bubble {
+  transform: scale(1.15);
+}
+
+.bubble-text {
+  position: absolute;
+  font-size: 16px;
+  color: #2e3a3a;
+  white-space: nowrap;
+  opacity: 0;
+  transition: 0.2s;
+  z-index: 10;
+  pointer-events: none;
+  font-family: "SimKai", "KaiTi", serif;
+  top: 50%;
+  transform: translateY(-50%);
+}
+
+.bubble-wrap:hover .bubble-text {
+  opacity: 1;
+}
+
+.text-left {
+  right: 110%;
+}
+.text-right {
+  left: 110%;
+}
+
+.b1-wrap {
+  top: 80px;
+  left: 20.5%;
+}
+.b1 {
+  width: 220px;
+  height: 220px;
+}
+.b2-wrap {
+  top: 70px;
+  left: 50.8%;
+}
+.b2 {
+  width: 140px;
+  height: 140px;
+}
+.b3-wrap {
+  top: 120px;
+  left: 69%;
+}
+.b3 {
+  width: 100px;
+  height: 100px;
+}
+.b4-wrap {
+  top: 315px;
+  left: 30.5%;
+}
+.b4 {
+  width: 190px;
+  height: 190px;
+}
+.b5-wrap {
+  top: 195.5px;
+  left: 42.1%;
+}
+.b5 {
+  width: 125px;
+  height: 125px;
+}
+.b6-wrap {
+  top: 240px;
+  left: 53.6%;
+}
+.b6 {
+  width: 270px;
+  height: 270px;
+}
+
+/* Video & 3D */
+.video-wrapper {
+  position: relative;
+  width: 100%;
+  max-width: 800px;
+  height: 300px;
+  margin: 0 auto;
+  border-radius: 10px;
+  overflow: hidden;
+  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.15);
+}
+
+.video-wrapper video {
+  width: 100%;
+  height: auto;
+  display: block;
+}
+
+.step-btn-circle {
+  position: absolute;
+  width: 30px;
+  height: 30px;
+  border-radius: 50%;
+  background: rgba(255, 255, 255, 0.06);
+  border: 2px solid rgba(255, 255, 255, 0.95);
+  cursor: pointer;
+  font-size: 11px;
+  font-weight: bold;
+  color: #fff;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: all 0.2s ease;
+  backdrop-filter: blur(2px);
+  box-shadow:
+    0 0 0 1px rgba(255, 255, 255, 0.25) inset,
+    0 0 10px rgba(255, 255, 255, 0.55),
+    0 0 22px rgba(255, 255, 255, 0.25);
+  z-index: 10;
+}
+
+.step-btn-circle:hover {
+  transform: scale(1.08);
+  box-shadow:
+    0 0 0 1px rgba(255, 255, 255, 0.35) inset,
+    0 0 14px rgba(255, 255, 255, 0.75),
+    0 0 30px rgba(255, 255, 255, 0.35);
+}
+
+.sculpture-3d-module {
+  display: flex;
+  gap: 1rem;
+  align-items: flex-start;
+  justify-content: center;
+  width: 100%;
+  min-height: 450px;
+}
+
+.model-viewer {
+  flex: 1.7;
+  height: 480px;
+  min-width: 450px;
+}
+
+.right-description {
+  flex: 0 0 320px;
+  width: 320px;
+  height: 450px;
+  position: relative;
+  display: flex;
+  flex-direction: column;
+}
+
+.vertical-text {
+  writing-mode: vertical-lr;
+  text-orientation: upright;
+  font-family: "SimKai", "KaiTi", serif;
+  font-size: 1rem;
+  line-height: 2;
+  color: #2e3a3a;
+  padding: 1rem 0.5rem 48px;
+  flex: 1 1 auto;
+  overflow-y: auto;
+}
+
+.back-button-wrapper {
+  position: absolute;
+  right: 8px;
+  bottom: 8px;
+}
+
+.back-tip {
+  font-size: 0.92rem;
+  color: #66757a;
+  border-bottom: 1px dashed #8d9ba0;
+  padding-bottom: 2px;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  white-space: nowrap;
+}
+
+.back-tip:hover {
+  color: #3e4c51;
+  border-bottom-color: #3e4c51;
+}
+
+/* Carving Film Styles */
+.carving-film-module {
+  width: 100%;
+}
+
+.carving-film-card {
+  position: relative;
+  width: 900px;
+  margin: 40px 0 0;
+  border: 1px solid rgba(156, 174, 185, 0.75);
+  background: rgba(212, 211, 211, 0.82);
+  display: flex;
+  gap: 26px;
+  padding: 30px 30px 56px;
+  height: 500px;
+  box-shadow: 0 10px 26px rgba(0, 0, 0, 0.08);
+}
+
+.carving-film-hero {
+  flex: 0 0 50%;
+  margin-left: -15%;
+  margin-top: 40px;
+  height: 360px;
+  z-index: 2;
+}
+
+.carving-film-hero img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  box-shadow: 0 14px 34px rgba(0, 0, 0, 0.18);
+}
+
+.carving-film-info {
+  flex: 1 1 auto;
+  padding: 22px 24px;
+}
+
+.carving-film-meta {
+  font-size: 1.5rem;
+  color: #2e3a3a;
+  margin-bottom: 10px;
+  font-weight: 700;
+}
+
+.carving-steps-container {
+  height: 420px;
+  position: relative;
+  overflow: hidden;
+}
+
+.step-wrapper {
+  position: relative;
+  height: 100%;
+}
+
+.step-card {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%) scale(0.92) translateY(20px);
+  width: 100%;
+  text-align: center;
+  opacity: 0;
+  transition: all 0.5s cubic-bezier(0.2, 0.9, 0.3, 1.1);
+  pointer-events: none;
+}
+
+.step-card.active-step {
+  opacity: 1;
+  transform: translate(-50%, -50%) scale(1) translateY(0);
+  pointer-events: auto;
+}
+
+.step-card img {
+  max-height: 220px;
+  margin-bottom: 1rem;
+}
+
+.step-indicator {
+  position: absolute;
+  bottom: 20px;
+  left: 50%;
+  transform: translateX(-50%);
+  font-size: 0.8rem;
+  color: #8b6b44;
+}
+
+.carving-film-back {
+  position: absolute;
+  right: 22px;
+  bottom: 18px;
+}
+
+.wheel-frame {
+  width: 100%;
+  height: 520px;
+  overflow: visible;
+}
+
+.footer {
+  background: rgba(255, 255, 255, 0.95);
+  border-top: 2px solid #9caeb9;
+  padding: 20px 0;
+  text-align: center;
+}
+
+.footer-top {
+  display: flex;
+  justify-content: center;
+  gap: 60px;
+  margin-bottom: 10px;
+}
+
+.footer-link {
+  color: #4b5a60;
+  text-decoration: none;
+}

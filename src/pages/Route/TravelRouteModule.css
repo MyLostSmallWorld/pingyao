@@ -1,0 +1,834 @@
+﻿@import url("https://fonts.googleapis.com/css2?family=Ma+Shan+Zheng&display=swap");
+
+/* ── 自定义字体 ── */
+@font-face {
+  font-family: "YuWeiShuFa";
+  src: url("../../assets/fonts/YuWeiShuFaYunMoFanTi-2.ttf") format("truetype");
+  font-display: swap;
+}
+
+@font-face {
+  font-family: "BangBangTi";
+  src: url("../../assets/fonts/BangBangTi.ttf") format("truetype");
+  font-display: swap;
+}
+
+@font-face {
+  font-family: "XuanZongTi";
+  src: url("../../assets/fonts/XuanZongTi.otf") format("opentype");
+  font-display: swap;
+}
+
+@font-face {
+  font-family: "FeiYangTi";
+  src: url("../../assets/fonts/FeiYangTi.ttf") format("truetype");
+  font-display: swap;
+}
+
+.travel-route {
+  min-height: 100vh;
+  height: 100vh;
+  position: relative;
+  overflow: hidden;
+  background: #f4f6f0;
+}
+
+.travel-route--welcome {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.travel-route__welcomeBg {
+  position: absolute;
+  inset: 0;
+  background-size: cover;
+  background-position: center;
+  opacity: 1;
+  z-index: 1;
+}
+
+.travel-route__welcome {
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  padding: 40px;
+  gap: 12px;
+  background: linear-gradient(
+    180deg,
+    rgba(248, 252, 249, 0.95),
+    rgba(244, 246, 240, 0.92)
+  );
+}
+
+.travel-route__welcome-title {
+  margin: 0;
+  font-size: 28px;
+  font-family: "Ma Shan Zheng", cursive;
+  color: #7a7d72;
+  letter-spacing: 0.02em;
+  text-align: center;
+  line-height: 1.4;
+  margin-bottom: 30px;
+}
+
+.travel-route__timelineBtn {
+  margin: 0 4px;
+  padding: 2px 8px;
+  border: 1px solid #7a7d72;
+  border-radius: 999px;
+  background: rgba(122, 125, 114, 0.12);
+  color: #7a7d72;
+  font-family: "Ma Shan Zheng", cursive;
+  font-size: 20px;
+  line-height: 1.2;
+  vertical-align: baseline;
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+
+.travel-route__timelineBtn:hover {
+  background: #7a7d72;
+  color: #fff;
+}
+
+.travel-route__welcome-subtitle {
+  margin: 0;
+  color: rgba(134, 153, 173, 0.9);
+  text-align: center;
+}
+
+.travel-route__welcomeForm {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 22px;
+}
+
+.travel-route__form {
+  width: min(760px, 94vw);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 20px;
+  padding: 24px;
+  border-radius: 16px;
+  background: rgba(255, 255, 255, 0.86);
+  border: 1px solid rgba(182, 199, 209, 0.32);
+  box-shadow: 0 16px 35px rgba(140, 165, 180, 0.1);
+}
+
+.travel-route__radioList {
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.travel-route__radioItem {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  cursor: pointer;
+  font-family: "Ma Shan Zheng", cursive;
+  color: #7a7d72;
+  font-size: 18px;
+}
+
+.travel-route__radioItem input {
+  width: 18px;
+  height: 18px;
+}
+
+.travel-route__startBtn {
+  padding: 12px 40px;
+  background: rgba(160, 180, 200, 0.75);
+  color: #fff;
+  border: 0;
+  border-radius: 25px;
+  font-size: 18px;
+  font-weight: 700;
+  cursor: pointer;
+  opacity: 0.95;
+  font-family: "Ma Shan Zheng", cursive;
+}
+
+.travel-route__startBtn:disabled {
+  cursor: not-allowed;
+  opacity: 0.6;
+}
+
+.travel-route--map .travel-route__mapWrap {
+  --travel-map-ratio: 1.6078;
+  position: relative;
+  z-index: 1;
+  width: min(100vw, calc(100vh * var(--travel-map-ratio)));
+  height: min(100vh, calc(100vw / var(--travel-map-ratio)));
+  max-width: 100vw;
+  max-height: 100vh;
+  margin: 0 auto;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.travel-route__mapBlurBg {
+  position: absolute;
+  inset: 0;
+  z-index: 0;
+  background-image: url("/src/assets/images/route/map.png");
+  background-size: cover;
+  background-position: center;
+  filter: blur(12px) brightness(0.92);
+  transform: scale(1.04);
+}
+
+.travel-route__mapBg {
+  width: 100%;
+  height: 100%;
+  object-fit: contain;
+}
+
+.travel-route__flash {
+  position: absolute;
+  width: 52px;
+  height: 52px;
+  cursor: pointer;
+  z-index: 2;
+  animation: travel-float 3s ease-in-out infinite;
+  user-select: none;
+}
+
+@keyframes travel-float {
+  0%,
+  100% {
+    transform: translateY(0);
+  }
+  50% {
+    transform: translateY(-4px);
+  }
+}
+
+.travel-route__unlockBtn {
+  position: absolute;
+  right: 3%;
+  bottom: 18%;
+  z-index: 3;
+  background-image: url("/src/assets/images/route/button1.png");
+  background-size: 100% 100%;
+  background-color: transparent;
+  border: none;
+  width: clamp(160px, 15vw, 220px);
+  height: clamp(46px, 4.6vw, 64px);
+  padding: 0 1em;
+  color: #2c3a4e;
+  font-family: "YuWeiShuFa", "STKaiti", serif;
+  font-size: clamp(13px, 1.3vw, 18px);
+  letter-spacing: 0.08em;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: transform 0.15s ease;
+}
+
+.travel-route__unlockBtn:hover {
+  transform: scale(1.05);
+}
+
+.travel-route__popup {
+  position: absolute;
+  left: 40%;
+  top: 10%;
+  z-index: 1000;
+  max-width: 450px;
+  width: 90%;
+}
+
+.travel-route__popupCard {
+  border-radius: 10px;
+  box-shadow: 0 0 20px rgba(0, 0, 0, 0.5);
+  overflow: hidden;
+  position: relative;
+  background-color: rgba(255, 255, 255, 0.95);
+}
+
+.travel-route__popupClose {
+  position: absolute;
+  top: 10px;
+  right: 10px;
+  width: 30px;
+  height: 30px;
+  background-color: rgba(255, 255, 255, 0.9);
+  color: #000;
+  border: none;
+  border-radius: 50%;
+  cursor: pointer;
+  font-size: 16px;
+  font-weight: 700;
+  z-index: 10;
+}
+
+.travel-route__popupImgWrap {
+  width: 100%;
+  height: 220px;
+  overflow: hidden;
+  position: relative;
+}
+
+.travel-route__popupImg {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  display: block;
+}
+
+.travel-route__popupBody {
+  padding: 20px;
+}
+
+.travel-route__popupTitle {
+  margin: 0 0 8px 0;
+  color: #333;
+  font-size: 18px;
+  font-weight: 800;
+}
+
+.travel-route__popupSub {
+  margin: 0 0 12px 0;
+  color: #555;
+  font-size: 13px;
+  line-height: 1.6;
+}
+
+.travel-route__popupMeta {
+  margin: 4px 0;
+  color: #666;
+  font-size: 13px;
+  line-height: 1.5;
+}
+
+.travel-route__popupMoreRow {
+  margin-top: 15px;
+  text-align: right;
+}
+
+.travel-route__popupMoreBtn {
+  border: 0;
+  background: transparent;
+  padding: 0;
+  cursor: pointer;
+  color: #8699ad;
+  font-weight: 800;
+  text-decoration: none;
+  font-size: 12px;
+  display: inline-block;
+}
+
+.travel-route__detailOverlay {
+  position: fixed;
+  inset: 0;
+  z-index: 1100;
+  transition: opacity 2.5s ease;
+}
+
+.travel-route__detailBg {
+  position: absolute;
+  inset: 0;
+  background-size: cover;
+  background-position: center;
+  filter: brightness(1);
+}
+
+.travel-route__detailShade {
+  position: absolute;
+  inset: 0;
+  background-color: rgba(0, 0, 0, 0.3);
+}
+
+.travel-route__detailContent {
+  position: relative;
+  z-index: 1001;
+  width: 100%;
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  padding: 40px;
+}
+
+.travel-route__detailBackBtn {
+  position: absolute;
+  top: 20px;
+  left: 20px;
+  z-index: 10;
+  width: clamp(64px, 7vw, 96px);
+  height: clamp(64px, 7vw, 96px);
+  background-image: url("/src/assets/images/route/back.png");
+  background-size: contain;
+  background-repeat: no-repeat;
+  background-color: transparent;
+  border: none;
+  padding: 0 5% 0 3%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-family: "FeiYangTi", "STKaiti", serif;
+  font-size: clamp(14px, 1.5vw, 20px);
+  color: #2c3a4e;
+  letter-spacing: 0.02em;
+  cursor: pointer;
+  transition: transform 0.15s ease;
+}
+
+.travel-route__detailBackBtn:hover {
+  transform: scale(1.08);
+}
+
+.travel-route__detailCloseBtn {
+  position: absolute;
+  top: 15px;
+  right: 15px;
+  width: 30px;
+  height: 30px;
+  background-color: rgba(0, 0, 0, 0.6);
+  color: #fff;
+  border: none;
+  border-radius: 50%;
+  cursor: pointer;
+  font-size: 16px;
+  font-weight: 700;
+  z-index: 10;
+}
+
+.travel-route__detailCard {
+  width: min(820px, 92vw);
+  max-height: 72vh;
+  overflow-y: auto;
+  background-color: rgba(252, 248, 240, 0.88);
+  padding: 36px 40px 32px;
+  border-radius: 15px;
+  box-shadow: 0 0 40px rgba(0, 0, 0, 0.35);
+  position: relative;
+}
+
+.travel-route__detailTextBox {
+  padding: 0;
+}
+
+@keyframes detail-char-in {
+  from {
+    opacity: 0;
+    transform: translateY(10px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.travel-route__detailText--anim {
+  margin: 0;
+  font-family: "XuanZongTi", "STKaiti", serif;
+  font-size: clamp(15px, 1.5vw, 20px);
+  color: #3a2e20;
+  line-height: 1.9;
+  text-align: justify;
+  letter-spacing: 0.04em;
+}
+
+.travel-route__detailChar {
+  display: inline-block;
+  opacity: 0;
+  animation: detail-char-in 0.35s ease forwards;
+}
+
+.travel-route__detailText--full {
+  margin: 0;
+  font-family: "XuanZongTi", "STKaiti", serif;
+  font-size: clamp(15px, 1.5vw, 20px);
+  color: #3a2e20;
+  line-height: 1.9;
+  text-align: justify;
+  letter-spacing: 0.04em;
+}
+
+.travel-route__detailToolbar {
+  position: absolute;
+  top: 20px;
+  right: 20px;
+  z-index: 1102;
+  display: flex;
+  flex-direction: column;
+  align-items: flex-end;
+  gap: 6px;
+}
+
+@keyframes detail-toolbar-glow {
+  0%,
+  100% {
+    text-shadow:
+      0 0 6px rgba(255, 220, 120, 0.6),
+      0 1px 4px rgba(0, 0, 0, 0.5);
+    color: rgba(240, 220, 170, 0.9);
+  }
+  50% {
+    text-shadow:
+      0 0 14px rgba(255, 210, 80, 1),
+      0 0 28px rgba(255, 180, 40, 0.6),
+      0 1px 4px rgba(0, 0, 0, 0.4);
+    color: rgba(255, 245, 200, 1);
+  }
+}
+
+@keyframes detail-toolbar-float {
+  0%,
+  100% {
+    transform: translateY(0);
+  }
+  50% {
+    transform: translateY(-4px);
+  }
+}
+
+.travel-route__detailShowAll,
+.travel-route__detailToggleCard {
+  background: transparent;
+  border: none;
+  padding: 0;
+  font-family: "XuanZongTi", "STKaiti", serif;
+  font-size: clamp(12px, 1.1vw, 15px);
+  color: rgba(240, 220, 170, 0.9);
+  text-decoration: underline;
+  cursor: pointer;
+  letter-spacing: 0.04em;
+  animation:
+    detail-toolbar-glow 2.4s ease-in-out infinite,
+    detail-toolbar-float 3s ease-in-out infinite;
+  transition: color 0.15s ease;
+}
+
+.travel-route__detailShowAll:hover,
+.travel-route__detailToggleCard:hover {
+  color: rgba(255, 255, 220, 1);
+  animation: none;
+  text-shadow:
+    0 0 18px rgba(255, 220, 80, 1),
+    0 0 36px rgba(255, 160, 20, 0.7);
+}
+
+.travel-route__detailCard--hidden {
+  opacity: 0;
+  pointer-events: none;
+  transform: translateY(12px) scale(0.97);
+}
+
+.travel-route__detailCard {
+  transition:
+    opacity 0.3s ease,
+    transform 0.3s ease;
+}
+
+.travel-route__backTopBtn {
+  position: absolute;
+  right: 3%;
+  bottom: calc(18% - clamp(46px, 4.6vw, 64px) - 10px);
+  z-index: 5;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  background-image: url("/src/assets/images/route/button1.png");
+  background-size: 100% 100%;
+  background-color: transparent;
+  border: none;
+  width: clamp(160px, 15vw, 220px);
+  height: clamp(46px, 4.6vw, 64px);
+  padding: 0 1em;
+  color: #2c3a4e;
+  font-family: "YuWeiShuFa", "STKaiti", serif;
+  font-size: clamp(13px, 1.3vw, 18px);
+  letter-spacing: 0.08em;
+  line-height: 1;
+  cursor: pointer;
+  transition: transform 0.15s ease;
+}
+
+.travel-route__backTopBtn:hover {
+  transform: scale(1.05);
+}
+
+@keyframes flash-fly {
+  0% {
+    left: var(--flash-from-left);
+    top: var(--flash-from-top);
+    opacity: 1;
+    transform: scale(1.2);
+  }
+  60% {
+    opacity: 0.85;
+    transform: scale(1.1);
+  }
+  100% {
+    left: var(--flash-to-left);
+    top: var(--flash-to-top);
+    opacity: 1;
+    transform: scale(1);
+  }
+}
+
+.travel-route__flash--flying {
+  animation: flash-fly 1.4s cubic-bezier(0.4, 0, 0.2, 1) forwards !important;
+  pointer-events: none;
+  z-index: 10;
+}
+
+@keyframes travel-float-newest {
+  0%,
+  100% {
+    transform: translateY(0) scale(1.15);
+  }
+  50% {
+    transform: translateY(-10px) scale(1.15);
+  }
+}
+
+.travel-route__flash--newest {
+  animation: travel-float-newest 1.6s ease-in-out infinite !important;
+  filter: drop-shadow(0 0 8px rgba(255, 200, 80, 0.8));
+  z-index: 3;
+}
+
+.travel-route__mapHint {
+  position: absolute;
+  bottom: 2.5%;
+  left: 50%;
+  transform: translateX(-50%);
+  z-index: 4;
+  white-space: nowrap;
+  font-family: "STKaiti", "KaiTi", serif;
+  font-size: clamp(11px, 1.1vw, 15px);
+  color: rgba(60, 50, 35, 0.75);
+  letter-spacing: 0.04em;
+  pointer-events: none;
+}
+
+.travel-route__mapHintLink {
+  color: #7a4a1a;
+  font-weight: 700;
+  text-decoration: underline;
+  cursor: pointer;
+  pointer-events: all;
+}
+
+.travel-route__mapHintLink:hover {
+  color: #b36a20;
+}
+
+/* 竖排诗句区域 */
+.travel-route__poetry {
+  position: absolute;
+  left: 4vw;
+  top: 50%;
+  transform: translateY(-42%);
+  z-index: 3;
+  display: flex;
+  flex-direction: row-reverse;
+  align-items: flex-start;
+  gap: 1.6em;
+  pointer-events: none;
+}
+
+.travel-route__poetry-col {
+  display: flex;
+  flex-direction: column;
+  gap: 0.1em;
+  writing-mode: vertical-rl;
+  text-orientation: mixed;
+  font-family: "YuWeiShuFa", "STKaiti", "KaiTi", serif;
+  font-size: clamp(30px, 3.8vw, 56px);
+  color: #5a5a52;
+  letter-spacing: 0.15em;
+  line-height: 1.2;
+  opacity: 0;
+  transition: opacity 2.5s ease;
+}
+
+.travel-route__poetry-col.visible {
+  opacity: 1;
+}
+
+.travel-route__poetry-col--first {
+  margin-top: -3em;
+}
+
+.travel-route__poetry-col--second {
+  margin-top: 0;
+}
+
+@keyframes route-text-glow {
+  0%,
+  100% {
+    text-shadow:
+      0 0 6px rgba(180, 100, 20, 0.4),
+      0 0 12px rgba(180, 100, 20, 0.2);
+  }
+  50% {
+    text-shadow:
+      0 0 10px rgba(200, 120, 30, 0.85),
+      0 0 22px rgba(200, 120, 30, 0.5),
+      0 0 36px rgba(200, 120, 30, 0.25);
+  }
+}
+
+.travel-route__sideDesc {
+  position: fixed;
+  right: 2.6vw;
+  top: 44%;
+  transform: translateY(-46%) translateX(18px);
+  width: auto;
+  display: flex;
+  flex-direction: row-reverse;
+  align-items: flex-start;
+  gap: 1.1em;
+  opacity: 0;
+  transition:
+    opacity 1.8s ease 0.45s,
+    transform 1.8s ease 0.45s;
+  z-index: 3;
+  background: none;
+  border-radius: 0;
+  padding: 0;
+  backdrop-filter: none;
+  pointer-events: none;
+}
+
+.travel-route__sideDesc.visible {
+  opacity: 1;
+  transform: translateY(-50%) translateX(0);
+}
+
+.travel-route__sideDescTitle {
+  margin: 0;
+  font-family: "XuanZongTi", "STKaiti", serif;
+  font-size: clamp(30px, 3.2vw, 48px);
+  color: rgba(232, 196, 128, 0.98);
+  letter-spacing: 0.16em;
+  writing-mode: vertical-rl;
+  text-orientation: mixed;
+  line-height: 1.15;
+  text-shadow: 0 2px 10px rgba(0, 0, 0, 0.8);
+  text-align: start;
+}
+
+.travel-route__sideDescText {
+  margin: 0;
+  font-family: "XuanZongTi", "STKaiti", serif;
+  font-size: clamp(19px, 2vw, 28px);
+  color: rgba(218, 182, 118, 0.95);
+  line-height: 1.95;
+  letter-spacing: 0.05em;
+  writing-mode: vertical-rl;
+  text-orientation: mixed;
+  text-align: start;
+  height: clamp(340px, 56vh, 620px);
+  max-height: clamp(340px, 56vh, 620px);
+  text-shadow: 0 1px 6px rgba(0, 0, 0, 0.7);
+}
+
+.travel-route__openRouteBtn {
+  position: absolute;
+  right: 2vw;
+  bottom: 8vh;
+  z-index: 4;
+  background-image: url("/src/assets/images/route/button3.png");
+  background-size: 100% 100%;
+  background-color: transparent;
+  border: none;
+  width: clamp(220px, 20vw, 320px);
+  height: clamp(70px, 6.5vw, 100px);
+  padding: 0 1.5em;
+  cursor: pointer;
+  font-family: "BangBangTi", "STKaiti", serif;
+  font-size: clamp(18px, 1.9vw, 28px);
+  color: #5a2a0a;
+  letter-spacing: 0.12em;
+  text-align: center;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  animation: route-text-glow 2.4s ease-in-out infinite;
+  transition: transform 0.18s ease;
+}
+
+.travel-route__openRouteBtn:hover {
+  transform: scale(1.06);
+  animation: none;
+  text-shadow:
+    0 0 12px rgba(200, 120, 30, 1),
+    0 0 28px rgba(200, 120, 30, 0.7),
+    0 0 48px rgba(200, 120, 30, 0.4);
+}
+
+.travel-route__openHistoryBtn {
+  bottom: 1.8vh;
+}
+
+.travel-route__welcomeCard {
+  position: fixed;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  z-index: 1000;
+  background: rgba(252, 248, 238, 0.72);
+  border: 1px solid rgba(160, 130, 90, 0.65);
+  box-shadow: 0 8px 32px rgba(80, 50, 20, 0.25);
+  border-radius: 12px;
+  padding: 48px 52px 44px;
+  max-width: 620px;
+  width: min(620px, 92vw);
+  text-align: center;
+}
+
+.travel-route__panelClose {
+  position: absolute;
+  top: 14px;
+  right: 16px;
+  width: 32px;
+  height: 32px;
+  background: rgba(180, 155, 110, 0.18);
+  border: 1px solid rgba(180, 155, 110, 0.35);
+  border-radius: 50%;
+  color: #7a5c3a;
+  font-size: 18px;
+  line-height: 1;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition:
+    background 0.15s ease,
+    transform 0.15s ease;
+}
+
+.travel-route__panelClose:hover {
+  background: rgba(180, 155, 110, 0.38);
+  transform: scale(1.12);
+}
+
+.travel-route__welcomeCard,
+.travel-route__welcomeCard * {
+  font-family: "XuanZongTi", "STKaiti", serif !important;
+}
+
+.travel-route__panelOverlay {
+  position: fixed;
+  inset: 0;
+  z-index: 999;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: rgba(0, 0, 0, 0.18);
+}

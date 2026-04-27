@@ -1,0 +1,746 @@
+﻿<!doctype html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no" />
+  <title>平遥票号 · AI知识问答</title>
+  <script src="https://cdn.jsdelivr.net/npm/echarts@6.0.0/dist/echarts.min.js"></script>
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    html, body {
+      background: transparent !important;
+      font-family: "PingFang SC", "Microsoft YaHei", sans-serif;
+      height: 100vh;
+      overflow: hidden;
+    }
+
+    /* ========== 主布局 ========== */
+    .container {
+      display: flex;
+      height: 97vh;
+      padding: 15px;
+      gap: 15px;
+    }
+
+    /* ========== 左侧图谱区域 ========== */
+    .left-graph {
+      flex: 1;
+      display: flex;
+      flex-direction: column;
+      background: transparent;
+      border-radius: 20px;
+      overflow: hidden;
+    }
+
+    .graph-box {
+      flex: 1;
+      background: transparent;
+      border-radius: 16px;
+      overflow: hidden;
+      position: relative;
+    }
+
+    #graph {
+      width: 100%;
+      height: 100%;
+    }
+
+    /* 右上角工具按钮 */
+    .graph-tools {
+      position: absolute;
+      top: 14px;
+      right: 16px;
+      display: flex;
+      gap: 8px;
+      z-index: 100;
+    }
+
+    .graph-tool-btn {
+      width: 32px;
+      height: 32px;
+      border-radius: 50%;
+      background: rgba(255, 255, 255, 0.75);
+      backdrop-filter: blur(6px);
+      border: 1px solid rgba(180, 180, 180, 0.25);
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      transition: background 0.2s, transform 0.15s;
+      box-shadow: 0 2px 8px rgba(0,0,0,0.08);
+    }
+
+    .graph-tool-btn:hover {
+      background: rgba(255, 255, 255, 0.95);
+      transform: scale(1.08);
+    }
+
+    .graph-tool-btn svg {
+      width: 16px;
+      height: 16px;
+      fill: none;
+      stroke: #8699AD;
+      stroke-width: 1.8;
+      stroke-linecap: round;
+      stroke-linejoin: round;
+    }
+
+    /* ========== 右侧AI对话区域 ========== */
+    .right-ai {
+      width: 380px;
+      display: flex;
+      flex-direction: column;
+      background: rgba(255, 255, 255, 0.6);
+      backdrop-filter: blur(8px);
+      border-radius: 20px;
+      overflow: hidden;
+      box-shadow: 0 4px 20px rgba(0, 0, 0, 0.08);
+    }
+
+    .ai-header {
+      padding: 16px 20px;
+      background: linear-gradient(135deg, #E8B4B8 0%, #A6D1E6 100%);
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+
+    .ai-avatar {
+      width: 36px;
+      height: 36px;
+      border-radius: 50%;
+      background: white;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 18px;
+    }
+
+    .ai-info h3 {
+      color: #fff;
+      font-size: 15px;
+      font-weight: 600;
+    }
+
+    .ai-info p {
+      color: rgba(255, 255, 255, 0.85);
+      font-size: 11px;
+    }
+
+    /* 对话消息区域 */
+    .ai-messages {
+      flex: 1;
+      padding: 16px;
+      overflow-y: auto;
+      display: flex;
+      flex-direction: column;
+      gap: 14px;
+    }
+
+    .ai-messages::-webkit-scrollbar {
+      width: 4px;
+    }
+
+    .ai-messages::-webkit-scrollbar-thumb {
+      background: rgba(134, 153, 173, 0.3);
+      border-radius: 4px;
+    }
+
+    /* 欢迎消息 */
+    .welcome-card {
+      background: rgba(232, 180, 184, 0.15);
+      border-radius: 16px;
+      padding: 16px;
+      text-align: center;
+    }
+
+    .welcome-card .icon {
+      font-size: 32px;
+      margin-bottom: 8px;
+    }
+
+    .welcome-card h4 {
+      color: #5A6B7F;
+      font-size: 14px;
+      margin-bottom: 6px;
+    }
+
+    .welcome-card p {
+      color: #8699AD;
+      font-size: 12px;
+      line-height: 1.5;
+    }
+
+    /* 消息气泡 */
+    .message {
+      display: flex;
+      gap: 10px;
+      animation: fadeIn 0.3s ease;
+    }
+
+    @keyframes fadeIn {
+      from { opacity: 0; transform: translateY(8px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+
+    .message.user {
+      flex-direction: row-reverse;
+    }
+
+    .message-avatar {
+      width: 28px;
+      height: 28px;
+      border-radius: 50%;
+      flex-shrink: 0;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 14px;
+    }
+
+    .message.user .message-avatar {
+      background: linear-gradient(135deg, #A6D1E6, #C7E8C6);
+    }
+
+    .message.ai .message-avatar {
+      background: linear-gradient(135deg, #E8B4B8, #F7D488);
+    }
+
+    .message-content {
+      max-width: 75%;
+      padding: 12px 16px;
+      border-radius: 16px;
+      font-size: 13px;
+      line-height: 1.6;
+    }
+
+    .message.user .message-content {
+      background: linear-gradient(135deg, #A6D1E6, #B7C8D0);
+      color: #fff;
+      border-bottom-right-radius: 4px;
+    }
+
+    .message.ai .message-content {
+      background: rgba(255, 255, 255, 0.9);
+      color: #555;
+      border-bottom-left-radius: 4px;
+      border: 1px solid rgba(232, 180, 184, 0.3);
+    }
+
+    /* 加载动画 */
+    .loading {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      padding: 12px 16px;
+      color: #8699AD;
+      font-size: 13px;
+    }
+
+    .loading-dots {
+      display: flex;
+      gap: 4px;
+    }
+
+    .loading-dots span {
+      width: 6px;
+      height: 6px;
+      background: #8699AD;
+      border-radius: 50%;
+      animation: bounce 1.4s infinite ease-in-out both;
+    }
+
+    .loading-dots span:nth-child(1) { animation-delay: -0.32s; }
+    .loading-dots span:nth-child(2) { animation-delay: -0.16s; }
+
+    @keyframes bounce {
+      0%, 80%, 100% { transform: scale(0); }
+      40% { transform: scale(1); }
+    }
+
+    /* 输入区域 */
+    .ai-input-area {
+      padding: 14px 16px;
+      background: rgba(255, 255, 255, 0.8);
+      border-top: 1px solid rgba(232, 180, 184, 0.2);
+    }
+
+    .input-wrapper {
+      display: flex;
+      gap: 10px;
+      align-items: flex-end;
+    }
+
+    .input-box {
+      flex: 1;
+      background: rgba(255, 255, 255, 0.9);
+      border: 1px solid rgba(232, 180, 184, 0.4);
+      border-radius: 24px;
+      padding: 12px 16px;
+      font-size: 14px;
+      color: #555;
+      resize: none;
+      outline: none;
+      transition: border-color 0.2s, box-shadow 0.2s;
+      max-height: 100px;
+      font-family: inherit;
+    }
+
+    .input-box::placeholder {
+      color: #B7C8D0;
+    }
+
+    .input-box:focus {
+      border-color: #E8B4B8;
+      box-shadow: 0 0 0 3px rgba(232, 180, 184, 0.2);
+    }
+
+    .send-btn {
+      width: 42px;
+      height: 42px;
+      border-radius: 50%;
+      background: linear-gradient(135deg, #E8B4B8, #A6D1E6);
+      border: none;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      transition: transform 0.2s, opacity 0.2s;
+      flex-shrink: 0;
+    }
+
+    .send-btn:hover {
+      transform: scale(1.05);
+    }
+
+    .send-btn:active {
+      transform: scale(0.95);
+    }
+
+    .send-btn:disabled {
+      opacity: 0.5;
+      cursor: not-allowed;
+    }
+
+    .send-btn svg {
+      width: 18px;
+      height: 18px;
+      fill: white;
+    }
+
+    /* 提示文字 */
+    .hint {
+      text-align: center;
+      font-size: 11px;
+      color: #B7C8D0;
+      margin-top: 8px;
+    }
+
+    /* 建议问题 */
+    .suggestions {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 6px;
+      margin-top: 8px;
+      justify-content: center;
+    }
+
+    .suggestion-tag {
+      background: rgba(232, 180, 184, 0.2);
+      color: #8699AD;
+      padding: 5px 10px;
+      border-radius: 12px;
+      font-size: 11px;
+      cursor: pointer;
+      transition: all 0.2s;
+      border: none;
+    }
+
+    .suggestion-tag:hover {
+      background: rgba(232, 180, 184, 0.4);
+      color: #5A6B7F;
+    }
+
+    /* 错误提示 */
+    .error-msg {
+      background: rgba(255, 107, 107, 0.1);
+      color: #ff6b6b;
+      padding: 10px 14px;
+      border-radius: 12px;
+      font-size: 12px;
+      text-align: center;
+    }
+
+    /* 移动端适配 */
+    @media (max-width: 768px) {
+      .container {
+        flex-direction: column;
+        height: auto;
+        min-height: 100vh;
+        padding: 10px;
+      }
+
+      .left-graph {
+        min-height: 50vh;
+      }
+
+      .right-ai {
+        width: 100%;
+        min-height: 50vh;
+      }
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <!-- 左侧：知识图谱 -->
+    <div class="left-graph">
+      <div class="graph-box">
+        <div id="graph"></div>
+        <!-- 右上角自定义工具按钮 -->
+        <div class="graph-tools">
+          <!-- 下载 -->
+          <button class="graph-tool-btn" title="下载图片" onclick="downloadGraph()">
+            <svg viewBox="0 0 24 24"><polyline points="8 17 12 21 16 17"/><line x1="12" y1="21" x2="12" y2="9"/><path d="M20.88 18.09A5 5 0 0 0 18 9h-1.26A8 8 0 1 0 3 16.29"/></svg>
+          </button>
+          <!-- 刷新 -->
+          <button class="graph-tool-btn" title="刷新布局" onclick="refreshGraph()">
+            <svg viewBox="0 0 24 24"><polyline points="23 4 23 10 17 10"/><path d="M20.49 15a9 9 0 1 1-2.12-9.36L23 10"/></svg>
+          </button>
+        </div>
+      </div>
+    </div>
+
+    <!-- 右侧：AI对话 -->
+    <div class="right-ai">
+      <div class="ai-header">
+        <div class="ai-avatar">🤖</div>
+        <div class="ai-info">
+          <h3>晋商文化助手</h3>
+          <p>随时为您解答</p>
+        </div>
+      </div>
+
+      <div class="ai-messages" id="messages">
+        <!-- 欢迎卡片 -->
+        <div class="welcome-card">
+          <div class="icon">🏮</div>
+          <h4>欢迎来到晋商知识库</h4>
+          <p>我是平遥晋商文化助手，可以回答关于票号历史、商号人物、经营制度等问题</p>
+          <div class="suggestions">
+            <button class="suggestion-tag" onclick="sendQuestion('日升昌是什么时候创建的？')">日升昌创建时间</button>
+            <button class="suggestion-tag" onclick="sendQuestion('雷履泰是什么人？')">雷履泰</button>
+            <button class="suggestion-tag" onclick="sendQuestion('票号有哪些经营制度？')">经营制度</button>
+          </div>
+        </div>
+      </div>
+
+      <div class="ai-input-area">
+        <div class="input-wrapper">
+          <textarea 
+            id="userInput" 
+            class="input-box" 
+            placeholder="输入您的问题..."
+            rows="1"
+            onkeydown="handleKeyDown(event)"
+            oninput="autoResize(this)"
+          ></textarea>
+          <button class="send-btn" id="sendBtn" onclick="sendMessage()">
+            <svg viewBox="0 0 24 24"><path d="M2.01 21L23 12 2.01 3 2 10l15 2-15 2z"/></svg>
+          </button>
+        </div>
+        <p class="hint">基于阿里云千问大模型驱动</p>
+      </div>
+    </div>
+  </div>
+
+  <script>
+    // ========== 图谱数据 ==========
+    const colorPerson = "#E8B4B8";
+    const colorPiao = "#A6D1E6";
+    const colorShang = "#C7E8C6";
+    const colorPlace = "#F7D488";
+
+    const nodesData = [
+      { name: "雷履泰", category: "人物", symbol: "circle", symbolSize: 20, itemStyle: { color: colorPerson } },
+      { name: "毛鸿翙", category: "人物", symbol: "circle", symbolSize: 18, itemStyle: { color: colorPerson } },
+      { name: "李大全", category: "人物", symbol: "circle", symbolSize: 18, itemStyle: { color: colorPerson } },
+      { name: "李箴视", category: "人物", symbol: "circle", symbolSize: 16, itemStyle: { color: colorPerson } },
+      { name: "日升昌东主", category: "人物", symbol: "circle", symbolSize: 16, itemStyle: { color: colorPerson } },
+      { name: "日升昌", category: "票号", symbol: "diamond", symbolSize: 22, itemStyle: { color: colorPiao } },
+      { name: "蔚泰厚", category: "票号", symbol: "diamond", symbolSize: 20, itemStyle: { color: colorPiao } },
+      { name: "蔚丰厚", category: "票号", symbol: "diamond", symbolSize: 18, itemStyle: { color: colorPiao } },
+      { name: "协同庆", category: "票号", symbol: "diamond", symbolSize: 18, itemStyle: { color: colorPiao } },
+      { name: "百川通", category: "票号", symbol: "diamond", symbolSize: 18, itemStyle: { color: colorPiao } },
+      { name: "西裕成颜料庄", category: "商号", symbol: "rect", symbolSize: 18, itemStyle: { color: colorShang } },
+      { name: "绸缎庄", category: "商号", symbol: "rect", symbolSize: 16, itemStyle: { color: colorShang } },
+      { name: "典当行", category: "商号", symbol: "rect", symbolSize: 16, itemStyle: { color: colorShang } },
+      { name: "平遥古城", category: "地点", symbol: "pin", symbolSize: 28, itemStyle: { color: colorPlace } },
+    ];
+
+    const linksData = [
+      { source: "雷履泰", target: "日升昌", name: "创始人·大掌柜" },
+      { source: "雷履泰", target: "西裕成颜料庄", name: "原掌柜" },
+      { source: "毛鸿翙", target: "日升昌", name: "原二掌柜" },
+      { source: "毛鸿翙", target: "蔚泰厚", name: "创始人" },
+      { source: "李大全", target: "西裕成颜料庄", name: "财东" },
+      { source: "李大全", target: "日升昌", name: "出资创办" },
+      { source: "李箴视", target: "日升昌", name: "继任东主" },
+      { source: "日升昌东主", target: "日升昌", name: "东主" },
+      { source: "日升昌", target: "平遥古城", name: "总部" },
+      { source: "蔚泰厚", target: "平遥古城", name: "总部" },
+      { source: "蔚丰厚", target: "平遥古城", name: "总部" },
+      { source: "协同庆", target: "平遥古城", name: "总部" },
+      { source: "百川通", target: "平遥古城", name: "总部" },
+      { source: "西裕成颜料庄", target: "平遥古城", name: "位于" },
+      { source: "绸缎庄", target: "平遥古城", name: "位于" },
+      { source: "典当行", target: "平遥古城", name: "位于" },
+      { source: "日升昌", target: "蔚泰厚", name: "同业竞争" },
+      { source: "蔚泰厚", target: "蔚丰厚", name: "蔚字五联号" },
+      { source: "西裕成颜料庄", target: "日升昌", name: "改制" },
+      { source: "绸缎庄", target: "日升昌", name: "业务往来" },
+      { source: "典当行", target: "日升昌", name: "金融合作" },
+    ];
+
+    const categories = [
+      { name: "人物", itemStyle: { color: colorPerson } },
+      { name: "票号", itemStyle: { color: colorPiao } },
+      { name: "商号", itemStyle: { color: colorShang } },
+      { name: "地点", itemStyle: { color: colorPlace } },
+    ];
+
+    // ========== 初始化图谱 ==========
+    const chartDom = document.getElementById('graph');
+    const myChart = echarts.init(chartDom);
+
+    const graphOption = {
+      backgroundColor: 'transparent',
+      tooltip: {
+        trigger: 'item',
+        backgroundColor: 'rgba(255,255,255,0.95)',
+        borderColor: '#ddd',
+        borderWidth: 1,
+        textStyle: { color: '#555', fontSize: 13 },
+        formatter: function(params) {
+          if (params.dataType === 'node') {
+            return `<strong>🏮 ${params.name}</strong><br/>类别: ${params.data.category || '未知'}`;
+          } else if (params.dataType === 'edge') {
+            return `🔗 ${params.data.source} → ${params.data.target}<br/>关系: ${params.data.name || '关联'}`;
+          }
+          return params.name;
+        }
+      },
+      legend: {
+        top: 18,
+        left: 'center',
+        orient: 'horizontal',
+        textStyle: { color: '#666', fontSize: 14, fontWeight: '500' },
+        data: ['人物', '票号', '商号', '地点'],
+        icon: 'circle',
+        itemWidth: 25,
+        itemHeight: 12,
+        backgroundColor: 'rgba(255,255,255,0.7)',
+        borderRadius: 24,
+        padding: [6, 20, 6, 20],
+      },
+      series: [{
+        type: 'graph',
+        layout: 'force',
+        data: nodesData,
+        links: linksData,
+        categories: categories,
+        roam: true,
+        draggable: true,
+        symbolSize: function(val, params) {
+          return params.data.symbolSize || 18;
+        },
+        label: {
+          show: true,
+          position: 'bottom',
+          offset: [0, 8],
+          fontSize: 12,
+          color: '#555',
+          backgroundColor: 'rgba(255,255,255,0.7)',
+          padding: [2, 6, 2, 6],
+          borderRadius: 12,
+        },
+        lineStyle: {
+          color: '#aaa',
+          curveness: 0.15,
+          width: 1.5,
+          opacity: 0.6,
+        },
+        itemStyle: {
+          borderColor: '#fff',
+          borderWidth: 2,
+          shadowBlur: 18,
+          shadowColor: 'rgba(0,0,0,0.18)',
+        },
+        emphasis: {
+          focus: 'adjacency',
+          scale: true,
+          label: { fontSize: 13, fontWeight: 'bold' },
+          lineStyle: { width: 2.5, opacity: 0.9 },
+          itemStyle: {
+            shadowBlur: 28,
+            shadowColor: 'rgba(0,0,0,0.28)',
+          }
+        },
+        force: {
+          repulsion: 500,
+          edgeLength: 120,
+          gravity: 0.1,
+        },
+        legendHoverLink: true,
+        animation: true,
+      }]
+    };
+
+    myChart.setOption(graphOption);
+    window.addEventListener('resize', () => myChart.resize());
+
+    // 下载图片
+    function downloadGraph() {
+      const url = myChart.getDataURL({ type: 'png', pixelRatio: 2, backgroundColor: '#fff' });
+      const a = document.createElement('a');
+      a.href = url;
+      a.download = '晋商知识图谱.png';
+      a.click();
+    }
+
+    // 刷新布局（重新随机布局）
+    function refreshGraph() {
+      myChart.setOption({
+        series: [{ force: { layoutAnimation: true } }]
+      });
+      myChart.dispatchAction({ type: 'restore' });
+      myChart.setOption(graphOption);
+    }
+
+    // ========== AI对话功能 ==========
+    const API_URL = 'http://localhost:8000/api/chat';  // 后端地址
+    const SESSION_ID = 'merchant_ai_' + Date.now();
+    let isLoading = false;
+
+    function autoResize(el) {
+      el.style.height = 'auto';
+      el.style.height = Math.min(el.scrollHeight, 100) + 'px';
+    }
+
+    function handleKeyDown(e) {
+      if (e.key === 'Enter' && !e.shiftKey) {
+        e.preventDefault();
+        sendMessage();
+      }
+    }
+
+    function addMessage(content, type) {
+      const messagesDiv = document.getElementById('messages');
+      const avatar = type === 'user' ? '👤' : '🤖';
+      
+      const msgDiv = document.createElement('div');
+      msgDiv.className = `message ${type}`;
+      msgDiv.innerHTML = `
+        <div class="message-avatar">${avatar}</div>
+        <div class="message-content">${escapeHtml(content)}</div>
+      `;
+      
+      messagesDiv.appendChild(msgDiv);
+      messagesDiv.scrollTop = messagesDiv.scrollHeight;
+    }
+
+    function showLoading() {
+      const messagesDiv = document.getElementById('messages');
+      const loadingDiv = document.createElement('div');
+      loadingDiv.className = 'message ai loading';
+      loadingDiv.id = 'loadingIndicator';
+      loadingDiv.innerHTML = `
+        <div class="message-avatar">🤖</div>
+        <div class="loading-dots">
+          <span></span><span></span><span></span>
+        </div>
+      `;
+      messagesDiv.appendChild(loadingDiv);
+      messagesDiv.scrollTop = messagesDiv.scrollHeight;
+    }
+
+    function hideLoading() {
+      const loading = document.getElementById('loadingIndicator');
+      if (loading) loading.remove();
+    }
+
+    function showError(msg) {
+      const messagesDiv = document.getElementById('messages');
+      const errorDiv = document.createElement('div');
+      errorDiv.className = 'error-msg';
+      errorDiv.textContent = msg;
+      messagesDiv.appendChild(errorDiv);
+      messagesDiv.scrollTop = messagesDiv.scrollHeight;
+    }
+
+    function escapeHtml(text) {
+      const div = document.createElement('div');
+      div.textContent = text;
+      return div.innerHTML.replace(/\n/g, '<br>');
+    }
+
+    async function sendMessage() {
+      const input = document.getElementById('userInput');
+      const btn = document.getElementById('sendBtn');
+      const message = input.value.trim();
+      
+      if (!message || isLoading) return;
+      
+      // 清空输入框
+      input.value = '';
+      input.style.height = 'auto';
+      
+      // 添加用户消息
+      addMessage(message, 'user');
+      
+      // 显示加载状态
+      isLoading = true;
+      btn.disabled = true;
+      showLoading();
+      
+      try {
+        const response = await fetch(API_URL, {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({
+            session_id: SESSION_ID,
+            user_message: message
+          })
+        });
+        
+        if (!response.ok) {
+          throw new Error(`请求失败: ${response.status}`);
+        }
+        
+        const data = await response.json();
+        hideLoading();
+        addMessage(data.ai_message, 'ai');
+        
+      } catch (error) {
+        hideLoading();
+        console.error('API Error:', error);
+        showError('连接失败，请确保后端服务已启动 (python main.py)');
+      } finally {
+        isLoading = false;
+        btn.disabled = false;
+      }
+    }
+
+    // 一键发送问题
+    function sendQuestion(q) {
+      document.getElementById('userInput').value = q;
+      sendMessage();
+    }
+  </script>
+</body>
+</html>

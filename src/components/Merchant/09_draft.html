@@ -1,0 +1,511 @@
+<!doctype html>
+<html lang="zh-CN">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>晋商汇票 · 沉浸式制作</title>
+    <style>
+      * {
+        box-sizing: border-box;
+        margin: 0;
+        padding: 0;
+      }
+
+      html,
+      body {
+        width: 100%;
+        height: 100%;
+        background: transparent !important;
+        font-family: "Microsoft YaHei", "PingFang SC", sans-serif;
+      }
+
+      body {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        overflow: hidden;
+        background: #f9f7f0;
+        background-image: url("https://placehold.co/1920x1080/f9f7f0/e6e2d9?text=");
+        background-size: cover;
+      }
+
+      .game-wrap {
+        width: 1200px;
+        max-width: 96vw;
+        height: 700px;
+        max-height: 96vh;
+        display: grid;
+        grid-template-columns: 160px 1fr 160px;
+        gap: 20px;
+        position: relative;
+      }
+
+      /* 左右工具面板 */
+      .tools-side {
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        gap: 24px;
+        padding: 20px 10px;
+      }
+
+      .tool {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        gap: 8px;
+        cursor: grab;
+        transition: 0.24s ease;
+        user-select: none;
+      }
+
+      .tool:active {
+        cursor: grabbing;
+      }
+
+      .tool.disabled {
+        opacity: 0.35;
+        filter: grayscale(0.6);
+        cursor: not-allowed;
+      }
+
+      .tool.done {
+        opacity: 0.55;
+      }
+
+      .tool-icon {
+        width: 60px;
+        height: 60px;
+        background: rgba(255, 255, 255, 0.45);
+        border-radius: 10px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        position: relative;
+      }
+
+      .tool-icon .frame {
+        position: absolute;
+        inset: 0;
+        width: 100%;
+        height: 100%;
+        object-fit: fill;
+        pointer-events: none;
+        opacity: 1;
+      }
+
+      .tool-icon img:not(.frame) {
+        width: 36px;
+        height: 36px;
+        object-fit: contain;
+        pointer-events: none;
+        opacity: 0.75;
+      }
+
+      .tool span {
+        font-size: 13px;
+        color: #776c5f;
+      }
+
+      /* 中间制作区 */
+      .center {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+        gap: 20px;
+      }
+
+      .hint {
+        text-align: center;
+        color: #554c41;
+        font-family: KaiTi, "KaiTi_GB2312", serif;
+        line-height: 1.8;
+      }
+
+      .hint .step-title {
+        font-size: 18px;
+        margin-bottom: 6px;
+      }
+
+      .hint .step-desc {
+        font-size: 14px;
+        color: #887e72;
+      }
+
+      .stage {
+        width: 500px;
+        height: 320px;
+        border-radius: 20px;
+        background: url("../../assets/images/merchant/09_bg.jpg") center/cover no-repeat;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        position: relative;
+        transition: 0.25s ease;
+        border: 1px solid rgba(190, 175, 155, 0.3);
+      }
+
+      .stage.drag-over {
+        transform: scale(1.02);
+        box-shadow: 0 0 0 12px rgba(180, 160, 130, 0.12);
+      }
+
+      .stage img {
+        max-width: 92%;
+        max-height: 90%;
+        border-radius: 12px;
+        opacity: 0.85;
+      }
+
+      .stage-tip {
+        position: absolute;
+        bottom: 12px;
+        font-size: 12px;
+        color: #776c5f;
+      }
+
+      /* 按钮区域 */
+      .controls {
+        display: flex;
+        gap: 16px;
+        margin-top: 10px;
+      }
+
+      .btn {
+        padding: 8px 20px;
+        font-size: 13px;
+        border: none;
+        border-radius: 8px;
+        cursor: pointer;
+        transition: 0.2s ease;
+        font-family: "Microsoft YaHei", sans-serif;
+      }
+
+      .btn-back {
+        background: transparent;
+        color: #776c5f;
+        border: 1px solid rgba(180, 165, 145, 0.4);
+      }
+
+      .btn-back:hover {
+        background: rgba(255, 255, 255, 0.4);
+      }
+
+      .btn-back:disabled {
+        opacity: 0.35;
+        cursor: not-allowed;
+      }
+
+      .btn-reset {
+        background: transparent;
+        color: #776c5f;
+        border: 1px solid rgba(180, 165, 145, 0.4);
+      }
+
+      .btn-reset:hover {
+        background: rgba(255, 255, 255, 0.4);
+      }
+
+      .finish {
+        font-size: 18px;
+        font-weight: bold;
+        color: #8b5f2b;
+        opacity: 0;
+        transform: translateY(6px);
+        transition: 0.3s ease;
+      }
+      .finish.show {
+        opacity: 1;
+        transform: translateY(0);
+      }
+
+      /* 浮动内容 */
+      .overlay {
+        position: absolute;
+        inset: 0;
+        pointer-events: none;
+      }
+
+      .text {
+        position: absolute;
+        left: 10%;
+        top: 20%;
+        font-size: 14px;
+        line-height: 1.8;
+        color: #222;
+        font-family: KaiTi;
+        opacity: 0;
+        transition: 0.4s;
+      }
+      .text.show {
+        opacity: 1;
+      }
+
+      .seal {
+        position: absolute;
+        width: 50px;
+        height: 50px;
+        border-radius: 50%;
+        border: 2px solid rgba(160, 40, 40, 0.4);
+        background: rgba(180, 50, 50, 0.08);
+        display: grid;
+        place-items: center;
+        font-size: 10px;
+        color: #802020;
+        opacity: 0;
+        transition: 0.4s;
+      }
+      .seal.show {
+        opacity: 1;
+      }
+
+      .mark {
+        position: absolute;
+        left: 10%;
+        bottom: 15%;
+        font-size: 12px;
+        background: rgba(255, 255, 255, 0.6);
+        padding: 4px 8px;
+        border-radius: 6px;
+        opacity: 0;
+        transition: 0.4s;
+      }
+      .mark.show {
+        opacity: 1;
+      }
+    </style>
+  </head>
+
+  <body>
+    <div class="game-wrap">
+      <!-- 左侧 3 个工具 -->
+      <div class="tools-side" id="leftTools"></div>
+
+      <!-- 中间制作区 -->
+      <div class="center">
+        <div class="hint" id="hint">
+          <div class="step-title">步骤一</div>
+          <div class="step-desc">
+            遴选纸张：选择坚韧防蛀的特制麻纸/皮纸，提高仿造门槛
+          </div>
+        </div>
+        <div class="stage" id="stage">
+          <img id="bill" style="display: none" />
+          <div class="overlay" id="overlay"></div>
+          <div class="stage-tip">拖入工具</div>
+        </div>
+
+        <!-- 底部按钮区域 -->
+        <div class="controls">
+          <button class="btn btn-back" id="backBtn">返回上一步</button>
+          <button class="btn btn-reset" id="resetBtn">重置</button>
+        </div>
+
+        <div class="finish" id="finish">汇票制作完成</div>
+      </div>
+
+      <!-- 右侧 3 个工具 -->
+      <div class="tools-side" id="rightTools"></div>
+    </div>
+
+    <script>
+      // 6 个步骤
+      const steps = [
+        {
+          name: "遴选纸张",
+          icon: "../../assets/images/merchant/transparent_01_mazhi.png",
+          stage: "../../assets/images/merchant/paper.jpg",
+          title: "步骤一",
+          desc: "遴选纸张：选择坚韧防蛀的特制麻纸/皮纸，提高仿造门槛",
+        },
+        {
+          name: "制版印刷",
+          icon: "../../assets/images/merchant/transparent_02_yinshua.png",
+          stage: "../../assets/images/merchant/printed.jpg",
+          title: "步骤二",
+          desc: "制版印刷：用龙纹/回纹底版压印，形成统一票式",
+        },
+        {
+          name: "书写票文",
+          icon: "../../assets/images/merchant/transparent_03_shuxie.png",
+          stage: "../../assets/images/merchant/written.jpg",
+          title: "步骤三",
+          desc: "书写票文：填写出票地、兑票地、金额与持票人信息",
+        },
+        {
+          name: "加盖印信",
+          icon: "../../assets/images/merchant/transparent_04_yinzhang.png",
+          stage: "../../assets/images/merchant/sealed.jpg",
+          title: "步骤四",
+          desc: "加盖印信：票号大印与掌柜私章，形成信誉背书",
+        },
+        {
+          name: "防伪暗记",
+          icon: "../../assets/images/merchant/transparent_05_miya.png",
+          stage: "../../assets/images/merchant/cipher.jpg",
+          title: "步骤五",
+          desc: "防伪暗记：写入内部密押，作为异地核验密码",
+        },
+        {
+          name: "存档交付",
+          icon: "../../assets/images/merchant/transparent_06_cundang.png",
+          stage: "../../assets/images/merchant/finished.jpg",
+          title: "步骤六",
+          desc: "存档交付：完成登记与骑缝手续，票据进入流通",
+        },
+      ];
+
+      let current = 0;
+      const dom = {
+        left: document.getElementById("leftTools"),
+        right: document.getElementById("rightTools"),
+        stage: document.getElementById("stage"),
+        bill: document.getElementById("bill"),
+        overlay: document.getElementById("overlay"),
+        hint: document.getElementById("hint"),
+        finish: document.getElementById("finish"),
+        backBtn: document.getElementById("backBtn"),
+        resetBtn: document.getElementById("resetBtn"),
+      };
+
+      function render() {
+        dom.left.innerHTML = renderTools(0, 3);
+        dom.right.innerHTML = renderTools(3, 6);
+
+        // 第六步做完 → 显示完成状态
+        if (current >= 6) {
+          dom.hint.innerHTML = `
+            <div class="step-title">制作完成</div>
+            <div class="step-desc">汇票已完成全部工序，登记骑缝，进入流通</div>
+          `;
+          dom.bill.src = steps[5].stage;
+          dom.bill.style.display = "block";
+          dom.finish.classList.add("show");
+          dom.backBtn.disabled = false;
+          return;
+        }
+
+        dom.finish.classList.remove("show");
+
+        // 更新步骤文字
+        const nowStep = steps[current];
+        dom.hint.innerHTML = `
+          <div class="step-title">${nowStep.title}</div>
+          <div class="step-desc">${nowStep.desc}</div>
+        `;
+
+        // 核心：已完成步骤 = current-1
+        if (current > 0) {
+          dom.bill.src = steps[current - 1].stage;
+          dom.bill.style.display = "block";
+        } else {
+          dom.bill.style.display = "none";
+        }
+        dom.backBtn.disabled = current <= 0;
+      }
+
+      function renderTools(start, end) {
+        return steps
+          .slice(start, end)
+          .map((s, i) => {
+            const idx = start + i;
+            const cls =
+              idx === current ? "" : idx < current ? "done" : "disabled";
+            return `
+              <div class="tool ${cls}" data-i="${idx}" ${idx === current ? 'draggable="true"' : ""}>
+                <div class="tool-icon">
+                  <img src="${s.icon}" alt="${s.name}">
+                  <img class="frame" src="../../assets/images/merchant/frame3.png" alt="">
+                </div>
+                <span>${s.name}</span>
+              </div>
+            `;
+          })
+          .join("");
+      }
+
+      // 拖拽
+      let _dragGhost = null;
+      document.addEventListener("dragstart", (e) => {
+        const tool = e.target.closest(".tool");
+        if (!tool) return;
+        e.dataTransfer.setData("i", tool.dataset.i);
+
+        // 创建临时拖影：只显示 PNG 图片
+        const src = tool.querySelector(".tool-icon img")?.src;
+        if (src) {
+          if (_dragGhost) _dragGhost.remove();
+          _dragGhost = new Image();
+          _dragGhost.src = src;
+          _dragGhost.style.cssText = "position:fixed;top:-200px;left:-200px;width:48px;height:48px;object-fit:contain;pointer-events:none;";
+          document.body.appendChild(_dragGhost);
+          e.dataTransfer.setDragImage(_dragGhost, 24, 24);
+        }
+      });
+      document.addEventListener("dragend", () => {
+        if (_dragGhost) { _dragGhost.remove(); _dragGhost = null; }
+      });
+
+      dom.stage.addEventListener("dragover", (e) => e.preventDefault());
+      dom.stage.addEventListener("dragenter", () =>
+        dom.stage.classList.add("drag-over"),
+      );
+      dom.stage.addEventListener("dragleave", () =>
+        dom.stage.classList.remove("drag-over"),
+      );
+
+      dom.stage.addEventListener("drop", (e) => {
+        e.preventDefault();
+        dom.stage.classList.remove("drag-over");
+        const idx = Number(e.dataTransfer.getData("i"));
+        if (idx !== current) return;
+
+        // 步骤前进
+        current++;
+        // 清空浮层
+        dom.overlay.innerHTML = "";
+
+        // 对应步骤加载浮层
+        if (current === 3) addText();
+        if (current === 4) addSeals();
+        if (current === 5) addMark();
+
+        render();
+      });
+
+      // 返回上一步
+      dom.backBtn.addEventListener("click", () => {
+        if (current <= 0) return;
+        current--;
+        dom.overlay.innerHTML = "";
+        if (current >= 3) addText();
+        if (current >= 4) addSeals();
+        if (current >= 5) addMark();
+        render();
+      });
+
+      // 重置
+      dom.resetBtn.addEventListener("click", () => {
+        current = 0;
+        dom.overlay.innerHTML = "";
+        dom.finish.classList.remove("show");
+        render();
+      });
+
+      // 浮层内容
+      function addText() {
+        dom.overlay.innerHTML = `<div class="text show">出票：平遥　兑票：上海<br>金额：伍佰两　持票：晋昌号</div>`;
+      }
+      function addSeals() {
+        dom.overlay.innerHTML += `<div class="seal show" style="right:22%;top:30%">票号</div><div class="seal show" style="right:16%;top:50%">掌柜</div>`;
+      }
+      function addMark() {
+        dom.overlay.innerHTML += `<div class="mark show">密押：山河同庆</div>`;
+      }
+
+      // 初始化
+      render();
+    </script>
+  </body>
+</html>
