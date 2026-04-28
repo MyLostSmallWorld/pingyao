@@ -23,7 +23,7 @@ class ChatRequest(BaseModel):
     user_message: str = Field(..., min_length=1, max_length=500, description="用户消息")
 
     class Config:
-        json_schema_extra = {
+        schema_extra = {
             "example": {
                 "session_id": "user_123",
                 "user_message": "日升昌是什么时候创建的？"
@@ -37,9 +37,9 @@ class ChatResponse(BaseModel):
     session_id: str = Field(..., description="会话 ID")
 
     class Config:
-        json_schema_extra = {
+        schema_extra = {
             "example": {
-                "ai_message": "日升昌票号创建于1823年（清道光三年），由平遥商人雷履泰创办，是中国第一家专营存款、放款、汇兑业务的金融机构。",
+                "ai_message": "日升昌票号创建于1823年...",
                 "session_id": "user_123"
             }
         }
