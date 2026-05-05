@@ -3,6 +3,24 @@ import gsap from "gsap";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
 import AncientSceneBackground from "./AncientSceneBackground.jsx";
 import IntroInkParticles from "./IntroInkParticles.jsx";
+import bgmUrl from "../../assets/audio/bgm1.mp3?url";
+import scrollCloseSfxUrl from "../../assets/audio/scroll-close.wav?url";
+import beimenGongjiUrl from "../../assets/images/home/beimen-gongji.jpg";
+import circleLayerUrl from "../../assets/images/home/circle-layer.png";
+import fontPosterUrl from "../../assets/images/home/font.png";
+import lfquThumbUrl from "../../assets/images/home/LFQU2Nj.png";
+import mxrCloudUrl from "../../assets/images/home/MXrEHi7.png";
+import nanmenYingxunUrl from "../../assets/images/home/nanmen-yingxun.jpg";
+import p1Url from "../../assets/images/home/p1.jpg";
+import p2Url from "../../assets/images/home/p2.jpg";
+import p3Url from "../../assets/images/home/p3.jpg";
+import p4Url from "../../assets/images/home/p4.jpg";
+import pingyaoMapUrl from "../../assets/images/home/pingyao_map_square_blended_2266.jpg";
+import shangdongmenUrl from "../../assets/images/home/shangdongmen.jpg";
+import shangximenYongdingUrl from "../../assets/images/home/shangximen-yongding.jpg";
+import xiaximenUrl from "../../assets/images/home/xiaximen.jpg";
+import yingxunGateUrl from "../../assets/images/home/yingxun-gate.png";
+import yunCloudUrl from "../../assets/images/home/yun.png";
 
 const scrollScenes = [
   { step: "01", start: 0 },
@@ -14,57 +32,66 @@ const scrollScenes = [
 // const heroMapTwo = "/images/hero-map-02-v2.png"; // Removed per user request
 
 const ACT1_IMAGES = {
-  circle: "/src/assets/images/home/circle-layer.png",
-  gate: "/src/assets/images/home/yingxun-gate.png",
+  circle: circleLayerUrl,
+  gate: yingxunGateUrl,
 };
 
-/** 扇形菜单弹窗图集（图片来自原 Kashima 演示，可后续替换为平遥实拍） */
+/** 扇形菜单弹窗图集：全部使用本地资源，保证比赛线上展示稳定。 */
 const galleryData = {
   chengqiang: [
-    { img: "https://i.imgur.com/uie0DYt.png", text: "城墙角楼 — 推荐打卡" },
-    { img: "https://i.imgur.com/sr5Nzcl.png", text: "垛口漫步" },
-    { img: "https://i.imgur.com/0fXRCH0.png", text: "护城河视角" },
-    { img: "https://i.imgur.com/rtSTqzj.png", text: "瓮城光影" },
+    { img: nanmenYingxunUrl, text: "迎薰门 — 龟首入口" },
+    { img: shangdongmenUrl, text: "太和门 — 东足节点" },
+    { img: shangximenYongdingUrl, text: "永定门 — 西足节点" },
+    { img: beimenGongjiUrl, text: "拱极门 — 龟尾水势" },
   ],
   piaohao: [
     {
-      img: "/src/assets/images/home/p1.jpg",
+      img: p1Url,
       text: "迎薰门现场调研：游客导览以打卡为主，深度解读不足",
     },
     {
-      img: "/src/assets/images/home/p2.jpg",
+      img: p2Url,
       text: "文庙片区走访：历史信息分散，理解门槛较高",
     },
     {
-      img: "/src/assets/images/home/p3.jpg",
+      img: p3Url,
       text: "票号院落实拍：建筑精彩，但内容关联展示不连续",
     },
     {
-      img: "/src/assets/images/home/p4.jpg",
+      img: p4Url,
       text: "日昇昌调研：由“看景点”转向“读关系”成为核心需求",
     },
   ],
   yamen: [
-    { img: "https://i.imgur.com/azpsGoK.png", text: "大堂楹联" },
-    { img: "https://i.imgur.com/mL3Jbv8.png", text: "牢狱展区" },
-    { img: "https://i.imgur.com/Ve30zuN.png", text: "升堂场景" },
+    { img: pingyaoMapUrl, text: "古城格局" },
+    { img: xiaximenUrl, text: "城门形制" },
+    { img: nanmenYingxunUrl, text: "迎薰门线索" },
   ],
   miao: [
-    { img: "https://i.imgur.com/qDm4na0.png", text: "双林彩塑" },
-    { img: "https://i.imgur.com/r1R6SLG.png", text: "镇国寺大殿" },
-    { img: "https://i.imgur.com/Jh2Q3kv.png", text: "寺观古柏" },
+    { img: fontPosterUrl, text: "指尖平遥" },
+    { img: p3Url, text: "院落细部" },
+    { img: p4Url, text: "文化线索" },
   ],
   tese: [
-    { img: "https://i.imgur.com/lWbeAMh.png", text: "推光漆器" },
-    { img: "https://i.imgur.com/UJlJTyn.png", text: "牛肉与碗托" },
-    { img: "https://i.imgur.com/4zKFMi1.png", text: "民俗节庆" },
+    { img: p1Url, text: "推光漆器" },
+    { img: p2Url, text: "牛肉与碗托" },
+    { img: p4Url, text: "民俗节庆" },
   ],
 };
 
 const TURTLE_SECTION_ID = "home-turtle-city";
 const HE_JUAN_DURATION = 1.35;
+const HE_JUAN_SFX_VOLUME = 0.35;
 const GLOBAL_BGM_KEY = "__pinyao_travel_bgm__";
-const GLOBAL_BGM_URL = "/src/assets/audio/bgm1.mp3";
+const GLOBAL_BGM_URL = bgmUrl;
+
+function playHeJuanSfx() {
+  const audio = new Audio(scrollCloseSfxUrl);
+  audio.preload = "auto";
+  audio.volume = HE_JUAN_SFX_VOLUME;
+  audio.currentTime = 0;
+  audio.play().catch(() => {});
+}
 
 function getGlobalBgmAudio() {
   if (typeof window === "undefined") return null;
@@ -79,31 +106,31 @@ function getGlobalBgmAudio() {
   window[GLOBAL_BGM_KEY] = audio;
   return audio;
 }
-const YINGXUN_INTRO_TEXT = `迎薰门是平遥古城南门（南瓮城门），面南偏东，因“迎纳和薰之风”而得名。
+const YINGXUN_INTRO_TEXT = `迎薰门，是平遥古城面向南方的第一道叙事入口，因“迎纳和薰之风”而得名。
 
-在“龟城”格局中，南门象征“龟首”，承载古城礼制、防御与人文象征。由迎薰门入城，正是读懂平遥的第一步。`;
+它既是南门，也是“龟城”的龟首。由这里入城，城墙、街巷、票号与寺庙不再是分散景点，而会被串成一条可阅读的古城线索。
 
-const GUCHENG_OVERVIEW_TEXT = `平遥古城，位于山西省晋中市平遥县。始建于西周宣王时期（前827年—前782年），于明代洪武三年（1370年）重建、扩修城池，是现今中国境内保存最为完整的一座古代县城，整座城池宛如乌龟向南爬行，因此有“龟城”之称。
+关键词：迎薰门 / 龟首 / 入城线索`;
 
-平遥古城由城墙、店铺、街道、寺庙、民居等共同组成一个庞大的建筑群，整座城池对称布局，以市楼为轴心，以南大街为轴线，形成左城隍、右衙署，左文庙、右武庙，东道观、西寺庙的封建礼制格局，总占地面积2.25平方千米；城内街道格局为“土”字形，整体布局遵从八卦方位，由四大街、八小巷、七十二条蚰蜒巷构成八卦图案，南大街、东大街、西大街、衙门街和城隍庙街形成干字型商业街。
+const GUCHENG_OVERVIEW_TEXT = `平遥不是单一景点，而是一套保存完整的明清县城系统。
 
-平遥古城是中国汉民族城市在明清时期的杰出范例，它保存了其所有特征，而且在中国历史的发展中为人们展示了一幅非同寻常的文化、经济、社会及宗教发展的完整画卷。平遥古城内的街道商铺都体现历史原貌，设计布局体现了明清时期城市规划理念和形制分布，展示了五个世纪以来中国建筑风格和城市规划的演变，被称为研究中国古代城市的活样本，在建筑、宗教、商业、民俗、民间艺术上具有丰富且独特的价值。
+城墙定义边界，街巷组织生活，票号连接商业，寺庙与民俗沉淀地方记忆。它的价值不只在古建筑本身，更在于这些空间关系今天仍然清晰可读。
 
-1997年12月3日，平遥古城与周边的双林寺、镇国寺共同被联合国教科文组织确定为世界文化遗产，列入《世界遗产名录》。2015年7月20日，山西省晋中市平遥古城景区获批为国家AAAAA级旅游景区。成为山西省第六家国家AAAAA级旅游景区。2025年，平遥古城共接待游客1108.54万人次。`;
+关键词：龟城格局 / 明清县城 / 生活遗产`;
 
-const SHIDI_RESEARCH_TEXT = `我们在平遥古城开展了多点位实地调研，重点走访了迎薰门、文庙、票号院落与日昇昌等区域。
+const SHIDI_RESEARCH_TEXT = `我们走访了迎薰门、文庙、票号院落与日昇昌等点位，发现游客常停留在拍照和打卡层面。
 
-调研中我们发现：现场信息展示较为分散，游客多停留在“看景点、拍照片”层面，建筑、历史人物与晋商文化之间的关联难以快速建立，跨点位的整体理解成本较高。
+真正困难的是：建筑、人物、商业网络与地方记忆之间的关系，往往被分散在不同展牌和空间里。
 
-基于这些问题，我们决定做这个网站：把分散内容串联成可浏览、可追溯、可交互的数字叙事，让用户从“看见古城”进一步走向“读懂平遥”。`;
+因此，我们把这些线索重新串联，让用户从“看见平遥”进一步走向“读懂平遥”。`;
 
-const WENHUA_YICHAN_TEXT = `平遥的文化遗产之美，不只在古建筑本身，更在于城墙、街巷、票号、寺庙与民俗共同构成的整体气韵。
+const WENHUA_YICHAN_TEXT = `平遥的遗产价值，藏在不同空间彼此相连的关系里。
 
-我们同样被平遥的营造技艺与民俗非遗深深吸引：从古建形制与工艺细部，到节庆礼俗与民间手艺，都展现出鲜活而厚重的文化生命力。
+城墙守住边界，票号讲述商业，寺庙保存信仰，民俗延续日常。它们共同构成一座古城的气韵，而不是几处孤立的景点。
 
-我们希望借助这个网站，把分散在不同点位的历史线索重新组织起来，用更直观的方式讲清楚平遥的文化价值，让更多人看见它的美、理解它的深厚。`;
+关键词：空间关系 / 文化记忆 / 数字叙事`;
 
-const MIAO_POPUP_IMAGE = "/src/assets/images/home/font.png";
+const MIAO_POPUP_IMAGE = fontPosterUrl;
 
 function getSceneIndex(progress) {
   let currentIndex = 0;
@@ -166,6 +193,7 @@ function HomeHeroParallax() {
     if (heJuanPlayingRef.current) return;
     heJuanPlayingRef.current = true;
     heJuanTweenRef.current?.kill();
+    playHeJuanSfx();
 
     const circle = section.querySelector(".home-act1__circle");
     const gate = section.querySelector(".home-act1__gate");
@@ -410,33 +438,37 @@ function HomeHeroParallax() {
                   <button
                     type="button"
                     className="home-act1__nav-btn home-act1__nav-btn--1"
+                    aria-label="打开一眼读懂平遥"
                     onClick={(e) => {
                       e.stopPropagation();
-                      openWindow("古城概要", "chengqiang");
+                      openWindow("一眼读懂平遥", "chengqiang");
                     }}
                   />
                   <button
                     type="button"
                     className="home-act1__nav-btn home-act1__nav-btn--2"
+                    aria-label="打开为什么重构导览"
                     onClick={(e) => {
                       e.stopPropagation();
-                      openWindow("实地调研", "piaohao");
+                      openWindow("为什么重构导览", "piaohao");
                     }}
                   />
                   <button
                     type="button"
                     className="home-act1__nav-btn home-act1__nav-btn--3"
+                    aria-label="打开遗产如何彼此相连"
                     onClick={(e) => {
                       e.stopPropagation();
-                      openWindow("平遥遗珍", "yamen");
+                      openWindow("遗产如何彼此相连", "yamen");
                     }}
                   />
                   <button
                     type="button"
                     className="home-act1__nav-btn home-act1__nav-btn--4"
+                    aria-label="打开指尖平遥"
                     onClick={(e) => {
                       e.stopPropagation();
-                      openWindow("寺观彩塑", "miao");
+                      openWindow("指尖平遥", "miao");
                     }}
                   />
                   <button
@@ -451,13 +483,14 @@ function HomeHeroParallax() {
                   <button
                     type="button"
                     className="home-act1__nav-btn home-act1__nav-btn--special"
+                    aria-label="打开从南门进入龟城"
                     onClick={(e) => {
                       e.stopPropagation();
-                      openWindow("迎薰启城", "tese");
+                      openWindow("从南门进入龟城", "tese");
                     }}
                   >
                     <img
-                      src="/src/assets/images/home/LFQU2Nj.png"
+                      src={lfquThumbUrl}
                       alt="精选"
                       className="home-act1__special-thumb"
                     />
@@ -469,12 +502,12 @@ function HomeHeroParallax() {
                     className="home-act1__poster-window"
                     role="dialog"
                     aria-modal="true"
-                    aria-label="寺观彩塑"
+                    aria-label="指尖平遥"
                   >
                     <img
                       className="home-act1__poster-window-image"
                       src={MIAO_POPUP_IMAGE}
-                      alt="寺观彩塑"
+                      alt="指尖平遥"
                     />
                   </div>
                 ) : (
@@ -488,17 +521,14 @@ function HomeHeroParallax() {
                     <button
                       type="button"
                       className="home-act1__popup-close"
+                      aria-label="关闭弹窗"
                       onClick={closeWindow}
                     >
                       &times;
                     </button>
                     <h3
                       id="home-act1-popup-title"
-                      style={{
-                        margin: 0,
-                        color: "var(--home-act1-accent)",
-                        borderBottom: "1px solid var(--home-act1-accent)",
-                      }}
+                      className="home-act1__popup-title"
                     >
                       {popupTitle}
                     </h3>
@@ -538,10 +568,10 @@ function HomeHeroParallax() {
                 )}
 
                 <div className="home-act1__cloud home-act1__cloud--cw">
-                  <img src="/src/assets/images/home/MXrEHi7.png" alt="" />
+                  <img src={mxrCloudUrl} alt="" />
                 </div>
                 <div className="home-act1__cloud home-act1__cloud--ccw">
-                  <img src="https://i.imgur.com/uFqyxPW.png" alt="" />
+                  <img src={yunCloudUrl} alt="" />
                 </div>
                 <div className="home-act1__circle-shell">
                   <img
@@ -562,7 +592,7 @@ function HomeHeroParallax() {
               <div
                 className={`home-act1__aside ${popupOpen ? "home-act1__aside--popup-open" : ""}`}
               >
-                <img src="/src/assets/images/home/LFQU2Nj.png" alt="" />
+                <img src={lfquThumbUrl} alt="" />
               </div>
             </div>
           </div>

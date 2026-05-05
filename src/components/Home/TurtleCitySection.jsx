@@ -1,13 +1,19 @@
 import { useCallback, useEffect, useLayoutEffect, useMemo, useRef, useState } from "react";
 import "./TurtleCitySection.css";
+import beimenGongjiUrl from "../../assets/images/home/beimen-gongji.jpg";
+import nanmenYingxunUrl from "../../assets/images/home/nanmen-yingxun.jpg";
+import pingyaoMapUrl from "../../assets/images/home/pingyao_map_square_blended_2266.jpg";
+import shangdongmenUrl from "../../assets/images/home/shangdongmen.jpg";
+import shangximenYongdingUrl from "../../assets/images/home/shangximen-yongding.jpg";
+import xiaximenUrl from "../../assets/images/home/xiaximen.jpg";
 
 const faces = [
-  { key: "top", name: "龟城总览", src: "/src/assets/images/home/pingyao_map_square_blended_2266.jpg" },
-  { key: "front", name: "南门·迎薰门", src: "/src/assets/images/home/nanmen-yingxun.jpg" },
-  { key: "right", name: "左足·太和门", src: "/src/assets/images/home/shangdongmen.jpg" },
-  { key: "back", name: "右足·永定门", src: "/src/assets/images/home/shangximen-yongding.jpg" },
-  { key: "left", name: "北门·拱极门", src: "/src/assets/images/home/beimen-gongji.jpg" },
-  { key: "bottom", name: "下西门（占位）", src: "/src/assets/images/home/xiaximen.jpg" },
+  { key: "top", name: "龟城总览", src: pingyaoMapUrl },
+  { key: "front", name: "南门·迎薰门", src: nanmenYingxunUrl },
+  { key: "right", name: "左足·太和门", src: shangdongmenUrl },
+  { key: "back", name: "右足·永定门", src: shangximenYongdingUrl },
+  { key: "left", name: "北门·拱极门", src: beimenGongjiUrl },
+  { key: "bottom", name: "下西门（占位）", src: xiaximenUrl },
 ];
 
 /** 与参考 STOPS 一致 */
@@ -23,57 +29,57 @@ const stops = [
 const scenes = [
   {
     id: "s0",
-    tag: "龟城形制 · 开场",
-    title: "一城如龟，城门即骨。",
+    tag: "龟城形制 · 序章",
+    title: "一城如龟，六门为骨。",
     name: "总览",
-    text: "史料原文（清光绪八年《平遥县志》）明确记载：“形如龟，南门为龟首，北门为龟尾，东西四门为四足”，平遥城池由此形成鲜明的“龟城”格局。",
+    text: "南门为首，北门为尾，东西四门为足。平遥的城市形制，把防御、礼制与民间象征叠合在同一座城里。",
     detail:
-      "现代汉语可理解为：平遥城墙肇基于周宣王时期，明洪武三年完成系统重修，城周约 6.4 公里、城高约 10 米，六门分布与护城河体系共同构成坚固防御。志书所说“取其固也”，正是古城工程理性与晋商稳健精神的共同表达。",
+      "清光绪八年《平遥县志》记载：“形如龟，南门为龟首，北门为龟尾，东西四门为四足。”这不是单纯的形象比附，而是城市工程、礼制秩序与地方想象共同作用的结果。",
   },
   {
     id: "s1",
-    tag: "龟首",
-    title: "南门为首，双井为睛。",
+    tag: "龟首 · 南门",
+    title: "从迎薰门进入平遥。",
     name: "龟首",
-    text: "平遥城墙可追溯至周宣王时尹吉甫驻兵筑城，至明洪武三年完成系统重修，古今城形一脉相承。",
+    text: "南门是龟首，也是古城叙事的第一入口。由此向内，街巷、城墙与礼制空间依次展开。",
     detail:
-      "从“周时肇基”到“明代定型”，平遥并非一次性建成，而是在长期边防、商贸与民居实践中持续演化。南门“龟首”不仅承担礼仪与交通功能，也在空间叙事上成为古城形象的第一识别面。",
+      "平遥城墙可追溯至周宣王时期，明洪武三年完成系统重修。南门“龟首”不仅承担礼仪与交通功能，也成为古城形象最鲜明的识别面。",
   },
   {
     id: "s2",
-    tag: "龟足（东）",
-    title: "东西四门，分作四足。",
+    tag: "东足 · 太和门",
+    title: "四足撑起城池秩序。",
     name: "东足",
-    text: "东西四座城门对应灵龟四足，构成攻防转换与城市交通的关键节点。",
+    text: "东侧城门连接交通、防御与民间象征，像龟足一样稳定城市的横向结构。",
     detail:
-      "风水叙事中，下东门朝向特殊，被赋予“拴足留吉”的象征解释，体现古城礼制与民间信仰的融合。",
+      "东西四门对应灵龟四足，既是交通节点，也是防御转换的位置。地方风水叙事又为它们赋予了“留吉”“稳固”的象征含义。",
   },
   {
     id: "s3",
-    tag: "龟足（西）",
-    title: "上西门定位西足。",
+    tag: "西足 · 永定门",
+    title: "东西相对，城势成形。",
     name: "西足",
-    text: "与东足相对，上西门（永定门）共同完成“东西四门为四足”的龟城结构识别。",
+    text: "西侧城门与东足相对，共同构成古城横向交通与防线转换的支点。",
     detail:
-      "西足并非附会命名，而是与城门分布、街巷组织和防御节点一起，构成古城横向交通与防线转换的重要支点。",
+      "“西足”不是单独的命名，而是与城门分布、街巷组织、防御节点一起，组成“龟城”结构的可识别部分。",
   },
   {
     id: "s4",
     tag: "龟尾",
-    title: "北门为尾，导水出城。",
+    title: "北门为尾，水势出城。",
     name: "龟尾",
-    text: "北门（拱极门）地势最低，承担全城排水外泄，是“南高北低”城市格局的功能落点。",
+    text: "北门地势最低，承担排水外泄。龟尾之名，让城市工程与空间象征在这里相遇。",
     detail:
-      "“形如龟”并非纯视觉比附，而是与排水系统、地势组织和城市工程逻辑紧密耦合。",
+      "“形如龟”并非纯视觉比附。它与排水系统、地势组织和城市工程逻辑紧密相连，也解释了古城为何形成“南高北低”的空间格局。",
   },
   {
     id: "s5",
     tag: "下一幕 · 城墙体系",
-    title: "由门入墙，进入防御系统。",
+    title: "由门入墙，继续读城。",
     name: "城墙体系",
-    text: "完成“龟首—龟足—龟尾”的空间识别后，下一幕将转入城墙体系：城墙、城门、瓮城、角楼、敌楼与垛口的整体防御逻辑。",
+    text: "识别龟城形制之后，视线转向城墙、城门、瓮城、敌楼与垛口组成的防御系统。",
     detail:
-      "你将看到平遥古城如何以“城墙周界 + 六门节点 + 瓮城缓冲 + 敌楼垛口”的层级结构，形成兼具军事功能与城市秩序的完整体系。",
+      "平遥古城以“城墙周界 + 六门节点 + 瓮城缓冲 + 敌楼垛口”的层级结构，形成兼具军事功能与城市秩序的完整体系。",
   },
 ];
 
@@ -205,15 +211,6 @@ function TurtleCitySection() {
         <div className="turtle-sector__scene-label">{activeScene.name}</div>
       </div>
 
-      <button
-        type="button"
-        className="turtle-sector__theme"
-        onClick={() => setIsDark((v) => !v)}
-        aria-label="切换明暗主题"
-        aria-hidden={!inView}
-      >
-        {isDark ? "浅色" : "深色"}
-      </button>
 
       {/* 参考 #scene_strip */}
       <div className="turtle-sector__strip" aria-hidden={!inView}>
@@ -254,7 +251,7 @@ function TurtleCitySection() {
                 className="turtle-sector__cta"
                 onClick={() => setExpanded((current) => (current === scene.id ? "" : scene.id))}
               >
-                {expanded === scene.id ? "收起详细介绍" : "点击查看详细介绍"}
+                {expanded === scene.id ? "收起线索" : "展开线索"}
               </button>
               {expanded === scene.id ? <p className="turtle-sector__detail">{scene.detail}</p> : null}
             </div>

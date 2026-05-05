@@ -3,18 +3,31 @@ import { AnimatePresence, motion } from "framer-motion";
 import AncientSceneBackground from "./AncientSceneBackground.jsx";
 import IntroInkParticles from "./IntroInkParticles.jsx";
 import "./ancient-scroll-intro.css";
+import scrollOpenSfxUrl from "../../assets/audio/scroll-open.wav?url";
+import scrollMapUrl from "../../assets/images/home/yingxun-scroll-map.png";
 
 const OPEN_DELAY_MS = 400;
 const WIDTH_DURATION_S = 2.2;
 const OPEN_HOLD_MS = 450;
 const EXIT_FADE_S = 0.38;
+const OPEN_SFX_VOLUME = 0.45;
+
+function playScrollSfx(url, volume) {
+  const audio = new Audio(url);
+  audio.preload = "auto";
+  audio.volume = volume;
+  audio.currentTime = 0;
+  audio.play().catch(() => {
+    // 浏览器可能拦截自动播放音效，忽略即可，不影响首页动画。
+  });
+}
 
 function ScrollIntroMap() {
   return (
     <div className="map-scroll-content">
       <div className="map-image-container">
         <img
-          src="/src/assets/images/home/yingxun-scroll-map.png"
+          src={scrollMapUrl}
           alt=""
           className="map-image"
           draggable={false}
@@ -46,6 +59,7 @@ export default function ScrollIntroOverlay({ onRevealAt45, onComplete }) {
   const [exitFade, setExitFade] = useState(false);
   const revealRef = useRef(onRevealAt45);
   const completeRef = useRef(onComplete);
+  const openSfxPlayedRef = useRef(false);
 
   revealRef.current = onRevealAt45;
   completeRef.current = onComplete;
@@ -63,6 +77,10 @@ export default function ScrollIntroOverlay({ onRevealAt45, onComplete }) {
 
   useEffect(() => {
     if (phase !== "opening") return undefined;
+    if (!openSfxPlayedRef.current) {
+      openSfxPlayedRef.current = true;
+      playScrollSfx(scrollOpenSfxUrl, OPEN_SFX_VOLUME);
+    }
     const t = setTimeout(() => setPhase("open"), WIDTH_DURATION_S * 1000);
     return () => clearTimeout(t);
   }, [phase]);

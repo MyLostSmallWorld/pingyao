@@ -332,6 +332,11 @@
         }
       };
 
+      // 点击音效
+      const clickSound = new Audio("../../assets/audio/while_clink1.wav");
+      // 防止连续点击卡顿（可选优化）
+      clickSound.preload = "auto";
+
       window.addEventListener(
         "wheel",
         (event) => {
@@ -385,6 +390,10 @@
 
       allBtns.forEach((btn, btnIndex) => {
         btn.addEventListener("click", async function () {
+
+          clickSound.currentTime = 0;
+          clickSound.play();
+
           const activeImg = allBtnImgs[btnIndex];
 
           // 1. 快速隐藏其他元素
@@ -464,6 +473,9 @@
       });
 
       closeBtn.addEventListener("click", () => {
+        clickSound.currentTime = 0;
+        clickSound.play();
+
         // 退出时动画也优化
         detailView.classList.remove("active");
         scene.classList.remove("hide-elements");
